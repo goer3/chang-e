@@ -3,23 +3,41 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>运维开发文档仓库 | BECOME TALENTED THROUGH SELF-STUDY</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="icon" href="./assets/images/favicon.ico">
   <link rel="stylesheet" href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-y/docsify/4.12.2/themes/vue.min.css">
   <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/gitalk/1.7.2/gitalk.min.css">
+  <!-- 自定义样式 -->
   <link rel="stylesheet" href="./assets/css/change-theme.css">
 </head>
 
 <body>
+  <nav class="theme-navbar">
+    <div class="theme-header-left">
+      <a href="/#/">
+        <img class="theme-title-logo" src="./assets/images/title-logo2.png" alt="">
+      </a>
+    </div>
+    <div class="theme-header-right">
+      <div id="id-headerAvatar" style="display: inline-block;cursor: pointer;" onmouseover="showDM()" onmouseout="notShowDM()">
+        <!-- 头像 -->
+        <img src="./assets/images/avatar.png" class="theme-header-avatar">
+      </div>
+      <div class="theme-dm" id="id-headerAvatarDM" style="display: none;">
+        <img style="width: 150px;" src="./assets/images/wxcode.png" alt="">
+      </div>
+    </div>
+  </nav>
   <div id="app"></div>
   <script>
     window.$docsify = {
       // logo: './assets/images/logo-black.png', // Logo
       // coverpage: true, // 封面
       // onlyCover: false, // 封面是否单独显示
-      // name: '嫦娥文档', // 标题
+      // name: '运维技术栈', // 标题
       // repo: '',
       auto2top: true, // 切换页面后是否自动跳转到页面顶部
       subMaxLevel: 3, // 忽略文章中侧边栏显示的标题登记，通过 <!-- {docsify-ignore} --> 可以忽略指定标题
@@ -40,11 +58,55 @@
         color: 'rgb(90,90,90)',
         language: 'chinese'
       }, // 字数统计
+      plugins: [
+        function (hook, vm) {
+          // 解析成 html 后调用
+          hook.afterEach(function (html, next) {
+            // 个人定义的栏目
+            var userEle = document.getElementById("id-userModule");
+            sidebarDom = document.getElementsByClassName("sidebar")[0];
+            sidebarDom.insertAdjacentElement("afterBegin", userEle);
+
+            // 判断当前屏幕大小
+            if (screen.width > 768) {
+              // observer配置项
+              var observerOptions = {
+                threshold: 0, //目标元素与视窗重叠的阈值（0~1）
+                root: null // 目标视窗即目标元素的父元素，如果没有提供，则默认body元素
+              }
+
+              var target = document.getElementById("id-qqg");
+
+              // observer 回调函数
+              const observerCallback = (entries) => {
+                entries.forEach(item => {
+                  var menuEle = document.getElementsByClassName("sidebar-nav")[0];
+                  // 当前元素可见
+                  if (item.isIntersecting) {
+                    {
+                      menuEle.classList.remove("theme-fixd-sider");
+                    }
+                  } else {
+                    menuEle.classList.add("theme-fixd-sider");
+                  }
+                })
+              }
+
+              // 实例化观察者对象，根据 QQ 群是否显示决定菜单是否 fixd
+              var observer = new IntersectionObserver(observerCallback, observerOptions);
+              observer.observe(target);
+            }
+            
+            next(html);
+          });
+        },
+      ]
     }
   </script>
   <!-- 字节跳动公共资源库 https://cdn.bytedance.com/ -->
   <!-- Docsify v4 -->
   <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-y/docsify/4.12.2/docsify.min.js"></script>
+  <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/gitalk/1.7.2/gitalk.min.js"></script>
   <!-- 表情 -->
   <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-y/docsify/4.12.2/plugins/emoji.min.js"></script>
   <!-- 搜索 -->
@@ -56,12 +118,65 @@
   <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-go.min.js"></script>
   <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-yaml.min.js"></script>
   <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-json.min.js"></script>
+  <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-jq.min.js"></script>
   <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-less.min.js"></script>
   <script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-y/prism/1.27.0/components/prism-sql.min.js"></script>
   <!-- 字数统计 -->
   <script src="./assets/js/docsify-count.js"></script>
-  <!-- 代码复制 -->
-  <script src="./assets/js/docsify-copy-code.min.js"></script>
+    <!-- 代码复制 -->
+    <script src="./assets/js/docsify-copy-code.min.js"></script>
+
+  <!-- 侧边小工具 -->
+  <div class="theme-bar">
+    <ul>
+      <li>
+        <a href="javascript:scrollTo(0,0);" class="theme-bar-btn" title="返回顶部">
+          <img src="./assets/images/top.png" alt="">
+        </a>
+      </li>
+      <li>
+        <a class="my-bar-btn" onmouseout="hideWeChatCode()" onmouseover="showWeChatCode()">
+          <img src="./assets/images/WeChat-logo.png" alt="">
+        </a>
+      </li>
+    </ul>
+
+    <div class="theme-bar-code theme-bar-wechatcode" id="wechatCode" style="display: none;">
+      <img src="./assets/images/wxcode.png" alt="">
+    </div>
+  </div>
+
+  <!-- 微信赞助 -->
+  <script>
+    function showWeChatCode() {
+      document.getElementById("wechatCode").style.display = 'block';
+    }
+
+    function hideWeChatCode() {
+      document.getElementById("wechatCode").style.display = 'none';
+    }
+  </script>
+
+  <!-- 头像菜单 -->
+  <script>
+    function showDM() {
+      document.getElementById("id-headerAvatarDM").style.display = "block";
+    }
+
+    function notShowDM() {
+      document.getElementById("id-headerAvatarDM").style.display = "none";
+    }
+  </script>
 </body>
+<!-- 其它模块 -->
+<div id="id-userModule">
+  <!-- QQ群 -->
+  <div id="id-qqg" class="theme-sidebar-block">
+    <h3 class="theme-sidebar-block-title">技术交流群</h3>
+    <div class="theme-sidebar-block-content">
+      <img src="./assets/images/QQG1.png" alt="">
+    </div>
+  </div>
+</div>
 
 </html>
