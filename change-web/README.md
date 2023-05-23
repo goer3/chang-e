@@ -1,4 +1,4 @@
-<h1 align="center">Hi 🥳, Chang'e（开发中）</h1>
+<h1 align="center">Hi 🥳, Chang'e</h1>
 <h3 align="center">一个通过 Vite + React + Antd 实现的运维管理系统前端</h3>
 <p align="center">
 <a href="https://github.com/goer3/chang-e/fork" target="blank">
