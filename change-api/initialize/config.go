@@ -49,20 +49,20 @@ func Config(fs embed.FS, runEnv string, extFile string) {
 	// 错误处理
 	if err != nil {
 		log2.ERROR("读取配置文件失败：", err.Error())
-		panic(err.Error())
+		panic(err)
 	}
 
 	// 没有数据也是读取配置失败
 	if len(bs) == 0 {
 		log2.ERROR("没有读取到配置文件内容！")
-		panic(err.Error())
+		panic(err)
 	}
 
 	// Viper 解析配置
 	err = v.ReadConfig(bytes.NewReader(bs))
 	if err != nil {
 		log2.ERROR("Viper解析配置文件失败：", err.Error())
-		panic(err.Error())
+		panic(err)
 	}
 
 	// 保存配置到内存中
@@ -75,7 +75,7 @@ func Config(fs embed.FS, runEnv string, extFile string) {
 	err = v.Unmarshal(&common.Conf)
 	if err != nil {
 		log2.ERROR("配置全局配置失败：", err.Error())
-		panic(err.Error())
+		panic(err)
 	}
 
 	// 打印配置初始化完成
