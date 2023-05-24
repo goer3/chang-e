@@ -1,0 +1,13 @@
+service:
+  # 服务名称
+  name: change
+  # 服务别名
+  nickname: Chang'e
+  # 监听地址
+  listen: 0.0.0.0
+  # 监控端口
+  port: 10000
+  # 运行模式，支持 debug 和 release
+  mode: debug
+  # 路由前缀
+  api-prefix: /api/v1
