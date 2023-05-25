@@ -79,6 +79,20 @@ swag fmt
 > http://127.0.0.1:10000/swagger/index.html
 
 
+### 💬 联系我呗
+
+[![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
+
+
+### 🎉 感谢
+
+该项目是参考学习以下项目，然后自己再修修改改而来，感谢铁子们 🌹：
+
+- gin-web [:octocat:](https://github.com/piupuer/gin-web)
+- go-helper [:octocat:](https://github.com/piupuer/go-helper)
+- Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
+
+
 ### 📋 附加文档
 
 - [Github 国内访问慢配置](https://github.com/521xueweihan/GitHub520)
@@ -91,27 +105,8 @@ swag fmt
 - [Redis 文档](https://redis.uptrace.dev/zh/)
 
 
-### 💬 联系我呗
-
-[![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
-
 ### 📝 附录
+
 - 🐒 &nbsp; README 生成工具：<a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">README 工具</a>
 - 🍁 &nbsp; README 模板项目：<a href="https://github.com/iuricode/readme-template">README 模板</a>
 - 😊 &nbsp; README 表情图标：<a href="https://github.com/guodongxiaren/README/blob/master/emoji.md?tdsourcetag=s_pcqq_aiomsg">README EMOJI 表情</a>
-
-
-### 🎉 感谢
-
-该项目是参考学习以下项目，然后自己再修修改改而来，感谢铁子们 🌹：
-
-- gin-web [:octocat:](https://github.com/piupuer/gin-web)
-- go-helper [:octocat:](https://github.com/piupuer/go-helper)
-- Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
-
-
-### 👍 推荐
-
-- [Github 国内访问慢配置](https://github.com/521xueweihan/GitHub520)
-- [Json 在线转换成结构体](https://app.quicktype.io)
-- [Json 解析分析文章](https://www.cnblogs.com/luozhiyun/p/14875066.html)
