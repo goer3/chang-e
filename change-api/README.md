@@ -14,6 +14,7 @@
 
 <hr>
 
+
 ### 🤔 技术栈
 
 - [x] Go：Google 开发的开源编程语言，诞生于 2006 年 1 月 2 日 15 点 4 分 5 秒 [:octocat:](https://github.com/golang/go)
@@ -29,6 +30,67 @@
 - [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](https://github.com/golang-module/carbon)
 - [x] Casbin：一个强大的、高效的开源访问控制框架 [:octocat:](https://casbin.org/zh/docs/overview)
 
+
+### 🎯 依赖安装
+
+```bash
+# Web 框架：gin
+go get -u github.com/gin-gonic/gin
+# 配置文件读取：viper
+go get -u github.com/spf13/viper
+# 日志引擎：zap
+go get -u go.uber.org/zap
+# 日志切割：lumberjack
+go get -u github.com/natefinch/lumberjack
+# MySQL ORM：gorm
+go get -u gorm.io/gorm
+# MySQL 驱动：gorm
+go get -u gorm.io/driver/mysql
+# 时间库：carbon
+go get -u github.com/golang-module/carbon/v2
+# 结构体操作：structs
+go get -u github.com/fatih/structs
+# JWT：gin-jwt
+go get -u github.com/appleboy/gin-jwt/v2
+# Swagger
+go install github.com/swaggo/swag/cmd/swag@latest
+go get -u github.com/swaggo/gin-swagger
+go get -u github.com/swaggo/files
+# Redis
+go get -u github.com/redis/go-redis/v9
+```
+
+
+### 📌 特别说明
+
+本文 Swagger 生成文档的命令为：
+
+```bash
+# --parseDependency --parseInternal：深度解析外部定义的数据类型，解决提示 cannot find type definition 问题
+# -q：忽略告警，目前版本 swag init 存在 strconv.ParseUint: invalid syntax 问题，官方还没有修复
+swag init -o ./docs/swagger --parseDependency --parseInternal -q
+
+# 格式化 swagger 注释
+swag fmt
+```
+
+服务启动后可以在 Web 访问 Swagger：
+
+> http://127.0.0.1:10000/swagger/index.html
+
+
+### 📋 附加文档
+
+- [Github 国内访问慢配置](https://github.com/521xueweihan/GitHub520)
+- [Json 在线转换成结构体](https://app.quicktype.io)
+- [Json 解析分析文章](https://www.cnblogs.com/luozhiyun/p/14875066.html)
+- [Swagger 文档](https://github.com/swaggo/swag/blob/master/README_zh-CN.md)
+- [Swagger 配置方法](https://github.com/swaggo/gin-swagger)
+- [Swagger 使用方法](https://juejin.cn/post/7015575667236405278)
+- [Gorm 文档](https://gorm.io/zh_CN/docs/update.html)
+- [Redis 文档](https://redis.uptrace.dev/zh/)
+
+
 ### 💬 联系我呗
 
 [![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
@@ -38,12 +100,15 @@
 - 🍁 &nbsp; README 模板项目：<a href="https://github.com/iuricode/readme-template">README 模板</a>
 - 😊 &nbsp; README 表情图标：<a href="https://github.com/guodongxiaren/README/blob/master/emoji.md?tdsourcetag=s_pcqq_aiomsg">README EMOJI 表情</a>
 
+
 ### 🎉 感谢
 
 该项目是参考学习以下项目，然后自己再修修改改而来，感谢铁子们 🌹：
+
 - gin-web [:octocat:](https://github.com/piupuer/gin-web)
 - go-helper [:octocat:](https://github.com/piupuer/go-helper)
 - Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
+
 
 ### 👍 推荐
 
