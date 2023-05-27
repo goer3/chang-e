@@ -30,7 +30,6 @@ type MySQLConfiguration struct {
 	Collation     string `mapstructure:"collation" json:"collation"`
 	Timeout       int    `mapstructure:"timeout" json:"timeout"`
 	ExtQuery      string `mapstructure:"ext-query" json:"ext_query"`
-	TablePrefix   string `mapstructure:"table-prefix" json:"table_prefix"`
 	MaxIdleConns  int    `mapstructure:"max-idle-conns" json:"max_idle_conns"`
 	MaxOpenConns  int    `mapstructure:"max-open-conns" json:"max_open_conns"`
 	MaxIdleTime   int    `mapstructure:"max-idle-time" json:"max_idle_time"`

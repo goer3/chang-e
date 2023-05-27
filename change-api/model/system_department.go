@@ -7,3 +7,8 @@ type SystemDepartment struct {
 	ParentId uint               `gorm:"comment:父部门Id" json:"parent_id"`
 	Children []SystemDepartment `gorm:"-" json:"children"`
 }
+
+// 表名称，可以自定义，也可以不声明使用系统自动创建
+func (SystemDepartment) TableName() string {
+	return "system_department"
+}

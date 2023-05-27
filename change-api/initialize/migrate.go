@@ -10,7 +10,10 @@ import (
 // 初始化同步表结构
 func Migrate() {
 	err := common.DB.AutoMigrate(
-		new(model.SystemDepartment),
+		new(model.SystemDepartment), // 部门
+		new(model.SystemUser),       // 用户
+		new(model.SystemRole),       // 角色
+		new(model.SystemMenu),       // 菜单
 	)
 	if err != nil {
 		log2.SYSTEM("数据表初始同步失败：", err.Error())

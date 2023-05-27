@@ -29,15 +29,16 @@ func MySQL() {
 	// 连接数据库
 	db, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:               dsn, // 数据库连接串
-		DefaultStringSize: 170, // varchar 类型字段默认长度，影响查询
+		DefaultStringSize: 170, // varchar 类型字段默认长度，太长影响查询
 	}), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			TablePrefix:   common.Conf.MySQL.TablePrefix, // 表名前缀
-			SingularTable: true,                          // 单数表名
+			// 由于后续可能会直接写表名称，不建议设置前缀，不方便使用
+			// TablePrefix:   common.Conf.MySQL.TablePrefix, // 表名前缀
+			SingularTable: true, // 单数表名
 		},
 		Logger:                                   zapgorm.New(common.SQLLogger), // 自定义的日志器
 		DisableForeignKeyConstraintWhenMigrating: true,                          // 禁用外键约束
-		IgnoreRelationshipsWhenMigrating:         true,                          // 创建时忽略表关系
+		IgnoreRelationshipsWhenMigrating:         false,                         // 开启会导致 many2many 的关系表创建失败
 		QueryFields:                              true,                          // 解决查询索引失效问题
 	})
 
