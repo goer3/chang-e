@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"change-api/pkg/log2"
+	"change-api/common"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
@@ -37,8 +37,8 @@ func AccessLog(ctx *gin.Context) {
 
 	// 打印日志，OPTIONS 请求使用 DEBUG
 	if method == "OPTIONS" {
-		log2.SYSTEM(logStr)
+		common.ServiceLogger.Debug(logStr)
 	} else {
-		log2.SYSTEM(logStr)
+		common.ServiceLogger.Info(logStr)
 	}
 }

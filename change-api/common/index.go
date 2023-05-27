@@ -2,14 +2,17 @@ package common
 
 import (
 	"github.com/redis/go-redis/v9"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
 // 提供给全局直接使用的变量
 var (
-	Conf  Configuration // 配置文件类型
-	DB    *gorm.DB      // 数据库连接
-	Cache *redis.Client // Redis 连接
+	Conf          Configuration      // 配置文件类型
+	DB            *gorm.DB           // 数据库连接
+	Cache         *redis.Client      // Redis 连接
+	ServiceLogger *zap.SugaredLogger // 服务日志
+	SQLLogger     *zap.SugaredLogger // 服务日志
 )
 
 // 默认配置文件相关信息

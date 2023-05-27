@@ -54,7 +54,23 @@ redis:
 
 # 日志配置
 log:
-  # 是否运行写入到日志文件
+  # 是否访问日志写入到日志文件
   enable: true
   # 日志文件存放目录
   path: logs
+  # 日志等级，参考 zapcore.Level（-1<=level<=5，-1 / DEBUG）
+  level: -1
+  # 颜色输出
+  color: false
+  # 日志大小，单位 m
+  max-size: 100
+  # 保留个数
+  max-backups: 10
+  # 保留天数
+  max-age: 7
+  # 是否压缩
+  compress: true
+  # 是否将 SQL 日志写入到日志文件
+  sql-log-enable: true
+  # SQL 日志级别，(1-4，Info，Warn，Error, Silent)，4 不输出日志，生产建议 2
+  sql-log-level: 1

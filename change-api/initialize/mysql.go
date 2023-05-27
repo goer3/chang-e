@@ -3,6 +3,7 @@ package initialize
 import (
 	"change-api/common"
 	"change-api/pkg/log2"
+	"change-api/pkg/zapgorm"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -34,9 +35,10 @@ func MySQL() {
 			TablePrefix:   common.Conf.MySQL.TablePrefix, // 表名前缀
 			SingularTable: true,                          // 单数表名
 		},
-		DisableForeignKeyConstraintWhenMigrating: true, // 禁用外键约束
-		IgnoreRelationshipsWhenMigrating:         true, // 创建时忽略表关系
-		QueryFields:                              true, // 解决查询索引失效问题
+		Logger:                                   zapgorm.New(common.SQLLogger), // 自定义的日志器
+		DisableForeignKeyConstraintWhenMigrating: true,                          // 禁用外键约束
+		IgnoreRelationshipsWhenMigrating:         true,                          // 创建时忽略表关系
+		QueryFields:                              true,                          // 解决查询索引失效问题
 	})
 
 	// 错误处理

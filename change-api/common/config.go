@@ -1,5 +1,7 @@
 package common
 
+import "go.uber.org/zap/zapcore"
+
 // 配置解析结构体
 type Configuration struct {
 	Service ServiceConfiguration `mapstructure:"service" json:"service"`
@@ -45,6 +47,14 @@ type RedisConfiguration struct {
 
 // 日志配置解析结构体
 type LogConfiguration struct {
-	Enable bool   `mapstructure:"enable" json:"enable"`
-	Path   string `mapstructure:"path" json:"path"`
+	Enable       bool          `mapstructure:"enable" json:"enable"`
+	Path         string        `mapstructure:"path" json:"path"`
+	Level        zapcore.Level `mapstructure:"level" json:"level"`
+	Color        bool          `mapstructure:"color" json:"color"`
+	MaxSize      int           `mapstructure:"max-size" json:"max_size"`
+	MaxBackups   int           `mapstructure:"max-backups" json:"max_backups"`
+	MaxAge       int           `mapstructure:"max-age" json:"max_age"`
+	Compress     bool          `mapstructure:"compress" json:"compress"`
+	SQLLogEnable bool          `mapstructure:"sql-log-enable" json:"sql_log_enable"`
+	SQLLogLevel  int           `mapstructure:"sql-log-level" json:"sql_log_level"`
 }

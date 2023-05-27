@@ -29,8 +29,17 @@ func main() {
 	gin.SetMode(common.Conf.Service.Mode) // 运行模式
 	gin.DisableConsoleColor()             // 禁用控制台颜色输出
 
+	// 初始化服务日志器
+	initialize.ServiceLogger()
+
+	// 初始化 SQL 日志器
+	initialize.SQLLogger()
+
 	// 初始化 MySQL 连接
 	initialize.MySQL()
+
+	// 初始化 Redis 连接
+	initialize.Redis()
 
 	// 数据表同步操作
 	if common.RunCommand == "migrate" {
@@ -41,9 +50,6 @@ func main() {
 	if common.RunCommand == "init" {
 		// Todo
 	}
-
-	// 初始化 Redis 连接
-	initialize.Redis()
 
 	// 路由初始化
 	r := initialize.Router()
