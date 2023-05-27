@@ -43,12 +43,12 @@ func main() {
 
 	// 数据表同步操作
 	if common.RunCommand == "migrate" {
-		// Todo
+		initialize.Migrate()
 	}
 
 	// 数据初始化操作
 	if common.RunCommand == "init" {
-		// Todo
+		initialize.Data()
 	}
 
 	// 路由初始化
