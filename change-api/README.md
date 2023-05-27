@@ -38,14 +38,16 @@
 go get -u github.com/gin-gonic/gin
 # 配置文件读取：viper
 go get -u github.com/spf13/viper
-# 日志引擎：zap
-go get -u go.uber.org/zap
-# 日志切割：lumberjack
-go get -u github.com/natefinch/lumberjack
 # MySQL ORM：gorm
 go get -u gorm.io/gorm
 # MySQL 驱动：gorm
 go get -u gorm.io/driver/mysql
+# Redis
+go get -u github.com/redis/go-redis/v9
+# 日志引擎：zap
+go get -u go.uber.org/zap
+# 日志切割：lumberjack
+go get -u github.com/natefinch/lumberjack
 # 时间库：carbon
 go get -u github.com/golang-module/carbon/v2
 # 结构体操作：structs
@@ -56,8 +58,6 @@ go get -u github.com/appleboy/gin-jwt/v2
 go install github.com/swaggo/swag/cmd/swag@latest
 go get -u github.com/swaggo/gin-swagger
 go get -u github.com/swaggo/files
-# Redis
-go get -u github.com/redis/go-redis/v9
 ```
 
 

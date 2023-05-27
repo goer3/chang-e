@@ -32,7 +32,7 @@ func ArgsCheck(args []string) {
 	switch len(args) {
 	case 1:
 		// 没有任何参数，则默认直接运行
-		log2.SYSTEM("没有设置任何参数，将使用默认参数运行程序...")
+		log2.SYSTEM("没设置任何启动参数， 将使用默认参数运行程序...")
 		return
 	case 2:
 		// 同步表

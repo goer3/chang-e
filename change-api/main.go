@@ -29,8 +29,11 @@ func main() {
 	gin.SetMode(common.Conf.Service.Mode) // 运行模式
 	gin.DisableConsoleColor()             // 禁用控制台颜色输出
 
-	// 初始化数据库连接
+	// 初始化 MySQL 连接
 	initialize.MySQL()
+
+	// 初始化 Redis 连接
+	initialize.Redis()
 
 	// 路由初始化
 	r := initialize.Router()

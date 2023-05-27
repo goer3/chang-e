@@ -3,7 +3,8 @@ package common
 // 配置解析结构体
 type Configuration struct {
 	Service ServiceConfiguration `mapstructure:"service" json:"service"`
-	MySQL   MysqlConfiguration   `mapstructure:"mysql" json:"mysql"`
+	MySQL   MySQLConfiguration   `mapstructure:"mysql" json:"mysql"`
+	Redis   RedisConfiguration   `mapstructure:"redis" json:"redis"`
 }
 
 // 服务配置解析结构体
@@ -16,7 +17,7 @@ type ServiceConfiguration struct {
 }
 
 // 数据库连接配置解析结构体
-type MysqlConfiguration struct {
+type MySQLConfiguration struct {
 	Host          string `mapstructure:"host" json:"host"`
 	Port          int    `mapstructure:"port" json:"port"`
 	Database      string `mapstructure:"database" json:"database"`
@@ -31,4 +32,12 @@ type MysqlConfiguration struct {
 	MaxOpenConns  int    `mapstructure:"max-open-conns" json:"max_open_conns"`
 	MaxIdleTime   int    `mapstructure:"max-idle-time" json:"max_idle_time"`
 	SlowThreshold int    `mapstructure:"slow-threshold" json:"slow_threshold"`
+}
+
+// Redis 连接配置解析结构体
+type RedisConfiguration struct {
+	Host     string `mapstructure:"host" json:"host"`
+	Port     int    `mapstructure:"port" json:"port"`
+	DB       int    `mapstructure:"db" json:"db"`
+	Password string `mapstructure:"password" json:"password"`
 }

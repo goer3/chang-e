@@ -1,11 +1,15 @@
 package common
 
-import "gorm.io/gorm"
+import (
+	"github.com/redis/go-redis/v9"
+	"gorm.io/gorm"
+)
 
 // 提供给全局直接使用的变量
 var (
-	Conf Configuration // 配置文件类型
-	DB   *gorm.DB      // 数据库连接
+	Conf  Configuration // 配置文件类型
+	DB    *gorm.DB      // 数据库连接
+	Cache *redis.Client // Redis 连接
 )
 
 // 默认配置文件相关信息
