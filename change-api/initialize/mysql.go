@@ -41,7 +41,7 @@ func MySQL() {
 
 	// 错误处理
 	if err != nil {
-		log2.ERROR("数据库初始连接失败：", err.Error())
+		log2.SYSTEM("数据库初始连接失败：", err.Error())
 		panic(err)
 	}
 

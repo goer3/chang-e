@@ -48,20 +48,20 @@ func Config(fs embed.FS, runEnv string, extFile string) {
 
 	// 错误处理
 	if err != nil {
-		log2.ERROR("读取配置文件失败：", err.Error())
+		log2.SYSTEM("读取配置文件失败：", err.Error())
 		panic(err)
 	}
 
 	// 没有数据也是读取配置失败
 	if len(bs) == 0 {
-		log2.ERROR("没有读取到配置文件内容！")
+		log2.SYSTEM("没有读取到配置文件内容！")
 		panic(err)
 	}
 
 	// Viper 解析配置
 	err = v.ReadConfig(bytes.NewReader(bs))
 	if err != nil {
-		log2.ERROR("Viper解析配置文件失败：", err.Error())
+		log2.SYSTEM("Viper解析配置文件失败：", err.Error())
 		panic(err)
 	}
 
@@ -74,7 +74,7 @@ func Config(fs embed.FS, runEnv string, extFile string) {
 	// 将配置赋值给全局变量，方便其它地方调用
 	err = v.Unmarshal(&common.Conf)
 	if err != nil {
-		log2.ERROR("配置全局配置失败：", err.Error())
+		log2.SYSTEM("配置全局配置失败：", err.Error())
 		panic(err)
 	}
 

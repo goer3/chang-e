@@ -19,7 +19,7 @@ import (
 var fs embed.FS // embed 打包配置文件，固定的注释格式，表示读取 config/ 下面所有文件
 
 func main() {
-	// 运行参数校验
+	// 运行参数校验，修改默认配置
 	helper.ArgsCheck(os.Args)
 
 	// 初始化配置文件
@@ -31,6 +31,16 @@ func main() {
 
 	// 初始化 MySQL 连接
 	initialize.MySQL()
+
+	// 数据表同步操作
+	if common.RunCommand == "migrate" {
+		// Todo
+	}
+
+	// 数据初始化操作
+	if common.RunCommand == "init" {
+		// Todo
+	}
 
 	// 初始化 Redis 连接
 	initialize.Redis()
@@ -48,7 +58,7 @@ func main() {
 	go func() {
 		err := server.ListenAndServe()
 		if err != nil && err != http.ErrServerClosed {
-			log2.ERROR("服务监听失败：", err.Error())
+			log2.SYSTEM("服务监听失败：", err.Error())
 		}
 	}()
 

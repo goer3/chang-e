@@ -18,6 +18,7 @@ var (
 	ConfigFilePrefix   = "application" // 配置文件前缀
 	ConfigFileType     = "yaml"        // 配置文件类型
 	RunEnv             = "dev"         // 默认运行环境
+	RunCommand         = ""            // 默认运行命令
 	ExternalConfigFile = ""            // 外部配置文件
 )
 

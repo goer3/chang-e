@@ -37,8 +37,8 @@ func AccessLog(ctx *gin.Context) {
 
 	// 打印日志，OPTIONS 请求使用 DEBUG
 	if method == "OPTIONS" {
-		log2.DEBUG(logStr)
+		log2.SYSTEM(logStr)
 	} else {
-		log2.INFO(logStr)
+		log2.SYSTEM(logStr)
 	}
 }

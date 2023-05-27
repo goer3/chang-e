@@ -51,3 +51,10 @@ redis:
   db: 1
   # 密码，如果没密码则不设置
   password: ""
+
+# 日志配置
+log:
+  # 是否运行写入到日志文件
+  enable: true
+  # 日志文件存放目录
+  path: logs

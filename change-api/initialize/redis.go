@@ -37,7 +37,7 @@ func Redis() {
 	// 测试连接是否正常
 	_, err := client.Ping(context.Background()).Result()
 	if err != nil {
-		log2.ERROR("缓存初始化连接异常：", err.Error())
+		log2.SYSTEM("缓存初始化连接异常：", err.Error())
 		panic(err)
 	}
 

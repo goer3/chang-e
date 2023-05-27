@@ -19,8 +19,8 @@ func Exception(ctx *gin.Context) {
 			// 如果不是请求响应，而是系统异常 panic
 			if !ok {
 				// 打印日志
-				log2.ERROR("系统发生异常：", err)
-				log2.ERROR("异常堆栈信息：", string(debug.Stack()))
+				log2.SYSTEM("系统发生异常：", err)
+				log2.SYSTEM("异常堆栈信息：", string(debug.Stack()))
 
 				// 还是需要响应用户请求
 				resp = response.Response{

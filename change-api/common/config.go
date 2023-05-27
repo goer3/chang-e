@@ -5,6 +5,7 @@ type Configuration struct {
 	Service ServiceConfiguration `mapstructure:"service" json:"service"`
 	MySQL   MySQLConfiguration   `mapstructure:"mysql" json:"mysql"`
 	Redis   RedisConfiguration   `mapstructure:"redis" json:"redis"`
+	Log     LogConfiguration     `mapstructure:"log" json:"log"`
 }
 
 // 服务配置解析结构体
@@ -40,4 +41,10 @@ type RedisConfiguration struct {
 	Port     int    `mapstructure:"port" json:"port"`
 	DB       int    `mapstructure:"db" json:"db"`
 	Password string `mapstructure:"password" json:"password"`
+}
+
+// 日志配置解析结构体
+type LogConfiguration struct {
+	Enable bool   `mapstructure:"enable" json:"enable"`
+	Path   string `mapstructure:"path" json:"path"`
 }

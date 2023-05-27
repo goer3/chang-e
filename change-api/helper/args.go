@@ -23,7 +23,7 @@ var title = `
 
 `
 
-// 检测用户传参
+// 检测用户传参，根据参数修改系统默认配置
 func ArgsCheck(args []string) {
 	// 打印标题
 	fmt.Println(title)
@@ -37,10 +37,12 @@ func ArgsCheck(args []string) {
 	case 2:
 		// 同步表
 		if os.Args[1] == "migrate" {
+			common.RunCommand = "migrate"
 			return
 		}
 		// 初始化数据
 		if os.Args[1] == "init" {
+			common.RunCommand = "init"
 			return
 		}
 	case 3:
