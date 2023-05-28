@@ -41,6 +41,9 @@ func main() {
 	// 初始化 Redis 连接
 	initialize.Redis()
 
+	// 初始化 Redis 配置
+	initialize.RedisConfig()
+
 	// 数据表同步操作
 	if common.RunCommand == "migrate" {
 		initialize.Migrate()

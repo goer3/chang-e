@@ -5,6 +5,7 @@ import (
 	"change-api/dto/request"
 	"change-api/dto/response"
 	"change-api/model"
+	"change-api/pkg/gedis"
 	"change-api/pkg/utils"
 	"errors"
 	"fmt"
@@ -149,8 +150,13 @@ func loginResponse(ctx *gin.Context, code int, token string, expire time.Time) {
 
 	// 不允许多设备登录配置
 	if !common.Conf.Login.AllowMultipleDevices {
+		// 组合 Key
+		username, _ := ctx.Get("username")
+		key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, username)
+
 		// 将新的 Token 存到 Redis 中，用户下一次请求的时候就去验证该 Token
-		// Todo
+		cache := gedis.NewStringOperation()
+		cache.Set(key, token, gedis.WithExpire(common.RedisKeyExpireTime.TokenExpireTime))
 	}
 
 	// 响应请求
@@ -177,8 +183,17 @@ func authorizator(data interface{}, ctx *gin.Context) bool {
 	if ok && user.Username != "" {
 		// 不允许多设备登录配置
 		if !common.Conf.Login.AllowMultipleDevices {
+			// 组合 Key
+			token := jwt.GetToken(ctx)
+			key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, user.Username)
+
 			// 验证该用户的 Token 和 Redis 中的是否一致
-			// Token
+			cache := gedis.NewStringOperation()
+			if cache.Get(key).Unwrap() == token {
+				return true
+			} else {
+				return false
+			}
 		}
 		return true
 	}
@@ -187,5 +202,7 @@ func authorizator(data interface{}, ctx *gin.Context) bool {
 
 // 注销登录
 func logoutResponse(ctx *gin.Context, code int) {
+	// 清理 Redis 保存的数据
+	// Todo
 	response.Success()
 }

@@ -49,3 +49,18 @@ func Redis() {
 		common.Conf.Redis.DB,
 	))
 }
+
+// 初始化 Redis Key 和过期时间配置
+func RedisConfig() {
+	// 初始化 Key 前缀
+	common.RedisKeyPrefix = common.RedisKeyPrefixConfiguration{
+		Token: "Token", // Token 前缀
+	}
+
+	// 初始化过期时间
+	common.RedisKeyExpireTime = common.RedisKeyExpireTimeConfiguration{
+		TokenExpireTime: time.Duration(common.Conf.JWT.Timeout) * time.Second, // Token 过期时间
+	}
+
+	log2.SYSTEM("缓存配置初始化完成！")
+}
