@@ -8,6 +8,8 @@ type Configuration struct {
 	MySQL   MySQLConfiguration   `mapstructure:"mysql" json:"mysql"`
 	Redis   RedisConfiguration   `mapstructure:"redis" json:"redis"`
 	Log     LogConfiguration     `mapstructure:"log" json:"log"`
+	JWT     JWTConfiguration     `mapstructure:"jwt" json:"jwt"`
+	Login   LoginConfiguration   `mapstructure:"login" json:"login"`
 }
 
 // 服务配置解析结构体
@@ -56,4 +58,19 @@ type LogConfiguration struct {
 	Compress     bool          `mapstructure:"compress" json:"compress"`
 	SQLLogEnable bool          `mapstructure:"sql-log-enable" json:"sql_log_enable"`
 	SQLLogLevel  int           `mapstructure:"sql-log-level" json:"sql_log_level"`
+}
+
+// JWT 配置解析结构体
+type JWTConfiguration struct {
+	Realm   string `mapstructure:"realm" json:"realm"`
+	Key     string `mapstructure:"key" json:"key"`
+	Timeout uint   `mapstructure:"timeout" json:"timeout"`
+}
+
+// 登录限制配置解析结构体
+type LoginConfiguration struct {
+	AllowWrongTimes      uint  `mapstructure:"allow-wrong-times" json:"allow_wrong_times"`
+	AllowMaxWrongTimes   uint  `mapstructure:"allow-max-wrong-times" json:"allow_max_wrong_times"`
+	MaxWrongWaitTime     int64 `mapstructure:"max-wrong-wait-time" json:"max_wrong_wait_time"`
+	AllowMultipleDevices bool  `mapstructure:"allow-multiple-devices" json:"allow_multiple_devices"`
 }

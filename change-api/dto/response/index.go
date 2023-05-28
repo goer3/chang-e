@@ -48,3 +48,9 @@ type Response struct {
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
+
+// 用户登录响应
+type Login struct {
+	Token  string `json:"token"`
+	Expire string `json:"expire"`
+}

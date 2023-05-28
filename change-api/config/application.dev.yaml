@@ -72,3 +72,22 @@ log:
   sql-log-enable: true
   # SQL 日志级别，(1-4，Info，Warn，Error, Silent)，4 不输出日志，生产建议 2
   sql-log-level: 1
+
+jwt:
+  # JWT 标识
+  realm: change
+  # 签名的秘钥
+  key: change-key
+  # Token 超时时间，单位秒，默认一天
+  timeout: 86400
+
+login:
+  # 允许错误密码次数，设置为 0 则不启用
+  allow-wrong-times: 2
+  # 允许错误的最大次数，达到上限就锁定用户，需要大于 allow-wrong-times
+  allow-max-wrong-times: 4
+  # 登录失败次数达到上限后，需要等待时间，秒
+  max-wrong-wait-time: 30
+  # 是否允许多个设备同时在线
+  allow-multiple-devices: false
+
