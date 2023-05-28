@@ -6,6 +6,8 @@ import (
 	"change-api/pkg/log2"
 	"change-api/routes"
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // 路由初始化
@@ -25,6 +27,11 @@ func Router() *gin.Engine {
 	r.Use(middleware.AccessLog) // 访问日志中间件，用于打印请求日志
 	r.Use(middleware.Cors)      // 异常访问中间件，用于允许跨域访问
 	r.Use(middleware.Exception) // 异常捕获中间件，用于处理用户响应
+
+	// 判断是否开启 Swagger 路由
+	if common.Conf.Swagger.Enable {
+		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	}
 
 	// 基础路由组
 	rbg := r.Group(common.Conf.Service.ApiPrefix)

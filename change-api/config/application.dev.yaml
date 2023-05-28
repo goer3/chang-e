@@ -91,3 +91,18 @@ login:
   # 是否允许多个设备同时在线
   allow-multiple-devices: false
 
+swagger:
+  # 是否配置 Swagger
+  enable: true
+  # 标题
+  title: Chang'e
+  # 介绍
+  description: 一个通过 Go / Gin / Gorm 实现的运维管理系统后端
+  # 版本
+  version: 1.0
+  # URL IP
+  Listen: 127.0.0.1
+  # 协议
+  schemes:
+    - http
+    - https

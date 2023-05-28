@@ -10,6 +10,7 @@ type Configuration struct {
 	Log     LogConfiguration     `mapstructure:"log" json:"log"`
 	JWT     JWTConfiguration     `mapstructure:"jwt" json:"jwt"`
 	Login   LoginConfiguration   `mapstructure:"login" json:"login"`
+	Swagger SwaggerConfiguration `mapstructure:"swagger" json:"swagger"`
 }
 
 // 服务配置解析结构体
@@ -73,4 +74,14 @@ type LoginConfiguration struct {
 	AllowMaxWrongTimes   uint  `mapstructure:"allow-max-wrong-times" json:"allow_max_wrong_times"`
 	MaxWrongWaitTime     int64 `mapstructure:"max-wrong-wait-time" json:"max_wrong_wait_time"`
 	AllowMultipleDevices bool  `mapstructure:"allow-multiple-devices" json:"allow_multiple_devices"`
+}
+
+// Swagger 配置解析结构体
+type SwaggerConfiguration struct {
+	Enable      bool     `mapstructure:"enable" json:"enable"`
+	Title       string   `mapstructure:"title" json:"title"`
+	Description string   `mapstructure:"description" json:"description"`
+	Version     string   `mapstructure:"version" json:"version"`
+	Listen      string   `mapstructure:"listen" json:"listen"`
+	Schemes     []string `mapstructure:"schemes" json:"schemes"`
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"change-api/common"
+	docs "change-api/docs/swagger"
 	"change-api/helper"
 	"change-api/initialize"
 	"change-api/pkg/log2"
@@ -28,6 +29,16 @@ func main() {
 	// 设置运行配置
 	gin.SetMode(common.Conf.Service.Mode) // 运行模式
 	gin.DisableConsoleColor()             // 禁用控制台颜色输出
+
+	// 通过动态配置的方式配置 Swagger 信息，替换注释方式
+	if common.Conf.Swagger.Enable {
+		docs.SwaggerInfo.Title = common.Conf.Swagger.Title
+		docs.SwaggerInfo.Description = common.Conf.Swagger.Description
+		docs.SwaggerInfo.Version = common.Conf.Swagger.Version
+		docs.SwaggerInfo.Host = fmt.Sprintf("%s:%d", common.Conf.Swagger.Listen, common.Conf.Service.Port)
+		docs.SwaggerInfo.BasePath = common.Conf.Service.ApiPrefix
+		docs.SwaggerInfo.Schemes = common.Conf.Swagger.Schemes
+	}
 
 	// 初始化服务日志器
 	initialize.ServiceLogger()

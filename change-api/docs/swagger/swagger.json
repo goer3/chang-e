@@ -1,0 +1,39 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/ping": {
+            "get": {
+                "description": "ping 测试处理函数",
+                "tags": [
+                    "Base"
+                ],
+                "summary": "ping",
+                "responses": {
+                    "200": {
+                        "description": "请求错误",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "response.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
