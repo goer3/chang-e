@@ -13,7 +13,7 @@ import (
 // 初始化 Casbin
 func Casbin(fs embed.FS) {
 	// 初始化数据库适配器
-	adapter, err := gormadapter.NewAdapterByDB(common.DB)
+	adapter, err := gormadapter.NewAdapterByDBUseTableName(common.DB, "", "casbin_rule")
 	if err != nil {
 		log2.SYSTEM("Casbin适配器初始失败：", err.Error())
 		panic(err)
