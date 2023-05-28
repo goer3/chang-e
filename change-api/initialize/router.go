@@ -42,7 +42,11 @@ func Router() *gin.Engine {
 	rag.Use(auth.MiddlewareFunc()) // 认证鉴权中间件
 	rag.Use(middleware.Casbin)     // Casbin 中间件
 	{
-		// Todo
+		// system 路由模块
+		srg := rag.Group("/system")
+		{
+			routes.SystemUser(srg) // 用户路由组
+		}
 	}
 	return r
 }

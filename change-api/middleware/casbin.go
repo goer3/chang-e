@@ -3,7 +3,6 @@ package middleware
 import (
 	"change-api/common"
 	"change-api/dto/response"
-	"fmt"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"strings"
@@ -14,7 +13,6 @@ func Casbin(ctx *gin.Context) {
 	// 获取当前用户角色关键字
 	claims := jwt.ExtractClaims(ctx)
 	keyword, _ := claims["roleKeyword"].(string)
-	fmt.Println(keyword)
 
 	// sub，角色关键字
 	sub := keyword
