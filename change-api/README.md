@@ -105,7 +105,7 @@ swag fmt
 - [Swagger 使用方法](https://juejin.cn/post/7015575667236405278)
 - [Gorm 文档](https://gorm.io/zh_CN/docs/update.html)
 - [Redis 文档](https://redis.uptrace.dev/zh/)
-
+- [Casbin 文档](https://casbin.org/zh/docs/overview)
 
 ### 📝 附录
 
