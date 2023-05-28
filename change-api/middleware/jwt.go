@@ -133,8 +133,9 @@ func payloadFunc(data interface{}) jwt.MapClaims {
 		// 登录成功，重置错误次数
 		common.DB.Model(&model.SystemUser{}).Where("username = ?", v.Username).Update("wrong_times", 0)
 		return jwt.MapClaims{
-			jwt.IdentityKey: v.Username,      // 用户名主要用于检索当前用户
-			"roleId":        v.SystemRole.Id, // 角色 Id 用于检索当前角色
+			jwt.IdentityKey: v.Username,           // 用户名主要用于检索当前用户
+			"roleId":        v.SystemRole.Id,      // 角色 Id 用于检索当前角色
+			"roleKeyword":   v.SystemRole.Keyword, // 角色 Keyword 用于 Casbin 验证
 		}
 	}
 	return jwt.MapClaims{}

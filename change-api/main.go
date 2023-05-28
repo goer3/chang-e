@@ -49,12 +49,6 @@ func main() {
 	// 初始化 MySQL 连接
 	initialize.MySQL()
 
-	// 初始化 Redis 连接
-	initialize.Redis()
-
-	// 初始化 Redis 配置
-	initialize.RedisConfig()
-
 	// 数据表同步操作
 	if common.RunCommand == "migrate" {
 		initialize.Migrate()
@@ -64,6 +58,15 @@ func main() {
 	if common.RunCommand == "init" {
 		initialize.Data()
 	}
+
+	// 初始化 Redis 连接
+	initialize.Redis()
+
+	// 初始化 Redis 配置
+	initialize.RedisConfig()
+
+	// 初始化 Casbin 配置
+	initialize.Casbin(fs)
 
 	// 路由初始化
 	r := initialize.Router()

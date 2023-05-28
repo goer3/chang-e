@@ -26,38 +26,40 @@
 - [x] Zap：快速、结构化、分级的日志记录 [:octocat:](https://go.uber.org/zap)
 - [x] Lumberjack：将日志写入滚动文件 [:octocat:](https://github.com/natefinch/lumberjack)
 - [x] Jwt：用户认证, 登入登出一键搞定 [:octocat:](https://github.com/appleboy/gin-jwt)
-- [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 - [x] Carbon：简单、语义化且对开发人员友好的 datetime 包 [:octocat:](https://github.com/golang-module/carbon)
 - [x] Casbin：一个强大的、高效的开源访问控制框架 [:octocat:](https://casbin.org/zh/docs/overview)
+- [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 
 
 ### 🎯 依赖安装
 
 ```bash
-# Web 框架：gin
+# Web 框架
 go get -u github.com/gin-gonic/gin
-# 配置文件读取：viper
+# 配置文件读取
 go get -u github.com/spf13/viper
-# MySQL ORM：gorm
+# MySQL ORM
 go get -u gorm.io/gorm
-# MySQL 驱动：gorm
 go get -u gorm.io/driver/mysql
 # Redis
 go get -u github.com/redis/go-redis/v9
-# 日志引擎：zap
+# 日志引擎
 go get -u go.uber.org/zap
-# 日志切割：lumberjack
+# 日志切割
 go get -u github.com/natefinch/lumberjack
-# 时间库：carbon
+# 时间库
 go get -u github.com/golang-module/carbon/v2
-# 结构体操作：structs
-go get -u github.com/fatih/structs
-# JWT：gin-jwt
+# JWT
 go get -u github.com/appleboy/gin-jwt/v2
 # Swagger
 go install github.com/swaggo/swag/cmd/swag@latest
 go get -u github.com/swaggo/gin-swagger
 go get -u github.com/swaggo/files
+# RBAC
+go get -u github.com/casbin/casbin/v2
+go get -u github.com/casbin/gorm-adapter/v3
+# 结构体操作
+go get -u github.com/fatih/structs
 ```
 
 
