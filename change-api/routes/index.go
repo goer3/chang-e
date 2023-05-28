@@ -7,7 +7,7 @@ import (
 )
 
 // 基础路由组
-func Base(rg *gin.RouterGroup, auth *jwt.GinJWTMiddleware) gin.IRoutes {
+func Public(rg *gin.RouterGroup, auth *jwt.GinJWTMiddleware) gin.IRoutes {
 	rg.GET("/ping", api.PingHandler)     // ping 测试接口
 	rg.POST("/login", auth.LoginHandler) // 登录接口
 	return rg

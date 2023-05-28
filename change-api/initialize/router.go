@@ -33,11 +33,16 @@ func Router() *gin.Engine {
 		r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 
-	// 基础路由组
+	// 开放路由组
 	rbg := r.Group(common.Conf.Service.ApiPrefix)
-	{
-		routes.Base(rbg, auth)
-	}
+	routes.Public(rbg, auth)
 
+	// 需要认证和权限校验的路由组
+	rag := r.Group(common.Conf.Service.ApiPrefix)
+	rag.Use(auth.MiddlewareFunc()) // 认证鉴权中间件
+	rag.Use(middleware.Casbin)     // Casbin 中间件
+	{
+		// Todo
+	}
 	return r
 }
