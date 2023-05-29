@@ -22,7 +22,7 @@ func GetUserList(ctx *gin.Context) {
 
 	// 响应
 	response.SuccessWithData(response.PageData{
-		Page: page,
-		List: users,
+		PageInfo: page,
+		List:     users,
 	})
 }

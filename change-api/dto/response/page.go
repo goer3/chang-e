@@ -15,8 +15,8 @@ type Page struct {
 
 // 分页数据格式
 type PageData struct {
-	Page
-	List interface{} `json:"list"`
+	PageInfo Page        `json:"page_info"`
+	List     interface{} `json:"list"`
 }
 
 // 获取 limit 和 offset
