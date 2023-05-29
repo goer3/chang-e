@@ -88,3 +88,21 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 
 	return users, req.Page
 }
+
+// 通过 Id 获取用户信息
+func GetUserInfoById(id uint) {
+	var user model.SystemUser
+	DBT := common.DB.Preload("SystemDepartment").Preload("SystemRole", "status = ?", 1)
+	err := DBT.Where("id = ?", id).First(&user).Error
+	// 查询失败响应
+	if err != nil {
+		response.FailedWithMessage("查询用户信息失败")
+		common.ServiceLogger.Error(err)
+		return
+	}
+
+	// 查询成功响应
+	response.SuccessWithData(map[string]interface{}{
+		"user_info": user,
+	})
+}

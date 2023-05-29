@@ -9,7 +9,9 @@ import (
 func SystemUser(rg *gin.RouterGroup) gin.IRoutes {
 	rs := rg.Group("/user")
 	{
-		rs.GET("/list", v1.GetUserList) // 获取用户列表
+		rs.GET("/info", v1.GetCurrentUserInfoHandler)  // 获取当前用户信息
+		rs.GET("/info/:id", v1.GetUserInfoByIdHandler) // 获取指定用户信息
+		rs.GET("/list", v1.GetUserListHandler)         // 获取用户列表信息
 	}
 	return rg
 }

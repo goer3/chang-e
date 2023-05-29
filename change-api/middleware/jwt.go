@@ -132,9 +132,13 @@ func payloadFunc(data interface{}) jwt.MapClaims {
 	if v, ok := data.(*model.SystemUser); ok {
 		// 登录成功，重置错误次数
 		common.DB.Model(&model.SystemUser{}).Where("username = ?", v.Username).Update("wrong_times", 0)
+		// 封装一些常用的字段，方便直接使用
+		fmt.Println(v.Id)
 		return jwt.MapClaims{
-			jwt.IdentityKey: v.Username,           // 用户名主要用于检索当前用户
-			"roleId":        v.SystemRole.Id,      // 角色 Id 用于检索当前角色
+			jwt.IdentityKey: v.Username,           // 用户名
+			"userId":        v.Id,                 // 用户 Id
+			"name":          v.Name,               // 用户名字
+			"roleId":        v.SystemRole.Id,      // 角色 Id
 			"roleKeyword":   v.SystemRole.Keyword, // 角色 Keyword 用于 Casbin 验证
 		}
 	}
