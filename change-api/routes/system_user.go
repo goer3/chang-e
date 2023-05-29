@@ -9,7 +9,7 @@ import (
 func SystemUser(rg *gin.RouterGroup) gin.IRoutes {
 	rs := rg.Group("/user")
 	{
-		rs.GET("/info", v1.GetUserInfo) // 获取用户信息
+		rs.GET("/list", v1.GetUserList) // 获取用户列表
 	}
 	return rg
 }

@@ -33,3 +33,9 @@ const (
 	SecLocalTimeFormat  = "2006-01-02 15:04:05"
 	DateLocalTimeFormat = "2006-01-02"
 )
+
+// 分页相关
+const (
+	DefaultPageSize = 1   // 每页默认的数据量
+	MaxPageSize     = 100 // 每页最大数据量
+)

@@ -6,7 +6,7 @@ import "github.com/golang-module/carbon/v2"
 type SystemUser struct {
 	Base
 	Username           string           `gorm:"uniqueIndex:uidx_username;comment:用户名" json:"username"`
-	Password           string           `gorm:"not null;comment:密码" json:"password"`
+	Password           string           `gorm:"not null;comment:密码" json:"-"` // 响应的时候不显示
 	Name               string           `gorm:"not null;comment:姓名" json:"name"`
 	Mobile             string           `gorm:"uniqueIndex:uidx_mobile;comment:手机号" json:"mobile"`
 	Email              string           `gorm:"uniqueIndex:uidx_email;comment:邮箱" json:"email"`
