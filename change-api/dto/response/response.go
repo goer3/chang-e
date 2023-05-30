@@ -23,6 +23,11 @@ func Success() {
 	Result(OK, map[string]interface{}{})
 }
 
+// 成功请求，有消息
+func SuccessWithMessage(message string) {
+	ResultWithMessage(OK, message, map[string]interface{}{})
+}
+
 // 成功请求，有返回数据
 func SuccessWithData(data interface{}) {
 	Result(OK, data)

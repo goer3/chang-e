@@ -17,3 +17,9 @@ type User struct {
 	SystemRoleId       uint   `json:"system_role_id" form:"system_role_id"`
 	response.Page
 }
+
+// 重置密码参数
+type ResetPassword struct {
+	Password   string `json:"password"`
+	RePassword string `json:"re_password"`
+}

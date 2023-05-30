@@ -74,6 +74,7 @@ type LoginConfiguration struct {
 	AllowMaxWrongTimes   uint  `mapstructure:"allow-max-wrong-times" json:"allow_max_wrong_times"`
 	MaxWrongWaitTime     int64 `mapstructure:"max-wrong-wait-time" json:"max_wrong_wait_time"`
 	AllowMultipleDevices bool  `mapstructure:"allow-multiple-devices" json:"allow_multiple_devices"`
+	MinPasswordLength    int   `mapstructure:"min-password-length" json:"min_password_length"`
 }
 
 // Swagger 配置解析结构体

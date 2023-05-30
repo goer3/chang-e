@@ -90,6 +90,8 @@ login:
   max-wrong-wait-time: 30
   # 是否允许多个设备同时在线
   allow-multiple-devices: false
+  # 密码最小长度
+  min-password-length: 8
 
 swagger:
   # 是否配置 Swagger
