@@ -12,6 +12,7 @@ const (
 	UserLoginError      = 1001
 	UserDisableError    = 1002
 	UserLockedError     = 1003
+	FirstLoginError     = 1004
 )
 
 // 状态码对应的消息
@@ -26,6 +27,7 @@ const (
 	UserLoginErrorMessage      = "用户名或密码错误"
 	UserDisableErrorMessage    = "用户已经被禁用，请联系管理员"
 	UserLockedErrorMessage     = "用户已锁定，请联系管理员"
+	FirstLoginErrorMessage     = "用户属于第一次登录，需要修改密码才能使用"
 )
 
 // 状态码和信息绑定
@@ -40,6 +42,7 @@ var CustomMessage = map[int]string{
 	UserLoginError:      UserLoginErrorMessage,
 	UserDisableError:    UserDisableErrorMessage,
 	UserLockedError:     UserLockedErrorMessage,
+	FirstLoginError:     FirstLoginErrorMessage,
 }
 
 // 响应数据格式

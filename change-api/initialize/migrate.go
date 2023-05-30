@@ -15,6 +15,7 @@ func Migrate() {
 		new(model.SystemRole),            // 角色
 		new(model.SystemMenu),            // 菜单
 		new(model.SystemCasbinRuleTable), // Casbin
+		new(model.SystemAPI),             // API
 	)
 	if err != nil {
 		log2.SYSTEM("数据表初始同步失败：", err.Error())

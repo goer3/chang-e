@@ -14,6 +14,7 @@ func Data() {
 	data.SystemUserData()       // 用户数据
 	data.SystemRoleData()       // 角色数据
 	data.SystemMenuData()       // 菜单数据
+	data.SystemAPIData()        // API 数据
 	log.Println("基础数据初始化完成！")
 	os.Exit(0)
 }

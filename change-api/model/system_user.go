@@ -14,6 +14,7 @@ type SystemUser struct {
 	JobName            string           `gorm:"not null;comment:岗位名称" json:"job_name"`
 	Avatar             string           `gorm:"comment:头像" json:"avatar"`
 	Creator            string           `gorm:"default:system;comment:创建者" json:"creator"`
+	FirstLogin         *uint            `gorm:"type:tinyint(1);default:1;comment:第一次登录(0: 否, 1: 是)" json:"first_login"`
 	LastLogin          carbon.DateTime  `gorm:"comment:最后一次登录时间" json:"last_login"`
 	LastChangePassword carbon.DateTime  `gorm:"comment:最后一次修改密码时间" json:"last_change_password"`
 	Active             *uint            `gorm:"type:tinyint(1);default:1;comment:状态(0: 禁用, 1: 正常)" json:"active"`

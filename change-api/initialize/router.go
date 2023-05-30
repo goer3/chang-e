@@ -37,15 +37,15 @@ func Router() *gin.Engine {
 	rbg := r.Group(common.Conf.Service.ApiPrefix)
 	routes.Public(rbg, auth)
 
-	// 需要认证和权限校验的路由组
+	// 需要认证和授权的路由组
 	rag := r.Group(common.Conf.Service.ApiPrefix)
 	rag.Use(auth.MiddlewareFunc()) // 认证鉴权中间件
 	rag.Use(middleware.Casbin)     // Casbin 中间件
 	{
 		// system 路由模块
-		srg := rag.Group("/system")
+		srag := rag.Group("/system")
 		{
-			routes.SystemUser(srg) // 用户路由组
+			routes.SystemUser(srag) // 用户路由组
 		}
 	}
 	return r

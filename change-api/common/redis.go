@@ -4,12 +4,14 @@ import "time"
 
 // Redis Key 前缀类型
 type RedisKeyPrefixConfiguration struct {
-	Token string
+	Token         string
+	ResetPwdToken string
 }
 
 // Redis Key 过期时间类型
 type RedisKeyExpireTimeConfiguration struct {
-	TokenExpireTime time.Duration
+	TokenExpireTime         time.Duration
+	ResetPwdTokenExpireTime time.Duration
 }
 
 // 设置 Key 前缀

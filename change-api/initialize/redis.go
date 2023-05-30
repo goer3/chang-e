@@ -54,12 +54,14 @@ func Redis() {
 func RedisConfig() {
 	// 初始化 Key 前缀
 	common.RedisKeyPrefix = common.RedisKeyPrefixConfiguration{
-		Token: "Token", // Token 前缀
+		Token:         "Token",         // Token 前缀
+		ResetPwdToken: "ResetPwdToken", // 重置密码 Token 前缀
 	}
 
 	// 初始化过期时间
 	common.RedisKeyExpireTime = common.RedisKeyExpireTimeConfiguration{
-		TokenExpireTime: time.Duration(common.Conf.JWT.Timeout) * time.Second, // Token 过期时间
+		TokenExpireTime:         time.Duration(common.Conf.JWT.Timeout) * time.Second, // Token 过期时间
+		ResetPwdTokenExpireTime: 300 * time.Second,                                    // 重置密码 Token 有效期 5 分钟
 	}
 
 	log2.SYSTEM("缓存配置初始化完成！")

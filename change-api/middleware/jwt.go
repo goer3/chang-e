@@ -12,6 +12,7 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon/v2"
+	"strings"
 	"time"
 )
 
@@ -117,6 +118,11 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 		return nil, errors.New(response.UserLoginErrorMessage)
 	}
 
+	// 判断是不是第一次登录，第一次登录要求改密码
+	if *user.FirstLogin == 1 {
+		return &user, errors.New(fmt.Sprintf("%s:%s", "FirstLoginError", user.Username))
+	}
+
 	// 设置 Context，方便后面使用
 	ctx.Set("username", user.Username)
 
@@ -133,7 +139,6 @@ func payloadFunc(data interface{}) jwt.MapClaims {
 		// 登录成功，重置错误次数
 		common.DB.Model(&model.SystemUser{}).Where("username = ?", v.Username).Update("wrong_times", 0)
 		// 封装一些常用的字段，方便直接使用
-		fmt.Println(v.Id)
 		return jwt.MapClaims{
 			jwt.IdentityKey: v.Username,           // 用户名
 			"userId":        v.Id,                 // 用户 Id
@@ -170,6 +175,22 @@ func loginResponse(ctx *gin.Context, code int, token string, expire time.Time) {
 
 // 登录失败，验证失败的响应
 func unauthorized(ctx *gin.Context, code int, message string) {
+	if strings.HasPrefix(message, "FirstLoginError") {
+		// 获取用户名
+		username := strings.Split(message, ":")[1]
+
+		// 生成随机字符串
+		token := utils.RandString(16)
+
+		// 将数据保存到 Redis
+		key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.ResetPwdToken, common.RedisKeyPrefixTag, token)
+		cache := gedis.NewStringOperation()
+		cache.Set(key, username, gedis.WithExpire(common.RedisKeyExpireTime.ResetPwdTokenExpireTime))
+
+		// 响应客户端
+		response.FailedWithCodeAndMessage(response.FirstLoginError, token)
+		return
+	}
 	response.FailedWithMessage(message)
 }
 
