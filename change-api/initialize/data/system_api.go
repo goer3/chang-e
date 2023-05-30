@@ -54,7 +54,23 @@ var apis = []model.SystemAPI{
 			Id: 1103,
 		},
 		API:      "/system/user/list",
-		Name:     "获取用户列表",
+		Name:     "获取用户列表信息",
+		ParentId: 1100,
+	},
+	{
+		Base: model.Base{
+			Id: 1104,
+		},
+		API:      "/system/user/reset/password",
+		Name:     "重置当前用户密码",
+		ParentId: 1100,
+	},
+	{
+		Base: model.Base{
+			Id: 1105,
+		},
+		API:      "/system/user/reset/password/:username",
+		Name:     "重置当前用户密码",
 		ParentId: 1100,
 	},
 }

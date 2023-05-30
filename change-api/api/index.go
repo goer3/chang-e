@@ -24,7 +24,7 @@ func PingHandler(ctx *gin.Context) {
 }
 
 // 第一次登录重置密码
-func FirstLoginResetPassword(ctx *gin.Context) {
+func FirstLoginResetPasswordHandler(ctx *gin.Context) {
 	// 获取 URI 参数
 	token := ctx.Param("token")
 	if token == "" {
@@ -44,10 +44,14 @@ func FirstLoginResetPassword(ctx *gin.Context) {
 	// 获取重置密码数据
 	var req request.ResetPassword
 	err := ctx.ShouldBind(&req)
+	if err != nil {
+		response.FailedWithMessage("未获取到用户提交的密码")
+		return
+	}
 
 	// 获取参数错误或者两次密码不一致或者密码长度小于固定位数
-	if (err != nil) || (req.Password != req.RePassword) || (len(req.Password) < common.Conf.Login.MinPasswordLength) {
-		response.FailedWithCode(response.ParamError)
+	if (req.Password != req.RePassword) || (len(req.Password) < common.Conf.Login.MinPasswordLength) {
+		response.FailedWithMessage(fmt.Sprintf("两次密码必须一致，且必须不少于%d位", common.Conf.Login.MinPasswordLength))
 		return
 	}
 
@@ -55,7 +59,7 @@ func FirstLoginResetPassword(ctx *gin.Context) {
 	var user model.SystemUser
 	err = common.DB.Where("username = ?", username).First(&user).Error
 	if err != nil {
-		response.FailedWithMessage("获取重置密码的用户失败")
+		response.FailedWithMessage("获取重置密码的用户信息失败")
 		return
 	}
 

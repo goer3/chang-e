@@ -5,6 +5,9 @@ import (
 	"change-api/dto/request"
 	"change-api/dto/response"
 	"change-api/model"
+	"change-api/pkg/utils"
+	"fmt"
+	"github.com/gin-gonic/gin"
 	"strings"
 )
 
@@ -105,4 +108,40 @@ func GetUserInfoById(id uint) {
 	response.SuccessWithData(map[string]interface{}{
 		"user_info": user,
 	})
+}
+
+// 通过用户名重置密码
+func ResetPasswordByUsername(ctx *gin.Context, username string) {
+	// 获取重置密码数据
+	var req request.ResetPassword
+	err := ctx.ShouldBind(&req)
+	if err != nil {
+		response.FailedWithMessage("未获取到用户提交的密码")
+		return
+	}
+
+	// 获取参数错误或者两次密码不一致或者密码长度小于固定位数
+	if (req.Password != req.RePassword) || (len(req.Password) < common.Conf.Login.MinPasswordLength) {
+		response.FailedWithMessage(fmt.Sprintf("两次密码必须一致，且必须不少于%d位", common.Conf.Login.MinPasswordLength))
+		return
+	}
+
+	// 查询数据库用户
+	var user model.SystemUser
+	err = common.DB.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		response.FailedWithMessage("获取重置密码的用户信息失败")
+		return
+	}
+
+	// 重置密码
+	password := utils.CryptoPassword(req.Password)
+	err = common.DB.Model(&user).Updates(model.SystemUser{Password: password}).Error
+	if err != nil {
+		response.FailedWithMessage("重置密码失败")
+		return
+	}
+
+	// 成功，清理 Redis
+	response.SuccessWithMessage("密码修改成功")
 }

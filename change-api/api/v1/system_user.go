@@ -5,7 +5,6 @@ import (
 	"change-api/dto/response"
 	"change-api/pkg/ms"
 	"change-api/pkg/utils"
-	"fmt"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
@@ -49,8 +48,30 @@ func GetCurrentUserInfoHandler(ctx *gin.Context) {
 	// 获取当前用户 Id
 	claims := jwt.ExtractClaims(ctx)
 	id, _ := claims["userId"].(float64) // 注意：请求传递过来的类型为 float64
-	fmt.Println(uint(id))
 
 	// 查询并响应
 	ms.GetUserInfoById(uint(id))
+}
+
+// 重置当前用户密码
+func ResetPasswordHandler(ctx *gin.Context) {
+	// 获取当前用户名
+	claims := jwt.ExtractClaims(ctx)
+	username, _ := claims["identity"].(string)
+
+	// 重置密码
+	ms.ResetPasswordByUsername(ctx, username)
+}
+
+// 重置指定用户密码
+func ResetPasswordByUsernameHandler(ctx *gin.Context) {
+	// 获取 URI 参数
+	username := ctx.Param("username")
+	if username == "" {
+		response.FailedWithMessage("未获取到需要重置密码的用户")
+		return
+	}
+
+	// 重置密码
+	ms.ResetPasswordByUsername(ctx, username)
 }
