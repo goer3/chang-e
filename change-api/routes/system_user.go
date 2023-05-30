@@ -14,6 +14,11 @@ func SystemUser(rg *gin.RouterGroup) gin.IRoutes {
 		rs.GET("/list", v1.GetUserListHandler)                                  // 获取用户列表信息
 		rs.POST("/reset/password", v1.ResetPasswordHandler)                     // 重置当前用户密码
 		rs.POST("/reset/password/:username", v1.ResetPasswordByUsernameHandler) // 重置指定用户密码
+		// 修改用户
+		// 禁用用户
+		// 锁定用户
+		// 删除用户
+		// 创建用户
 	}
 	return rg
 }
