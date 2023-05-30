@@ -68,6 +68,7 @@ func FirstLoginResetPassword(ctx *gin.Context) {
 		return
 	}
 
-	// 成功
+	// 成功，清理 Redis
+	_, _ = cache.Del(key)
 	response.SuccessWithMessage("密码修改成功")
 }
