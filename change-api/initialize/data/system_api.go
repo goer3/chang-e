@@ -70,7 +70,7 @@ var apis = []model.SystemAPI{
 			Id: 1105,
 		},
 		API:      "/system/user/reset/password/:username",
-		Name:     "重置当前用户密码",
+		Name:     "重置指定用户密码",
 		ParentId: 1100,
 	},
 }
