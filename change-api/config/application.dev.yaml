@@ -1,4 +1,6 @@
 service:
+  # 公司名称
+  company: 集团总部
   # 服务名称
   name: change
   # 服务别名

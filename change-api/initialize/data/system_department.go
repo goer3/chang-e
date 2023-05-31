@@ -13,7 +13,7 @@ var departments = []model.SystemDepartment{
 		Base: model.Base{
 			Id: 1,
 		},
-		Name:     "集团总部",
+		Name:     common.Conf.Service.Company,
 		ParentId: 0,
 	},
 	{
