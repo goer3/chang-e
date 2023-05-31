@@ -12,6 +12,15 @@ type SystemUser struct {
 	Email              string           `gorm:"uniqueIndex:uidx_email;comment:邮箱" json:"email"`
 	JobNumber          string           `gorm:"uniqueIndex:uidx_number;comment:工号" json:"job_number"`
 	JobName            string           `gorm:"not null;comment:岗位名称" json:"job_name"`
+	OfficeCityId       uint             `gorm:"comment:工作城市ID" json:"office_city_id"`
+	OfficeCity         Regions          `gorm:"comment:工作城市信息;foreignKey:OfficeCityId" json:"office_city"`
+	OfficeAddress      string           `gorm:"comment:办公地址" json:"work_address"`
+	EntryTime          carbon.DateTime  `gorm:"comment:入职时间" json:"entry_time"`
+	Birthday           carbon.DateTime  `gorm:"comment:生日" json:"birthday"`
+	NativeProvinceId   uint             `gorm:"comment:籍贯省ID" json:"native_province_id"`
+	NativeProvince     Regions          `gorm:"comment:籍贯省信息;foreignKey:NativeProvinceId" json:"native_province"`
+	NativeCityId       uint             `gorm:"comment:籍贯市ID" json:"native_city_id"`
+	NativeCity         Regions          `gorm:"comment:籍贯市信息;foreignKey:NativeCityId" json:"native_city"`
 	Avatar             string           `gorm:"comment:头像" json:"avatar"`
 	Creator            string           `gorm:"default:system;comment:创建者" json:"creator"`
 	FirstLogin         *uint            `gorm:"type:tinyint(1);default:1;comment:第一次登录(0: 否, 1: 是)" json:"first_login"`

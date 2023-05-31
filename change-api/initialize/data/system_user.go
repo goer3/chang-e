@@ -4,6 +4,7 @@ import (
 	"change-api/common"
 	"change-api/model"
 	"errors"
+	"github.com/golang-module/carbon/v2"
 	"gorm.io/gorm"
 )
 
@@ -21,8 +22,18 @@ var users = []model.SystemUser{
 		SystemDepartmentId: 1,
 		JobNumber:          "EZ000001",
 		JobName:            "高级运维工程师",
-		Avatar:             "http://img.keaiming.com/uploads/allimg/2016102112/fjn4kxnmrzh.jpg",
-		SystemRoleId:       1,
+		OfficeCityId:       440300000000,
+		OfficeAddress:      "广东省深圳市福田区研发中心",
+		EntryTime: carbon.DateTime{
+			carbon.Parse("2023-01-11"),
+		},
+		Birthday: carbon.DateTime{
+			carbon.Parse("1993-02-11"),
+		},
+		NativeProvinceId: 510000000000,
+		NativeCityId:     510500000000,
+		Avatar:           "http://img.keaiming.com/uploads/allimg/2016102112/fjn4kxnmrzh.jpg",
+		SystemRoleId:     1,
 	},
 	{
 		Base: model.Base{
@@ -36,8 +47,18 @@ var users = []model.SystemUser{
 		SystemDepartmentId: 103,
 		JobNumber:          "EZ000002",
 		JobName:            "运维工程师",
-		Avatar:             "http://img.keaiming.com/uploads/allimg/2016102112/caxuymb1ev2.jpg",
-		SystemRoleId:       2,
+		OfficeCityId:       440300000000,
+		OfficeAddress:      "广东省深圳市福田区研发中心",
+		EntryTime: carbon.DateTime{
+			carbon.Parse("2022-03-11"),
+		},
+		Birthday: carbon.DateTime{
+			carbon.Parse("1994-04-11"),
+		},
+		NativeProvinceId: 510000000000,
+		NativeCityId:     511500000000,
+		Avatar:           "http://img.keaiming.com/uploads/allimg/2016102112/caxuymb1ev2.jpg",
+		SystemRoleId:     2,
 	},
 }
 

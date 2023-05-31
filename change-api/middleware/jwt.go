@@ -48,8 +48,12 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 	// 数据库查询
 	var user model.SystemUser
 
-	// 公共查询模板
-	DBT := common.DB.Preload("SystemRole", "status = ?", true).Preload("SystemDepartment")
+	// 使用用户查询模板
+	DBT := common.DB.Preload("SystemDepartment").
+		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeCity").
+		Preload("NativeProvince").
+		Preload("NativeCity")
 
 	// 校验用户登录使用的的账户类型
 

@@ -56,6 +56,7 @@ func MySQL() {
 
 	// 设置全局连接
 	common.DB = db
+
 	log2.SYSTEM("数据库初始连接完成：", fmt.Sprintf("%s@%s:%d/%s",
 		common.Conf.MySQL.Username,
 		common.Conf.MySQL.Host,

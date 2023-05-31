@@ -2,7 +2,6 @@ package response
 
 import (
 	"change-api/common"
-	"fmt"
 )
 
 // 数据分页响应
@@ -56,9 +55,6 @@ func (s *Page) GetLimit() (int, int) {
 	if s.TotalCount > 0 && pageNumber > s.TotalCount {
 		pageNumber = maxPageNumber
 	}
-
-	fmt.Println(pageSize)
-	fmt.Println(pageNumber)
 
 	// 限制和偏移
 	limit := pageSize

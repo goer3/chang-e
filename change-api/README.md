@@ -31,55 +31,26 @@
 - [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 
 
-### 🎯 依赖安装
+### 😽 项目部署
+
+* 数据库初始化
 
 ```bash
-# Web 框架
-go get -u github.com/gin-gonic/gin
-# 配置文件读取
-go get -u github.com/spf13/viper
-# MySQL ORM
-go get -u gorm.io/gorm
-go get -u gorm.io/driver/mysql
-# Redis
-go get -u github.com/redis/go-redis/v9
-# 日志引擎
-go get -u go.uber.org/zap
-# 日志切割
-go get -u github.com/natefinch/lumberjack
-# 时间库
-go get -u github.com/golang-module/carbon/v2
-# JWT
-go get -u github.com/appleboy/gin-jwt/v2
-# Swagger
-go install github.com/swaggo/swag/cmd/swag@latest
-go get -u github.com/swaggo/gin-swagger
-go get -u github.com/swaggo/files
-# RBAC
-go get -u github.com/casbin/casbin/v2
-go get -u github.com/casbin/gorm-adapter/v3
-# 结构体操作
-go get -u github.com/fatih/structs
+# 同步数据表结构
+chang-e migrate
+
+# 同步数据表数据
+chang-e init
 ```
 
-
-### 📌 特别说明
-
-本文 Swagger 生成文档的命令为：
+* 手动执行 sql 目录下的脚本
 
 ```bash
-# --parseDependency --parseInternal：深度解析外部定义的数据类型，解决提示 cannot find type definition 问题
-# -q：忽略告警，目前版本 swag init 存在 strconv.ParseUint: invalid syntax 问题，官方还没有修复
-swag init -o ./docs/swagger --parseDependency --parseInternal -q
-
-# 格式化 swagger 注释
-swag fmt
+# 省市区表
+regions.sql 
 ```
 
-服务启动后可以在 Web 访问 Swagger：
-
-> http://127.0.0.1:10000/swagger/index.html
-
+* 其它待定
 
 ### 💬 联系我呗
 
@@ -93,22 +64,3 @@ swag fmt
 - gin-web [:octocat:](https://github.com/piupuer/gin-web)
 - go-helper [:octocat:](https://github.com/piupuer/go-helper)
 - Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
-
-
-### 📋 附加文档
-
-- [Github 国内访问慢配置](https://github.com/521xueweihan/GitHub520)
-- [Json 在线转换成结构体](https://app.quicktype.io)
-- [Json 解析分析文章](https://www.cnblogs.com/luozhiyun/p/14875066.html)
-- [Swagger 文档](https://github.com/swaggo/swag/blob/master/README_zh-CN.md)
-- [Swagger 配置方法](https://github.com/swaggo/gin-swagger)
-- [Swagger 使用方法](https://juejin.cn/post/7015575667236405278)
-- [Gorm 文档](https://gorm.io/zh_CN/docs/update.html)
-- [Redis 文档](https://redis.uptrace.dev/zh/)
-- [Casbin 文档](https://casbin.org/zh/docs/overview)
-
-### 📝 附录
-
-- 🐒 &nbsp; README 生成工具：<a href="https://rahuldkjain.github.io/gh-profile-readme-generator/">README 工具</a>
-- 🍁 &nbsp; README 模板项目：<a href="https://github.com/iuricode/readme-template">README 模板</a>
-- 😊 &nbsp; README 表情图标：<a href="https://github.com/guodongxiaren/README/blob/master/emoji.md?tdsourcetag=s_pcqq_aiomsg">README EMOJI 表情</a>

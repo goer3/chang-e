@@ -13,7 +13,12 @@ import (
 
 // 查询用户列表
 func FindUsers(req *request.User) (users []model.SystemUser, page response.Page) {
-	DBT := common.DB.Preload("SystemDepartment").Preload("SystemRole", "status = ?", 1)
+	// 使用用户查询模板
+	DBT := common.DB.Preload("SystemDepartment").
+		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeCity").
+		Preload("NativeProvince").
+		Preload("NativeCity")
 
 	// 判断查询条件
 	// Username
@@ -94,8 +99,15 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 
 // 通过 Id 获取用户信息
 func GetUserInfoById(id uint) {
+	// 使用用户查询模板
+	DBT := common.DB.Preload("SystemDepartment").
+		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeCity").
+		Preload("NativeProvince").
+		Preload("NativeCity")
+
 	var user model.SystemUser
-	DBT := common.DB.Preload("SystemDepartment").Preload("SystemRole", "status = ?", 1)
+
 	err := DBT.Where("id = ?", id).First(&user).Error
 	// 查询失败响应
 	if err != nil {
