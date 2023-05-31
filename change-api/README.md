@@ -53,18 +53,3 @@ regions.sql
 
 * 其它待定
 
-<br>
-
-### 💬 联系我呗
-
-[![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
-
-<br>
-
-### 🎉 感谢
-
-该项目是参考学习以下项目，然后自己再修修改改而来，感谢铁子们 🌹：
-
-- gin-web [:octocat:](https://github.com/piupuer/gin-web)
-- go-helper [:octocat:](https://github.com/piupuer/go-helper)
-- Go-Vue-Admin [:octocat:](https://github.com/tanxi2019/Go-Vue-Admin)
