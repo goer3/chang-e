@@ -30,6 +30,7 @@
 - [x] Casbin：一个强大的、高效的开源访问控制框架 [:octocat:](https://casbin.org/zh/docs/overview)
 - [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 
+<br>
 
 ### 🎯 依赖安装
 
@@ -62,6 +63,7 @@ go get -u github.com/casbin/gorm-adapter/v3
 go get -u github.com/fatih/structs
 ```
 
+<br>
 
 ### 📌 Swagger 说明
 
@@ -80,6 +82,7 @@ swag fmt
 
 > http://127.0.0.1:10000/swagger/index.html
 
+<br>
 
 ### 📋 附加文档
 
@@ -92,6 +95,8 @@ swag fmt
 - [Gorm 文档](https://gorm.io/zh_CN/docs/update.html)
 - [Redis 文档](https://redis.uptrace.dev/zh/)
 - [Casbin 文档](https://casbin.org/zh/docs/overview)
+
+<br>
 
 ### 📝 附录
 

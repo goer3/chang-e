@@ -30,6 +30,7 @@
 - [x] Casbin：一个强大的、高效的开源访问控制框架 [:octocat:](https://casbin.org/zh/docs/overview)
 - [x] Validator：请求参数校验, 版本 V10 [:octocat:](https://github.com/go-playground/validator)
 
+<br>
 
 ### 😽 项目部署
 
@@ -52,10 +53,13 @@ regions.sql
 
 * 其它待定
 
+* <br>
+
 ### 💬 联系我呗
 
 [![QQmail](https://img.shields.io/badge/-1214966109@qq.com-006bed?style=flat-square&logo=Gmail&logoColor=white&link=mailto:1214966109@qq.com)](mailto:1214966109@qq.com)
 
+<br>
 
 ### 🎉 感谢
 
