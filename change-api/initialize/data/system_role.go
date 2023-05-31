@@ -21,7 +21,7 @@ var roles = []model.SystemRole{
 		Base: model.Base{
 			Id: 2,
 		},
-		Name:    "游客",
+		Name:    "访客",
 		Keyword: "Guest",
 		Desc:    "系统最低权限",
 	},

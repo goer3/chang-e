@@ -44,7 +44,7 @@ var users = []model.SystemUser{
 		Name:               "游客",
 		Mobile:             "19999999999",
 		Email:              "guest@ezops.cn",
-		SystemDepartmentId: 103,
+		SystemDepartmentId: 10000,
 		JobNumber:          "EZ000002",
 		JobName:            "运维工程师",
 		OfficeCityId:       440300000000,
