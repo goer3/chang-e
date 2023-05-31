@@ -15,12 +15,13 @@ type Configuration struct {
 
 // 服务配置解析结构体
 type ServiceConfiguration struct {
-	Company   string `mapstructure:"company" json:"company"`
-	Name      string `mapstructure:"name" json:"name"`
-	Listen    string `mapstructure:"listen" json:"listen"`
-	Port      int    `mapstructure:"port" json:"port"`
-	Mode      string `mapstructure:"mode" json:"mode"`
-	ApiPrefix string `mapstructure:"api-prefix" json:"api_prefix"`
+	Company       string `mapstructure:"company" json:"company"`
+	Name          string `mapstructure:"name" json:"name"`
+	Listen        string `mapstructure:"listen" json:"listen"`
+	Port          int    `mapstructure:"port" json:"port"`
+	Mode          string `mapstructure:"mode" json:"mode"`
+	ApiPrefix     string `mapstructure:"api-prefix" json:"api_prefix"`
+	AdminUsername string `mapstructure:"admin-username" json:"admin_username"`
 }
 
 // 数据库连接配置解析结构体

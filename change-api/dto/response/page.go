@@ -51,8 +51,8 @@ func (s *Page) GetLimit() (int, int) {
 		pageNumber = 1
 	}
 
-	// 页码数大于数据总数，则设置为最后一页
-	if s.TotalCount > 0 && pageNumber > s.TotalCount {
+	// 页码数大于数据总数或者大于最大页码，则设置为最后一页
+	if (s.TotalCount > 0 && pageNumber > s.TotalCount) || pageNumber > maxPageNumber {
 		pageNumber = maxPageNumber
 	}
 

@@ -13,6 +13,8 @@ service:
   mode: debug
   # 路由前缀
   api-prefix: /api/v1
+  # 管理员用户名，注意该用户名必须和数据库初始化的超级管理员一致
+  admin-username: change
 
 mysql:
   # 连接地址

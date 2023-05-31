@@ -152,7 +152,7 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) {
 		// 获取当前用户名
 		claims := jwt.ExtractClaims(ctx)
 		u, _ := claims["identity"].(string)
-		if u != "admin" {
+		if u != common.Conf.Service.AdminUsername {
 			response.FailedWithMessage("权限不足，重置管理员密码需要使用 admin 账户")
 			return
 		}
