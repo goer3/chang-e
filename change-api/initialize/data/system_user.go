@@ -27,10 +27,10 @@ func SystemUserData() {
 			OfficeCityId:       440300000000,
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
-				carbon.Parse("2023-01-11"),
+				carbon.Now(),
 			},
 			Birthday: carbon.DateTime{
-				carbon.Parse("1993-02-11"),
+				carbon.Now(),
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     510500000000,
@@ -52,10 +52,11 @@ func SystemUserData() {
 			OfficeCityId:       440300000000,
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
-				carbon.Parse("2022-03-11"),
+				//carbon.Parse("2022-03-11"),
+				carbon.Now(),
 			},
 			Birthday: carbon.DateTime{
-				carbon.Parse("1994-04-11"),
+				carbon.Now(),
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     511500000000,
