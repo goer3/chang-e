@@ -75,3 +75,8 @@ func ResetPasswordByUsernameHandler(ctx *gin.Context) {
 	// 重置密码
 	ms.ResetPasswordByUsername(ctx, username)
 }
+
+// 更新当前用户信息
+func UpdateCurrentUserInfoHandler(ctx *gin.Context) {
+	// Todo
+}

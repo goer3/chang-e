@@ -7,6 +7,7 @@ import (
 	"change-api/model"
 	"change-api/pkg/utils"
 	"fmt"
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"strings"
 )
@@ -144,6 +145,17 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) {
 	if err != nil {
 		response.FailedWithMessage("获取重置密码的用户信息失败")
 		return
+	}
+
+	// 判断重置的用户，如果用户是超级管理员角色，则只能使用 admin 账户重置
+	if user.SystemRoleId == 1 {
+		// 获取当前用户名
+		claims := jwt.ExtractClaims(ctx)
+		u, _ := claims["identity"].(string)
+		if u != "admin" {
+			response.FailedWithMessage("权限不足，重置管理员密码需要使用 admin 账户")
+			return
+		}
 	}
 
 	// 重置密码
