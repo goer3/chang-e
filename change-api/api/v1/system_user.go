@@ -78,5 +78,6 @@ func ResetPasswordByUsernameHandler(ctx *gin.Context) {
 
 // 更新当前用户信息
 func UpdateCurrentUserInfoHandler(ctx *gin.Context) {
-	// Todo
+	// 更新用户信息说明
+	// 普通用户和管理员用户能够修改的字段不一样
 }
