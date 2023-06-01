@@ -9,6 +9,7 @@ import (
 	"fmt"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-module/carbon/v2"
 	"strings"
 )
 
@@ -98,8 +99,8 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 	return users, req.Page
 }
 
-// 通过 Id 获取用户信息
-func GetUserInfoById(id uint) {
+// 通过用户名获取用户信息
+func GetUserInfoByUsername(username string) {
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
 		Preload("SystemRole", "status = ?", 1).
@@ -109,7 +110,7 @@ func GetUserInfoById(id uint) {
 
 	var user model.SystemUser
 
-	err := DBT.Where("id = ?", id).First(&user).Error
+	err := DBT.Where("username = ?", username).First(&user).Error
 	// 查询失败响应
 	if err != nil {
 		response.FailedWithMessage("查询用户信息失败")
@@ -147,20 +148,24 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) {
 		return
 	}
 
-	// 判断重置的用户，如果用户是超级管理员角色，则只能使用 admin 账户重置
+	// 判断重置的用户，如果用户是超级管理员角色，则只能使用超级管理账户重置
 	if user.SystemRoleId == 1 {
 		// 获取当前用户名
 		claims := jwt.ExtractClaims(ctx)
 		u, _ := claims["identity"].(string)
 		if u != common.Conf.Service.AdminUsername {
-			response.FailedWithMessage("权限不足，重置管理员密码需要使用 admin 账户")
+			response.FailedWithMessage("权限不足，重置管理员密码需要使用超级管理账户")
 			return
 		}
 	}
 
 	// 重置密码
 	password := utils.CryptoPassword(req.Password)
-	err = common.DB.Model(&user).Updates(model.SystemUser{Password: password}).Error
+	// 更新密码，最后一次修改密码时间
+	err = common.DB.Model(&user).Updates(model.SystemUser{
+		Password:           password,
+		LastChangePassword: carbon.DateTime{carbon.Now()},
+	}).Error
 	if err != nil {
 		response.FailedWithMessage("重置密码失败")
 		return
@@ -168,4 +173,51 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) {
 
 	// 成功，清理 Redis
 	response.SuccessWithMessage("密码修改成功")
+}
+
+// 通过用户名更新用户信息
+func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
+	// 获取当前角色 ID
+	claims := jwt.ExtractClaims(ctx)
+	rid, _ := claims["roleId"].(float64)
+	roleId := uint(rid)
+
+	// 查询更新的用户信息
+	var user model.SystemUser
+	err := common.DB.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		response.FailedWithMessage("查询用户信息失败")
+		return
+	}
+
+	// 超级管理员则获取其它
+	if roleId == 1 {
+		var req request.AdminUpdateUserInfoData
+		err = ctx.ShouldBind(&req)
+		if err != nil {
+			common.ServiceLogger.Error(err)
+			response.FailedWithCode(response.ParamError)
+			return
+		}
+		err = common.DB.Model(&user).Updates(req).Error
+	} else {
+		var req request.UpdateUserInfoData
+		err = ctx.ShouldBind(&req)
+		if err != nil {
+			common.ServiceLogger.Error(err)
+			response.FailedWithCode(response.ParamError)
+			return
+		}
+		err = common.DB.Model(&user).Updates(req).Error
+	}
+
+	// 错误处理
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		response.FailedWithMessage("用户信息更新失败")
+		return
+	}
+
+	// 成功响应
+	response.Success()
 }

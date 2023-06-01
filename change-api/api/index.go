@@ -9,6 +9,7 @@ import (
 	"change-api/pkg/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-module/carbon/v2"
 )
 
 // @Summary		ping
@@ -66,7 +67,13 @@ func FirstLoginResetPasswordHandler(ctx *gin.Context) {
 	// 重置密码
 	password := utils.CryptoPassword(req.Password)
 	firstLogin := uint(0)
-	err = common.DB.Model(&user).Updates(model.SystemUser{Password: password, FirstLogin: &firstLogin}).Error
+	// 更新密码，第一次登录状态，最后一次修改密码时间
+	err = common.DB.Model(&user).Updates(model.SystemUser{
+		Password:           password,
+		FirstLogin:         &firstLogin,
+		LastChangePassword: carbon.DateTime{carbon.Now()},
+	}).Error
+
 	if err != nil {
 		response.FailedWithMessage("重置密码失败")
 		return

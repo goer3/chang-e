@@ -41,10 +41,10 @@ type UpdateUserInfoData struct {
 // 管理员用户修改用户信息
 type AdminUpdateUserInfoData struct {
 	UpdateUserInfoData
-	Username           string          `json:"username" form:"username"`
 	Name               string          `json:"name" form:"name"`
 	JobNumber          string          `json:"job_number" form:"job_number"`
 	JobName            string          `json:"job_name" form:"job_name"`
+	Leader             *uint           `json:"leader" form:"leader"`
 	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
 	SystemDepartmentId uint            `json:"system_department_id" form:"system_department_id"`
 	SystemRoleId       uint            `json:"system_role_id" form:"system_role_id"`
