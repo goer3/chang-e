@@ -10,6 +10,8 @@ import (
 
 // 初始化用户数据
 func SystemUserData() {
+	var isLeader uint = 1
+
 	// 用户数据
 	var users = []model.SystemUser{
 		{
@@ -24,13 +26,14 @@ func SystemUserData() {
 			SystemDepartmentId: 1,
 			JobNumber:          "EZ000001",
 			JobName:            "超管",
+			Leader:             &isLeader,
 			OfficeCityId:       440300000000,
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
-				carbon.Now(),
+				Carbon: carbon.Now(),
 			},
 			Birthday: carbon.DateTime{
-				carbon.Now(),
+				Carbon: carbon.Now(),
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     510500000000,
@@ -53,10 +56,10 @@ func SystemUserData() {
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
 				//carbon.Parse("2022-03-11"),
-				carbon.Now(),
+				Carbon: carbon.Now(),
 			},
 			Birthday: carbon.DateTime{
-				carbon.Now(),
+				Carbon: carbon.Now(),
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     511500000000,

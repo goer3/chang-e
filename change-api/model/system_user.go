@@ -12,6 +12,7 @@ type SystemUser struct {
 	Email              string           `gorm:"uniqueIndex:uidx_email;comment:邮箱" json:"email"`
 	JobNumber          string           `gorm:"uniqueIndex:uidx_number;comment:工号" json:"job_number"`
 	JobName            string           `gorm:"not null;comment:岗位名称" json:"job_name"`
+	Leader             *uint            `gorm:"type:tinyint(1);default:0;comment:是不是管理级(0: 否, 1: 是)" json:"leader"`
 	OfficeCityId       uint             `gorm:"comment:工作城市ID" json:"office_city_id"`
 	OfficeCity         Regions          `gorm:"comment:工作城市信息;foreignKey:OfficeCityId" json:"office_city"`
 	OfficeAddress      string           `gorm:"comment:办公地址" json:"work_address"`
