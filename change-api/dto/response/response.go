@@ -1,5 +1,7 @@
 package response
 
+import "change-api/common"
+
 // 响应的基础方法
 func Result(code int, data interface{}) {
 	panic(Response{
@@ -45,6 +47,12 @@ func FailedWithCode(code int) {
 
 // 失败请求，有失败信息
 func FailedWithMessage(message string) {
+	ResultWithMessage(NotOK, message, map[string]interface{}{})
+}
+
+// 失败请求，有失败信息和错误日志
+func FailedWithMessageAndErrorLog(message string, err error) {
+	common.ServiceLogger.Error(err)
 	ResultWithMessage(NotOK, message, map[string]interface{}{})
 }
 

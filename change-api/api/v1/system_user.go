@@ -5,6 +5,8 @@ import (
 	"change-api/dto/request"
 	"change-api/dto/response"
 	"change-api/pkg/ms"
+	"change-api/pkg/utils"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 )
@@ -13,13 +15,12 @@ import (
 func GetUserListHandler(ctx *gin.Context) {
 	// 解析用户传递的数据
 	var req request.User
-	err := ctx.ShouldBind(&req)
-	if err != nil {
+	if err := ctx.ShouldBind(&req); err != nil {
 		response.FailedWithCode(response.ParamError)
 		return
 	}
 
-	// 查询数据库
+	// 查询数据库，根据请求条件获取用户列表
 	users, page := ms.FindUsers(&req)
 
 	// 响应
@@ -29,42 +30,69 @@ func GetUserListHandler(ctx *gin.Context) {
 	})
 }
 
-// 根据 Id 查询用户信息
+// 通过用户名获取用户信息的响应方法封装
+func ResponseUserInfoByUsername(username string) {
+	// 通过用户名查询用户信息
+	user, err := ms.GetUserInfoByUsername(username)
+	if err != nil {
+		response.FailedWithMessageAndErrorLog("查询用户信息失败", err)
+		return
+	}
+
+	// 查询成功响应
+	response.SuccessWithData(map[string]interface{}{
+		"user_info": user,
+	})
+}
+
+// 获取当前用户的用户信息
+func GetCurrentUserInfoHandler(ctx *gin.Context) {
+	// 获取当前用户用户名
+	username, err := utils.GetUsernameFromContext(ctx)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 查询响应
+	ResponseUserInfoByUsername(username)
+}
+
+// 根据传递的用户名查询用户信息
 func GetUserInfoByUsernameHandler(ctx *gin.Context) {
 	// 获取 URI 参数
 	username := ctx.Param("username")
 	if username == "" {
 		response.FailedWithCode(response.ParamError)
-		return
 	}
 
-	// 查询并响应
-	ms.GetUserInfoByUsername(username)
-}
-
-// 获取用户信息
-func GetCurrentUserInfoHandler(ctx *gin.Context) {
-	// 获取当前用户 Id
-	claims := jwt.ExtractClaims(ctx)
-	username, _ := claims["identity"].(string)
-
-	// 查询并响应
-	ms.GetUserInfoByUsername(username)
+	// 查询响应
+	ResponseUserInfoByUsername(username)
 }
 
 // 重置当前用户密码
 func ResetPasswordHandler(ctx *gin.Context) {
-	// 获取当前用户名
-	claims := jwt.ExtractClaims(ctx)
-	username, _ := claims["identity"].(string)
+	// 获取当前用户用户名
+	username, err := utils.GetUsernameFromContext(ctx)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
 
 	// 重置密码
-	ms.ResetPasswordByUsername(ctx, username)
+	err = ms.ResetPasswordByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
 }
 
 // 重置指定用户密码
 func ResetPasswordByUsernameHandler(ctx *gin.Context) {
-	// 获取 URI 参数
+	// 从 URI 中获取用户名
 	username := ctx.Param("username")
 	if username == "" {
 		response.FailedWithMessage("未获取到需要重置密码的用户")
@@ -72,14 +100,24 @@ func ResetPasswordByUsernameHandler(ctx *gin.Context) {
 	}
 
 	// 重置密码
-	ms.ResetPasswordByUsername(ctx, username)
+	err := ms.ResetPasswordByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
 }
 
 // 更新当前用户信息
 func UpdateCurrentUserInfoHandler(ctx *gin.Context) {
 	// 获取当前角色 ID
-	claims := jwt.ExtractClaims(ctx)
-	username, _ := claims["identity"].(string)
+	username, err := utils.GetUsernameFromContext(ctx)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
 
 	// 更新用户信息
 	ms.UpdateUserInfoByUsername(ctx, username)

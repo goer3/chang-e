@@ -5,15 +5,17 @@ import (
 	"change-api/dto/request"
 	"change-api/dto/response"
 	"change-api/model"
+	"change-api/pkg/gedis"
 	"change-api/pkg/utils"
+	"errors"
 	"fmt"
-	jwt "github.com/appleboy/gin-jwt/v2"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon/v2"
-	"strings"
 )
 
-// 查询用户列表
+// 查询用户列表，返回用户列表和最新的分页信息（主要是符合条件的用户数量）
 func FindUsers(req *request.User) (users []model.SystemUser, page response.Page) {
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
@@ -24,44 +26,37 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 
 	// 判断查询条件
 	// Username
-	username := strings.TrimSpace(req.Username)
-	if username != "" {
+	if username := strings.TrimSpace(req.Username); username != "" {
 		DBT = DBT.Where("username LIKE ?", "%"+username+"%")
 	}
 
 	// Name
-	name := strings.TrimSpace(req.Name)
-	if name != "" {
+	if name := strings.TrimSpace(req.Name); name != "" {
 		DBT = DBT.Where("name LIKE ?", "%"+name+"%")
 	}
 
 	// Mobile
-	mobile := strings.TrimSpace(req.Mobile)
-	if mobile != "" {
+	if mobile := strings.TrimSpace(req.Mobile); mobile != "" {
 		DBT = DBT.Where("mobile LIKE ?", "%"+mobile+"%")
 	}
 
 	// Email
-	email := strings.TrimSpace(req.Email)
-	if email != "" {
+	if email := strings.TrimSpace(req.Email); email != "" {
 		DBT = DBT.Where("email LIKE ?", "%"+email+"%")
 	}
 
 	// JobNumber
-	jobNumber := strings.TrimSpace(req.JobNumber)
-	if jobNumber != "" {
+	if jobNumber := strings.TrimSpace(req.JobNumber); jobNumber != "" {
 		DBT = DBT.Where("job_number LIKE ?", "%"+jobNumber+"%")
 	}
 
 	// JobName
-	jobName := strings.TrimSpace(req.JobName)
-	if jobName != "" {
+	if jobName := strings.TrimSpace(req.JobName); jobName != "" {
 		DBT = DBT.Where("job_name LIKE ?", "%"+jobName+"%")
 	}
 
 	// Creator
-	creator := strings.TrimSpace(req.Creator)
-	if creator != "" {
+	if creator := strings.TrimSpace(req.Creator); creator != "" {
 		DBT = DBT.Where("creator LIKE ?", "%"+creator+"%")
 	}
 
@@ -85,13 +80,16 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 		DBT = DBT.Where("system_role_id = ?", req.SystemRoleId)
 	}
 
-	// 判断是否分页
+	// 如果需要分页
 	if !req.NoPagination {
-		// 统计数量
+		// 统计最新的用户数量
 		DBT.Find(&model.SystemUser{}).Count(&req.Page.TotalCount)
+		// 根据传递过来的页码计算偏移量和单页限制
 		limit, offset := req.GetLimit()
+		// 根据偏移量和限制查询数据
 		DBT.Limit(limit).Offset(offset).Find(&users)
 	} else {
+		// 查询符合条件的用户，并获取切片长度，也就是用户数量
 		DBT.Find(&users)
 		req.Page.TotalCount = int64(len(users))
 	}
@@ -100,7 +98,7 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 }
 
 // 通过用户名获取用户信息
-func GetUserInfoByUsername(username string) {
+func GetUserInfoByUsername(username string) (user model.SystemUser, err error) {
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
 		Preload("SystemRole", "status = ?", 1).
@@ -108,54 +106,45 @@ func GetUserInfoByUsername(username string) {
 		Preload("NativeProvince").
 		Preload("NativeCity")
 
-	var user model.SystemUser
-
-	err := DBT.Where("username = ?", username).First(&user).Error
-	// 查询失败响应
-	if err != nil {
-		response.FailedWithMessage("查询用户信息失败")
-		common.ServiceLogger.Error(err)
-		return
-	}
-
-	// 查询成功响应
-	response.SuccessWithData(map[string]interface{}{
-		"user_info": user,
-	})
+	// 查询用户信息
+	err = DBT.Where("username = ?", username).First(&user).Error
+	return
 }
 
 // 通过用户名重置密码
-func ResetPasswordByUsername(ctx *gin.Context, username string) {
+func ResetPasswordByUsername(ctx *gin.Context, username string) (err error) {
 	// 获取重置密码数据
 	var req request.ResetPassword
-	err := ctx.ShouldBind(&req)
+	err = ctx.ShouldBind(&req)
 	if err != nil {
-		response.FailedWithMessage("未获取到用户提交的密码")
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("获取重置密码表单数据失败")
 	}
 
 	// 获取参数错误或者两次密码不一致或者密码长度小于固定位数
 	if (req.Password != req.RePassword) || (len(req.Password) < common.Conf.Login.MinPasswordLength) {
-		response.FailedWithMessage(fmt.Sprintf("两次密码必须一致，且必须不少于%d位", common.Conf.Login.MinPasswordLength))
-		return
+		return fmt.Errorf("两次密码必须一致，且必须不少于%d位", common.Conf.Login.MinPasswordLength)
 	}
 
-	// 查询数据库用户
+	// 查询数据库中需要修改的用户
 	var user model.SystemUser
 	err = common.DB.Where("username = ?", username).First(&user).Error
 	if err != nil {
-		response.FailedWithMessage("获取重置密码的用户信息失败")
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("查询重置密码的用户信息失败")
 	}
 
-	// 判断重置的用户，如果用户是超级管理员角色，则只能使用超级管理账户重置
+	// 超级管理员角色的密码只能自己或者默认超级管理员用户重置
 	if user.SystemRoleId == 1 {
-		// 获取当前用户名
-		claims := jwt.ExtractClaims(ctx)
-		u, _ := claims["identity"].(string)
-		if u != common.Conf.Service.AdminUsername {
-			response.FailedWithMessage("权限不足，重置管理员密码需要使用超级管理账户")
-			return
+		// 获取当前用户用户名
+		cusername, err1 := utils.GetUsernameFromContext(ctx)
+		if err1 != nil {
+			return err1
+		}
+
+		// 如果不是修改自己或者修改用户是默认超级管理员管理员
+		if cusername != user.Username || cusername != common.Conf.Service.AdminUsername {
+			return errors.New("权限不足，重置管理员密码需要使用超级管理账户")
 		}
 	}
 
@@ -167,20 +156,23 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) {
 		LastChangePassword: carbon.DateTime{carbon.Now()},
 	}).Error
 	if err != nil {
-		response.FailedWithMessage("重置密码失败")
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("密码重置失败，请通过系统日志进行排查")
 	}
 
-	// 成功，清理 Redis
-	response.SuccessWithMessage("密码修改成功")
+	// 清理 Redis
+	key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, username)
+	cache := gedis.NewStringOperation()
+	_, _ = cache.Del(key)
+
+	// 成功
+	return nil
 }
 
 // 通过用户名更新用户信息
 func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
 	// 获取当前角色 ID
-	claims := jwt.ExtractClaims(ctx)
-	rid, _ := claims["roleId"].(float64)
-	roleId := uint(rid)
+	roleId, _ := utils.GetRoleIdFromContext(ctx)
 
 	// 查询更新的用户信息
 	var user model.SystemUser
