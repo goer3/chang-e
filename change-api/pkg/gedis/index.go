@@ -1,7 +1,6 @@
 package gedis
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -27,7 +26,7 @@ func (o OperationAttrs) Find(name string) *InterfaceResult {
 			return NewInterfaceResult(attr.Value, nil)
 		}
 	}
-	return NewInterfaceResult(nil, errors.New(fmt.Sprintf("参数不存在：%s", name)))
+	return NewInterfaceResult(nil, fmt.Errorf("参数不存在：%s", name))
 }
 
 // 设置过期时间的方法

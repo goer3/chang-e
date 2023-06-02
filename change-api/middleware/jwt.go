@@ -74,19 +74,19 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 
 	// 如果没有查询到用户
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("没有查询到用户 %s", req.Account))
+		return nil, fmt.Errorf("没有查询到用户 %s", req.Account)
 	}
 
 	// 判断用户状态
 
 	// 处于未激活状态禁止登录
 	if *user.Active == 0 {
-		return nil, errors.New(fmt.Sprintf("用户 %s 未激活，请联系管理员", req.Account))
+		return nil, fmt.Errorf("用户 %s 未激活，请联系管理员", req.Account)
 	}
 
 	// 处于锁定状态禁止登录
 	if *user.Unlocked == 0 {
-		return nil, errors.New(fmt.Sprintf("用户 %s 已被锁定，请联系管理员", req.Account))
+		return nil, fmt.Errorf("用户 %s 已被锁定，请联系管理员", req.Account)
 	}
 
 	// 错误登录次数限制判断
@@ -101,12 +101,12 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 			if user.WrongTimes > common.Conf.Login.AllowMaxWrongTimes {
 				// 锁定用户，并且返回错误
 				common.DB.Model(&model.SystemUser{}).Where("username = ?", user.Username).Update("unlocked", 0)
-				return nil, errors.New(fmt.Sprintf("用户 %s 登录错误次数达到上限 %d 次，账户被锁定", req.Account, common.Conf.Login.AllowMaxWrongTimes))
+				return nil, fmt.Errorf("用户 %s 登录错误次数达到上限 %d 次，账户被锁定", req.Account, common.Conf.Login.AllowMaxWrongTimes)
 			} else {
 				// 判断是否到冷却时间
 				now := carbon.Parse(carbon.Now().Format("Y-m-d H:i:s"))
 				if now.DiffAbsInSeconds(user.LastLogin.Carbon) < common.Conf.Login.MaxWrongWaitTime {
-					return nil, errors.New(fmt.Sprintf("用户登录错误次数达到阈值，请在 %d 秒后重试", common.Conf.Login.MaxWrongWaitTime-now.DiffAbsInSeconds(user.LastLogin.Carbon)))
+					return nil, fmt.Errorf("用户登录错误次数达到阈值，请在 %d 秒后重试", common.Conf.Login.MaxWrongWaitTime-now.DiffAbsInSeconds(user.LastLogin.Carbon))
 				}
 			}
 		}
@@ -124,7 +124,7 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 
 	// 判断是不是第一次登录，第一次登录要求改密码
 	if *user.FirstLogin == 1 {
-		return &user, errors.New(fmt.Sprintf("%s:%s", "FirstLoginError", user.Username))
+		return &user, fmt.Errorf("%s:%s", "FirstLoginError", user.Username)
 	}
 
 	// 设置 Context，方便后面使用
@@ -200,10 +200,9 @@ func unauthorized(ctx *gin.Context, code int, message string) {
 
 // 用户登录后的中间件，用于解析 Token
 func identityHandler(ctx *gin.Context) interface{} {
-	claims := jwt.ExtractClaims(ctx)
-	identity, _ := claims["identity"].(string)
+	username, _ := utils.GetUsernameFromContext(ctx)
 	return &model.SystemUser{
-		Username: identity,
+		Username: username,
 	}
 }
 
