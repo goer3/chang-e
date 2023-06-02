@@ -2,6 +2,7 @@ package request
 
 import (
 	"change-api/dto/response"
+	"change-api/model"
 	"github.com/golang-module/carbon/v2"
 )
 
@@ -28,7 +29,7 @@ type ResetPassword struct {
 }
 
 // 普通用户修改用户信息
-type UpdateUserInfoData struct {
+type UpdateUserParam struct {
 	Mobile           string          `json:"mobile" form:"mobile"`
 	Email            string          `json:"email" form:"email"`
 	OfficeCityId     uint            `json:"office_city_id" form:"office_city_id"`
@@ -39,12 +40,12 @@ type UpdateUserInfoData struct {
 }
 
 // 管理员用户修改用户信息
-type AdminUpdateUserInfoData struct {
-	UpdateUserInfoData
+type AdminUpdateUserParam struct {
+	UpdateUserParam
 	Name               string          `json:"name" form:"name"`
 	JobNumber          string          `json:"job_number" form:"job_number"`
 	JobName            string          `json:"job_name" form:"job_name"`
-	Leader             *uint           `json:"leader" form:"leader"`
+	Leader             *model.NullUint `json:"leader" form:"leader"`
 	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
 	SystemDepartmentId uint            `json:"system_department_id" form:"system_department_id"`
 	SystemRoleId       uint            `json:"system_role_id" form:"system_role_id"`

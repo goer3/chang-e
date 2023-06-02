@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-module/carbon/v2"
@@ -171,8 +172,9 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) (err error) {
 
 // 通过用户名更新用户信息
 func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
-	// 获取当前角色 ID
+	// 获取当前角色 ID 和用户名
 	roleId, _ := utils.GetRoleIdFromContext(ctx)
+	cusername, _ := utils.GetUsernameFromContext(ctx)
 
 	// 查询更新的用户信息
 	var user model.SystemUser
@@ -182,31 +184,58 @@ func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
 		return
 	}
 
-	// 超级管理员则获取其它
+	// 如果被更新的用户是超级管理员，则只能默认超级管理员能更新
+	if (user.SystemRoleId == 1) && (cusername != username) && (cusername != common.Conf.Service.AdminUsername) {
+		response.FailedWithMessage("权限不足，除了默认超级管理员之外，管理员只能更新自己和普通用户的信息")
+		return
+	}
+
+	// 更新数据信息
+	var req request.AdminUpdateUserParam
+
+	// 如果执行更新的是超级管理员，则可以更新更多字段
 	if roleId == 1 {
-		var req request.AdminUpdateUserInfoData
 		err = ctx.ShouldBind(&req)
-		if err != nil {
-			common.ServiceLogger.Error(err)
-			response.FailedWithCode(response.ParamError)
-			return
-		}
-		err = common.DB.Model(&user).Updates(req).Error
+		//
 	} else {
-		var req request.UpdateUserInfoData
-		err = ctx.ShouldBind(&req)
-		if err != nil {
-			common.ServiceLogger.Error(err)
-			response.FailedWithCode(response.ParamError)
-			return
-		}
-		err = common.DB.Model(&user).Updates(req).Error
+		var req1 request.UpdateUserParam
+		err = ctx.ShouldBind(&req1)
+		req.UpdateUserParam = req1
 	}
 
 	// 错误处理
 	if err != nil {
-		common.ServiceLogger.Error(err)
-		response.FailedWithMessage("用户信息更新失败")
+		response.FailedWithMessageAndErrorLog("获取更新数据失败", err)
+		return
+	}
+
+	// 验证名字合法性，非空，字符长度必须大于 1
+	if req.Name != "" && utf8.RuneCountInString(strings.TrimSpace(req.Name)) > 1 {
+		req.Name = strings.TrimSpace(req.Name)
+	} else {
+		req.Name = ""
+	}
+
+	// 验证手机合法性，非空，满足手机格式
+	if req.Mobile != "" && utils.RegExpString(utils.MobileRegExp, strings.TrimSpace(req.Mobile)) {
+		req.Mobile = strings.TrimSpace(req.Mobile)
+	} else {
+		req.Mobile = ""
+	}
+
+	// 验证邮箱合法性，非空，满足邮箱格式
+	if req.Email != "" && utils.RegExpString(utils.EmailRegExp, strings.TrimSpace(req.Email)) {
+		req.Email = strings.TrimSpace(req.Email)
+	} else {
+		req.Email = ""
+	}
+
+	// 更新数据
+	err = common.DB.Model(&user).Updates(req).Error
+
+	// 错误处理
+	if err != nil {
+		response.FailedWithMessageAndErrorLog("用户信息更新失败", err)
 		return
 	}
 
