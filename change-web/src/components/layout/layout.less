@@ -1,0 +1,153 @@
+* {
+  letter-spacing: 1px;
+}
+
+//侧边栏
+#admin-layout-left {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+// 侧边菜单栏 Logo
+#admin-layout-left .admin-logo {
+  margin: 15px;
+  overflow: hidden;
+  height: 30px;
+
+  // 侧边菜单栏标题
+  .admin-logo-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bolder;
+    padding-left: 10px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+  }
+}
+
+// 右边区域
+.admin-layout-right {
+  // 背景颜色
+  .admin-background {
+    background: #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+  }
+
+  // 侧边栏收起展开按钮
+  .admin-trigger {
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .admin-avatar-name {
+    padding: 0 10px;
+    display: inline-block;
+    color: #001529;
+    font-weight: 600;
+  }
+
+  .admin-avatar-more {
+    color: #001529;
+    font-weight: bolder;
+  }
+}
+
+// 面包屑设置
+.admin-breadcrumb {
+  background-color: #fff;
+  padding: 10px 20px;
+}
+
+
+// 首页头部信息
+.admin-page-header {
+  background: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 5px 10px -5px rgb(0 21 41 / 8%);
+  //box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+
+  // 首页头部内容区
+  .admin-page-header-info {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    .admin-page-header-text {
+      background-color: rgba(24,144,225,0.1);
+      border: 1px solid rgba(24,144,225,0.5);
+      width: 100%;
+      padding: 15px;
+      font-size: 12px;
+    }
+
+    .tip-icon {
+      padding-right: 10px;
+      color: #1890ff;
+    }
+
+    .admin-page-header-list {
+      margin: 5px 10px 0 5px;
+      line-height: 20px;
+    }
+  }
+
+  .admin-page-header-avatar {
+    display: inline-block;
+  }
+
+  .admin-page-header-desc {
+    display: inline-block;
+    height: 60px;
+    line-height: 60px;
+    vertical-align: middle;
+    margin-left: 15px;
+  }
+
+  // 招呼语
+  .admin-page-header-welcome {
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  // 人员岗位信息
+  .admin-page-header-job {
+    line-height: 30px;
+    letter-spacing: 1px;
+    color: rgba(0,0,0,.45);
+  }
+
+  // 右边
+  .admin-page-header-right {
+    justify-content: flex-end;
+    display: flex;
+    flex: 1;
+  }
+}
+
+// 主体内容
+.admin-layout-content {
+  background: #fff;
+  margin: 10px;
+  padding: 30px;
+  min-height: 100px;
+}
+
+// 底部
+.admin-footer {
+  text-align: center;
+}
+
+// 加载中
+.admin-data-loading {
+  margin: 300px auto;
+  text-align: center;
+}
