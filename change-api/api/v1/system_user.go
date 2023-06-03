@@ -5,7 +5,6 @@ import (
 	"change-api/dto/response"
 	"change-api/pkg/ms"
 	"change-api/pkg/utils"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -118,7 +117,14 @@ func UpdateCurrentUserInfoHandler(ctx *gin.Context) {
 	}
 
 	// 更新用户信息
-	ms.UpdateUserInfoByUsername(ctx, username)
+	err = ms.UpdateUserInfoByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
 }
 
 // 更新指定用户用户信息
@@ -131,5 +137,52 @@ func UpdateUserInfoByUsernameHandler(ctx *gin.Context) {
 	}
 
 	// 更新用户信息
-	ms.UpdateUserInfoByUsername(ctx, username)
+	err := ms.UpdateUserInfoByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
+}
+
+// 修改指定用户状态：禁用，启用，锁定，解锁
+func ChangeUserStatusByUsernameHandler(ctx *gin.Context) {
+	// 获取修改用户名
+	username := ctx.Param("username")
+	if username == "" {
+		response.FailedWithCode(response.ParamError)
+		return
+	}
+
+	// 通过用户名修改用户状态
+	err := ms.ChangeUserStatusByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
+}
+
+// 删除指定用户
+func DeleteUserByUsernameHandler(ctx *gin.Context) {
+	// 获取删除用户名
+	username := ctx.Param("username")
+	if username == "" {
+		response.FailedWithCode(response.ParamError)
+		return
+	}
+
+	// 通过用户名删除用户
+	err := ms.DeleteUserByUsername(ctx, username)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+
+	// 成功响应
+	response.Success()
 }

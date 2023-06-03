@@ -171,23 +171,22 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) (err error) {
 }
 
 // 通过用户名更新用户信息
-func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
+func UpdateUserInfoByUsername(ctx *gin.Context, username string) (err error) {
 	// 获取当前角色 ID 和用户名
 	roleId, _ := utils.GetRoleIdFromContext(ctx)
 	cusername, _ := utils.GetUsernameFromContext(ctx)
 
 	// 查询更新的用户信息
 	var user model.SystemUser
-	err := common.DB.Where("username = ?", username).First(&user).Error
+	err = common.DB.Where("username = ?", username).First(&user).Error
 	if err != nil {
-		response.FailedWithMessage("查询用户信息失败")
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("查询用户信息失败")
 	}
 
 	// 如果被更新的用户是超级管理员，则只能默认超级管理员能更新
 	if (user.SystemRoleId == 1) && (cusername != username) && (cusername != common.Conf.Service.AdminUsername) {
-		response.FailedWithMessage("权限不足，除了默认超级管理员之外，管理员只能更新自己和普通用户的信息")
-		return
+		return errors.New("权限不足，除了默认超级管理员之外，管理员只能更新自己和普通用户的信息")
 	}
 
 	// 更新数据信息
@@ -205,8 +204,8 @@ func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
 
 	// 错误处理
 	if err != nil {
-		response.FailedWithMessageAndErrorLog("获取更新数据失败", err)
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("获取更新数据失败")
 	}
 
 	// 验证名字合法性，非空，字符长度必须大于 1
@@ -232,13 +231,92 @@ func UpdateUserInfoByUsername(ctx *gin.Context, username string) {
 
 	// 更新数据
 	err = common.DB.Model(&user).Updates(req).Error
-
-	// 错误处理
 	if err != nil {
-		response.FailedWithMessageAndErrorLog("用户信息更新失败", err)
-		return
+		common.ServiceLogger.Error(err)
+		return errors.New("用户信息更新失败")
 	}
 
-	// 成功响应
-	response.Success()
+	return nil
+}
+
+// 修改用户状态
+func ChangeUserStatusByUsername(ctx *gin.Context, username string) (err error) {
+	// 获取当前用户名
+	cusername, _ := utils.GetUsernameFromContext(ctx)
+	// 自己不能修改自己的状态，除非是系统默认超管
+	if cusername == username && cusername != common.Conf.Service.AdminUsername {
+		return errors.New("用户不能修改自己的状态")
+	}
+
+	// 获取用户传递的数据
+	var req request.ChangeUserStatusParam
+	err = ctx.ShouldBind(&req)
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("获取用户修改的数据信息失败")
+	}
+
+	// 获取修改用户信息
+	var user model.SystemUser
+	err = common.DB.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("查找修改用户的信息失败")
+	}
+
+	// 修改其它管理员状态只能是系统默认超管
+	if user.SystemRoleId == 1 && cusername != common.Conf.Service.AdminUsername {
+		return errors.New("权限不足，管理员账户权限只能通过默认超级管理员修改")
+	}
+
+	// 更新数据
+	err = common.DB.Model(&user).Updates(req).Error
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("用户状态修改失败")
+	}
+
+	// 清理 Redis
+	key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, username)
+	cache := gedis.NewStringOperation()
+	_, _ = cache.Del(key)
+
+	return nil
+}
+
+// 通过用户名删除用户
+func DeleteUserByUsername(ctx *gin.Context, username string) (err error) {
+	// 获取当前用户名
+	cusername, _ := utils.GetUsernameFromContext(ctx)
+	// 自己不能修改自己的状态，除非是系统默认超管
+	if cusername == username {
+		return errors.New("用户不能删除自己")
+	}
+
+	// 获取修改用户信息
+	var user model.SystemUser
+	err = common.DB.Where("username = ?", username).First(&user).Error
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("查找需要删除的用户信息失败")
+	}
+
+	// 修改其它管理员状态只能是系统默认超管
+	if user.SystemRoleId == 1 && cusername != common.Conf.Service.AdminUsername {
+		return errors.New("权限不足，管理员账户只能通过默认超级管理员删除")
+	}
+
+	// 删除用户
+	err = common.DB.Delete(&user).Error
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("删除用户失败")
+	}
+
+	// 清理 Redis
+	key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, username)
+	cache := gedis.NewStringOperation()
+	_, _ = cache.Del(key)
+
+	return nil
 }
