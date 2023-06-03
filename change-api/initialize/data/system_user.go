@@ -18,7 +18,7 @@ func SystemUserData() {
 			Base: model.Base{
 				Id: 1,
 			},
-			Username:           common.Conf.Service.AdminUsername,
+			Username:           common.Conf.User.AdminUsername,
 			Password:           password,
 			Name:               "超管",
 			Mobile:             "18888888888",

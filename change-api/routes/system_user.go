@@ -18,7 +18,7 @@ func SystemUser(rg *gin.RouterGroup) gin.IRoutes {
 		rs.PUT("/reset/password/:username", v1.ResetPasswordByUsernameHandler)     // 重置指定用户密码
 		rs.PATCH("/change/status/:username", v1.ChangeUserStatusByUsernameHandler) // 禁用，启用，锁定，解锁指定用户
 		rs.DELETE("/delete/:username", v1.DeleteUserByUsernameHandler)             // 删除指定用户
-		rs.POST("/create")                                                         // 创建用户
+		rs.POST("/create", v1.CreateUserHandler)                                   // 创建用户
 	}
 	return rg
 }

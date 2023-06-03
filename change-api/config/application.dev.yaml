@@ -13,8 +13,16 @@ service:
   mode: debug
   # 路由前缀
   api-prefix: /api/v1
+
+user:
   # 管理员用户名，注意该用户名必须和数据库初始化的超级管理员一致
   admin-username: change
+  # 随机生成的用户名前缀，尽量不要太长
+  username-prefix: ce-
+  # 用户名除了前缀剩余的长度，建议不要少于5位
+  username-length: 8
+  # 系统初始密码
+  default-password: ezops.cn
 
 mysql:
   # 连接地址

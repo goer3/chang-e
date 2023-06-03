@@ -186,3 +186,14 @@ func DeleteUserByUsernameHandler(ctx *gin.Context) {
 	// 成功响应
 	response.Success()
 }
+
+// 创建用户
+func CreateUserHandler(ctx *gin.Context) {
+	// 创建用户
+	err := ms.CreateUser(ctx)
+	if err != nil {
+		response.FailedWithMessage(err.Error())
+		return
+	}
+	response.Success()
+}

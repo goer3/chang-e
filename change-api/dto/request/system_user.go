@@ -56,3 +56,26 @@ type ChangeUserStatusParam struct {
 	Active   *model.NullUint `json:"active" form:"active"`
 	Unlocked *model.NullUint `json:"unlocked" form:"unlocked"`
 }
+
+// 创建用户请求参数
+type CreateUserParam struct {
+	// 用户名随机生成，不接受用户传递
+	Username string `json:"username" form:"username"`
+	// 密码为系统默认，不接受传递
+	Password           string          `json:"password" form:"password"`
+	Name               string          `json:"name" form:"name"`
+	Mobile             string          `json:"mobile" form:"mobile"`
+	Email              string          `json:"email" form:"email"`
+	JobNumber          string          `json:"job_number" form:"job_number"`
+	JobName            string          `json:"job_name" form:"job_name"`
+	Leader             *model.NullUint `json:"leader" form:"leader"`
+	OfficeCityId       uint            `json:"office_city_id" form:"office_city_id"`
+	OfficeAddress      string          `json:"office_address" form:"office_address"`
+	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
+	Birthday           carbon.DateTime `json:"birthday" form:"birthday"`
+	NativeProvinceId   uint            `json:"native_province_id" form:"native_province_id"`
+	NativeCityId       uint            `json:"native_city_id" form:"native_city_id"`
+	Creator            string          `json:"creator" form:"creator"`
+	SystemDepartmentId uint            `json:"system_department_id" form:"system_department_id"`
+	SystemRoleId       uint            `json:"system_role_id" form:"system_role_id"`
+}

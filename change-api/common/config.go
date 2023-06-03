@@ -5,6 +5,7 @@ import "go.uber.org/zap/zapcore"
 // 配置解析结构体
 type Configuration struct {
 	Service ServiceConfiguration `mapstructure:"service" json:"service"`
+	User    UserConfiguration    `mapstructure:"user" json:"user"`
 	MySQL   MySQLConfiguration   `mapstructure:"mysql" json:"mysql"`
 	Redis   RedisConfiguration   `mapstructure:"redis" json:"redis"`
 	Log     LogConfiguration     `mapstructure:"log" json:"log"`
@@ -15,13 +16,20 @@ type Configuration struct {
 
 // 服务配置解析结构体
 type ServiceConfiguration struct {
-	Company       string `mapstructure:"company" json:"company"`
-	Name          string `mapstructure:"name" json:"name"`
-	Listen        string `mapstructure:"listen" json:"listen"`
-	Port          int    `mapstructure:"port" json:"port"`
-	Mode          string `mapstructure:"mode" json:"mode"`
-	ApiPrefix     string `mapstructure:"api-prefix" json:"api_prefix"`
-	AdminUsername string `mapstructure:"admin-username" json:"admin_username"`
+	Company   string `mapstructure:"company" json:"company"`
+	Name      string `mapstructure:"name" json:"name"`
+	Listen    string `mapstructure:"listen" json:"listen"`
+	Port      int    `mapstructure:"port" json:"port"`
+	Mode      string `mapstructure:"mode" json:"mode"`
+	ApiPrefix string `mapstructure:"api-prefix" json:"api_prefix"`
+}
+
+// 用户相关配置
+type UserConfiguration struct {
+	AdminUsername   string `mapstructure:"admin-username" json:"admin_username"`
+	UsernamePrefix  string `mapstructure:"username-prefix" json:"username_prefix"`
+	UsernameLength  int    `mapstructure:"username-length" json:"username_length"`
+	DefaultPassword string `mapstructure:"default-password" json:"default_password"`
 }
 
 // 数据库连接配置解析结构体

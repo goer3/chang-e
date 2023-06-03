@@ -144,7 +144,7 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) (err error) {
 		}
 
 		// 如果不是修改自己或者修改用户是默认超级管理员管理员
-		if cusername != user.Username || cusername != common.Conf.Service.AdminUsername {
+		if cusername != user.Username || cusername != common.Conf.User.AdminUsername {
 			return errors.New("权限不足，重置管理员密码需要使用超级管理账户")
 		}
 	}
@@ -154,7 +154,7 @@ func ResetPasswordByUsername(ctx *gin.Context, username string) (err error) {
 	// 更新密码，最后一次修改密码时间
 	err = common.DB.Model(&user).Updates(model.SystemUser{
 		Password:           password,
-		LastChangePassword: carbon.DateTime{carbon.Now()},
+		LastChangePassword: carbon.DateTime{Carbon: carbon.Now()},
 	}).Error
 	if err != nil {
 		common.ServiceLogger.Error(err)
@@ -185,7 +185,7 @@ func UpdateUserInfoByUsername(ctx *gin.Context, username string) (err error) {
 	}
 
 	// 如果被更新的用户是超级管理员，则只能默认超级管理员能更新
-	if (user.SystemRoleId == 1) && (cusername != username) && (cusername != common.Conf.Service.AdminUsername) {
+	if (user.SystemRoleId == 1) && (cusername != username) && (cusername != common.Conf.User.AdminUsername) {
 		return errors.New("权限不足，除了默认超级管理员之外，管理员只能更新自己和普通用户的信息")
 	}
 
@@ -244,7 +244,7 @@ func ChangeUserStatusByUsername(ctx *gin.Context, username string) (err error) {
 	// 获取当前用户名
 	cusername, _ := utils.GetUsernameFromContext(ctx)
 	// 自己不能修改自己的状态，除非是系统默认超管
-	if cusername == username && cusername != common.Conf.Service.AdminUsername {
+	if cusername == username && cusername != common.Conf.User.AdminUsername {
 		return errors.New("用户不能修改自己的状态")
 	}
 
@@ -265,7 +265,7 @@ func ChangeUserStatusByUsername(ctx *gin.Context, username string) (err error) {
 	}
 
 	// 修改其它管理员状态只能是系统默认超管
-	if user.SystemRoleId == 1 && cusername != common.Conf.Service.AdminUsername {
+	if user.SystemRoleId == 1 && cusername != common.Conf.User.AdminUsername {
 		return errors.New("权限不足，管理员账户权限只能通过默认超级管理员修改")
 	}
 
@@ -302,7 +302,7 @@ func DeleteUserByUsername(ctx *gin.Context, username string) (err error) {
 	}
 
 	// 修改其它管理员状态只能是系统默认超管
-	if user.SystemRoleId == 1 && cusername != common.Conf.Service.AdminUsername {
+	if user.SystemRoleId == 1 && cusername != common.Conf.User.AdminUsername {
 		return errors.New("权限不足，管理员账户只能通过默认超级管理员删除")
 	}
 
@@ -317,6 +317,81 @@ func DeleteUserByUsername(ctx *gin.Context, username string) (err error) {
 	key := fmt.Sprintf("%s%s%s", common.RedisKeyPrefix.Token, common.RedisKeyPrefixTag, username)
 	cache := gedis.NewStringOperation()
 	_, _ = cache.Del(key)
+
+	return nil
+}
+
+// 创建用户
+func CreateUser(ctx *gin.Context) (err error) {
+	// 获取当前用户名
+	cusername, _ := utils.GetUsernameFromContext(ctx)
+
+	// 获取传递数据
+	var req request.CreateUserParam
+	err = ctx.ShouldBind(&req)
+	if err != nil {
+		common.ServiceLogger.Error(err)
+		return errors.New("获取创建用户数据失败")
+	}
+
+	// 获取创建用户的角色，如果是管理员角色，那么只能是默认管理员创建
+	if req.SystemRoleId == 1 && cusername != common.Conf.User.AdminUsername {
+		return errors.New("权限不足，创建管理员用户只能使用系统默认管理员创建")
+	}
+
+	// 生成随机用户名和初始化密码
+	req.Username = fmt.Sprintf("%s%s", common.Conf.User.UsernamePrefix, utils.RandUsername(common.Conf.User.UsernameLength))
+	req.Password = utils.CryptoPassword(common.Conf.User.DefaultPassword)
+
+	// 数据校验
+	// 验证名字合法性，非空，字符长度必须大于 1
+	if req.Name == "" || utf8.RuneCountInString(strings.TrimSpace(req.Name)) < 1 {
+		return errors.New("用户名字长度不能为空且字符长度不能小于1")
+	}
+	req.Name = strings.TrimSpace(req.Name)
+
+	// 验证手机合法性，非空，满足手机格式
+	if req.Mobile == "" || !utils.RegExpString(utils.MobileRegExp, strings.TrimSpace(req.Mobile)) {
+		return errors.New("用户手机号不能为空且必须符合手机号格式")
+	}
+	req.Mobile = strings.TrimSpace(req.Mobile)
+
+	// 验证邮箱合法性，非空，满足邮箱格式
+	if req.Email == "" || !utils.RegExpString(utils.EmailRegExp, strings.TrimSpace(req.Email)) {
+		return errors.New("用户邮箱不能为空且必须符合邮箱格式")
+	}
+	req.Email = strings.TrimSpace(req.Email)
+
+	// 工号
+	if strings.TrimSpace(req.JobNumber) == "" {
+		return errors.New("工号不能为空")
+	}
+	req.JobNumber = strings.TrimSpace(req.JobNumber)
+
+	// 岗位名称
+	if strings.TrimSpace(req.JobName) == "" {
+		return errors.New("岗位名称不能为空")
+	}
+	req.JobName = strings.TrimSpace(req.JobName)
+
+	// 部门
+	if req.SystemDepartmentId == 0 {
+		req.SystemDepartmentId = 10000
+	}
+
+	// 角色
+	if req.SystemRoleId == 0 {
+		req.SystemRoleId = 2
+	}
+
+	// 创建者
+	req.Creator = cusername
+
+	// 创建用户
+	err = common.DB.Model(&model.SystemUser{}).Save(&req).Error
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
