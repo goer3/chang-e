@@ -30,6 +30,7 @@ type UserConfiguration struct {
 	UsernamePrefix  string `mapstructure:"username-prefix" json:"username_prefix"`
 	UsernameLength  int    `mapstructure:"username-length" json:"username_length"`
 	DefaultPassword string `mapstructure:"default-password" json:"default_password"`
+	DefaultAvatar   string `mapstructure:"default-avatar" json:"default_avatar"`
 }
 
 // 数据库连接配置解析结构体

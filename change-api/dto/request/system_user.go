@@ -62,7 +62,9 @@ type CreateUserParam struct {
 	// 用户名随机生成，不接受用户传递
 	Username string `json:"username" form:"username"`
 	// 密码为系统默认，不接受传递
-	Password           string          `json:"password" form:"password"`
+	Password string `json:"password" form:"password"`
+	// 头像使用默认，不接受传递
+	Avatar             string          `json:"avatar" form:"avatar"`
 	Name               string          `json:"name" form:"name"`
 	Mobile             string          `json:"mobile" form:"mobile"`
 	Email              string          `json:"email" form:"email"`

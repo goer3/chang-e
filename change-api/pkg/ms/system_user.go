@@ -339,10 +339,6 @@ func CreateUser(ctx *gin.Context) (err error) {
 		return errors.New("权限不足，创建管理员用户只能使用系统默认管理员创建")
 	}
 
-	// 生成随机用户名和初始化密码
-	req.Username = fmt.Sprintf("%s%s", common.Conf.User.UsernamePrefix, utils.RandUsername(common.Conf.User.UsernameLength))
-	req.Password = utils.CryptoPassword(common.Conf.User.DefaultPassword)
-
 	// 数据校验
 	// 验证名字合法性，非空，字符长度必须大于 1
 	if req.Name == "" || utf8.RuneCountInString(strings.TrimSpace(req.Name)) < 1 {
@@ -387,8 +383,21 @@ func CreateUser(ctx *gin.Context) (err error) {
 	// 创建者
 	req.Creator = cusername
 
+	// 数据转换
+	var user model.SystemUser
+	err = utils.Struct2Struct(req, &user)
+	if err != nil {
+		return err
+	}
+
+	// 由于 json 忽略了密码，这里需要注意，如果赋值给 req 对象，转换后密码会丢失
+	// 生成随机用户名，初始化密码，默认头像
+	user.Username = fmt.Sprintf("%s%s", common.Conf.User.UsernamePrefix, utils.RandUsername(common.Conf.User.UsernameLength))
+	user.Password = utils.CryptoPassword(common.Conf.User.DefaultPassword)
+	user.Avatar = common.Conf.User.DefaultAvatar
+
 	// 创建用户
-	err = common.DB.Model(&model.SystemUser{}).Save(&req).Error
+	err = common.DB.Create(&user).Error
 	if err != nil {
 		return err
 	}

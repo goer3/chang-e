@@ -37,7 +37,7 @@ func SystemUserData() {
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     510500000000,
-			Avatar:           "http://img.keaiming.com/uploads/allimg/2016102112/fjn4kxnmrzh.jpg",
+			Avatar:           common.Conf.User.DefaultAvatar,
 			SystemRoleId:     1,
 		},
 		{
@@ -63,7 +63,7 @@ func SystemUserData() {
 			},
 			NativeProvinceId: 510000000000,
 			NativeCityId:     511500000000,
-			Avatar:           "http://img.keaiming.com/uploads/allimg/2016102112/caxuymb1ev2.jpg",
+			Avatar:           common.Conf.User.DefaultAvatar,
 			SystemRoleId:     2,
 		},
 	}
