@@ -1,4 +1,4 @@
-<h1 align="center">Chang'e（嫦娥） API 手册</h1>
+<h1 style="text-align: center;">Chang'e（嫦娥） API 手册</h1>
 
 > 注意：接口默认统一前缀为 `/api/v1`
 
@@ -14,3 +14,8 @@
 - [x] `/reset/password/:token`，`Method：[PUT]`：用户第一次登录重置密码接口
   - 通过接口用户 URI 中的参数，查询 Redis 中对于的 Key 来确认需要重置密码的用户
   - 重置密码完成，会一起更新用户是否第一次登录的状态字段
+
+<br>
+
+### 😆 用户接口
+
