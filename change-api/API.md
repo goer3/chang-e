@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">Chang'e（嫦娥） API 手册</h1>
+<h1 align="center">Chang'e（嫦娥） API 手册</h1> 
 
 > 注意：接口默认统一前缀为 `/api/v1`
 
