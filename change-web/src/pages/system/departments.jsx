@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Departments = () => {
+const SystemDepartments = () => {
   return <div>department</div>;
 };
 
-export default Departments;
+export default SystemDepartments;

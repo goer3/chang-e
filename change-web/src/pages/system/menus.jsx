@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Menus = () => {
+const SystemMenus = () => {
   return <div>menu</div>;
 };
 
-export default Menus;
+export default SystemMenus;

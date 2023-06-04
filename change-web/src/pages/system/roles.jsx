@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Roles = () => {
+const SystemRoles = () => {
   return <div>role</div>;
 };
 
-export default Roles;
+export default SystemRoles;

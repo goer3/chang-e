@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Users = () => {
+const SystemUsers = () => {
   return <div>user</div>;
 };
 
-export default Users;
+export default SystemUsers;

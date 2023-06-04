@@ -4,7 +4,6 @@ import AdminLayout from '../components/layout/admin_layout';
 import LazyLoad from './lazy.jsx';
 import { GetToken } from '../utils/token.jsx';
 import { MatchRouter } from '../utils/router.jsx';
-import Dashboard from '../pages/dashboard.jsx';
 
 // 路由数据配置
 export let RouteRules = [
@@ -28,30 +27,22 @@ export let RouteRules = [
           // 部门管理
           {
             path: 'departments',
-            element: LazyLoad(
-              React.lazy(() => import('/src/pages/system/departments.jsx'))
-            ),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/departments.jsx'))),
           },
           // 用户管理
           {
             path: 'users',
-            element: LazyLoad(
-              React.lazy(() => import('/src/pages/system/users.jsx'))
-            ),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/users.jsx'))),
           },
           // 角色管理
           {
             path: 'roles',
-            element: LazyLoad(
-              React.lazy(() => import('/src/pages/system/roles.jsx'))
-            ),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/roles.jsx'))),
           },
           // 菜单管理
           {
             path: 'menus',
-            element: LazyLoad(
-              React.lazy(() => import('/src/pages/system/menus.jsx'))
-            ),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/menus.jsx'))),
           },
         ],
       },
