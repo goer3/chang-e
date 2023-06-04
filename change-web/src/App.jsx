@@ -1,20 +1,13 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-import AdminLayout from './components/AdminLayout/AdminLayout.jsx';
-import Dashboard from './pages/Dashboard.jsx';
-import PageNotFound from './pages/error/404';
+import { HashRouter } from 'react-router-dom';
+import { AuthRouter, GetRoutes } from './router/routes.jsx';
 
 const App = () => {
   return (
-    <AdminLayout>
-      <Routes>
-        {/*路由跳转*/}
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        {/*控制台路由*/}
-        <Route path="/dashboard" element={<Dashboard />} />
-        {/*不匹配的路由*/}
-        <Route path="/*" element={<PageNotFound />} />
-      </Routes>
-    </AdminLayout>
+    <HashRouter>
+      <AuthRouter>
+        <GetRoutes />
+      </AuthRouter>
+    </HashRouter>
   );
 };
 

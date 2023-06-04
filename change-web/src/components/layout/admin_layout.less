@@ -22,12 +22,12 @@
   // 侧边菜单栏标题
   .admin-logo-title {
     color: #fff;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bolder;
     padding-left: 10px;
-    height: 30px;
     line-height: 30px;
     vertical-align: middle;
+    user-select: none;
   }
 }
 
@@ -43,6 +43,10 @@
   .admin-trigger {
     font-size: 18px;
     cursor: pointer;
+  }
+
+  .admin-header-dropdown {
+    user-select: none;
   }
 
   .admin-avatar-name {
@@ -144,10 +148,5 @@
 // 底部
 .admin-footer {
   text-align: center;
-}
-
-// 加载中
-.admin-data-loading {
-  margin: 300px auto;
-  text-align: center;
+  color: rgba(0,0,0,0.4);
 }
