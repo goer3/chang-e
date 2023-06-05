@@ -1,8 +1,8 @@
 // React
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // ANTD
-import { Avatar, Dropdown, Layout, Menu } from 'antd';
+import { Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -18,6 +18,7 @@ import {
 import { DefaultAvatar, Logo } from '../../utils/image.jsx';
 import './admin_layout.less';
 import { Outlet, useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 // ANTD 模块
 const { Header, Content, Footer, Sider } = Layout;
@@ -28,15 +29,16 @@ const AdminLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   // 用于跳转连接
   const navigate = useNavigate();
-  // // 用于获取请求连接
-  // const { pathname } = useLocation();
-  // const openKeys = findOpenKey(pathname);
-  // // 监听 pathname 变化，如果变化就需要更新面包屑
-  // const [breadcrumbs, setBreadcrumbs] = useState([]);
-  // useEffect(() => {
-  //   // 如果有变化，就是更新面包屑
-  //   setBreadcrumbs(findDeepPath(pathname));
-  // }, [pathname]);
+  // 用于获取请求连接
+  const { pathname } = useLocation();
+  // 默认展开的菜单
+  const openKeys = findOpenKey(pathname);
+  // 监听 pathname 变化，如果变化就需要更新面包屑
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+  useEffect(() => {
+    // 如果有变化，就是更新面包屑
+    setBreadcrumbs(findDeepPath(pathname));
+  }, [pathname]);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -51,8 +53,8 @@ const AdminLayout = () => {
         {/*侧边菜单栏*/}
         <Menu
           theme="dark"
-          // defaultOpenKeys={openKeys}
-          // defaultSelectedKeys={openKeys}
+          defaultOpenKeys={openKeys}
+          defaultSelectedKeys={openKeys}
           mode="inline"
           items={menuItems}
           style={{ letterSpacing: 2 }}
@@ -98,11 +100,11 @@ const AdminLayout = () => {
 
         <Content>
           {/*面包屑*/}
-          {/*<Breadcrumb className="admin-breadcrumb">*/}
-          {/*  {breadcrumbs.map((item) => (*/}
-          {/*    <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>*/}
-          {/*  ))}*/}
-          {/*</Breadcrumb>*/}
+          <Breadcrumb className="admin-breadcrumb">
+            {breadcrumbs.map((item) => (
+              <Breadcrumb.Item key={item.key}>{item.label}</Breadcrumb.Item>
+            ))}
+          </Breadcrumb>
           {/*代替接收 Children 传递*/}
           <Outlet />
         </Content>
@@ -121,7 +123,7 @@ const menuItems = [
   {
     key: '/dashboard',
     icon: <DesktopOutlined />,
-    label: '控制台',
+    label: '工作台',
   },
   {
     key: '/system',
@@ -188,3 +190,60 @@ const items = [
     key: '/logout',
   },
 ];
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 解决刷新页面依然显示当前页问题
+// 注意，该方法有个前提，外层目录的 key 必须是内层目录的子集
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const findOpenKey = (key) => {
+  // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
+  const result = [];
+  // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
+  const findInfo = (menuList) => {
+    menuList.forEach((item) => {
+      // 生成一级菜单列表
+      if (key.includes(item.key)) {
+        result.push(item.key);
+        if (item.children) {
+          // 递归继续查找
+          findInfo(item.children);
+        }
+      }
+    });
+  };
+
+  // 调用函数
+  findInfo(menuItems);
+  return result;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 生成面包屑菜单列表
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const findDeepPath = (key) => {
+  // 将嵌套的多菜单变成一级菜单
+  const result = [];
+  const findInfo = (menuList) => {
+    menuList.forEach((item) => {
+      // 解构数据成 info 和 children 两个部分
+      const { children, ...info } = item;
+      result.push(info);
+      // 如果有子菜单，继续递归处理
+      if (children) {
+        findInfo(children);
+      }
+    });
+  };
+
+  // 调用函数
+  findInfo(menuItems);
+
+  // 根据当前访问的页面，生成需要显示的面包屑菜单
+  const breadList = result.filter((item) => key.includes(item.key));
+  if (breadList.length > 0) {
+    // 生成指定格式数据
+    return [{ label: '首页', key: '/dashboard' }, ...breadList];
+  }
+  // 否则返回空
+  return [];
+};
