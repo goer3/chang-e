@@ -41,63 +41,22 @@ const AdminLayout = () => {
   // 当前用户信息
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
-    async function GetCurrentUserInfo() {
+    async function apiGet() {
       const res = await CurrentUserInfoAPI();
-      switch (res.code) {
-        case 401:
-          sessionStorage.clear();
-          message.error('用户登录信息失效，请重新登录');
-          navigate('/login');
-          break;
-        case 200:
-          setUserInfo(res.data.user_info);
-          break;
-        default:
-          message.warning(res.message);
+      if (res.code === 401) {
+        sessionStorage.clear();
+        message.error('用户登录信息失效，请重新登录');
+        navigate('/login');
       }
+      setUserInfo(res.data.user_info);
     }
-    GetCurrentUserInfo();
+    apiGet();
   }, []);
 
   // 菜单信息
   const [menuItems, setMenuItems] = useState([]);
   useEffect(() => {
-    // 先找 SessionStorage 中有没有缓存菜单列表
-    let menuCache = sessionStorage.getItem('menuItems');
-    if (menuCache) {
-      setMenuItems(JSON.parse(menuCache));
-      return;
-    }
-    // 没有缓存再去请求接口
-    async function GetCurrentUserMenuTree() {
-      const res = await CurrentUserMenuTreeAPI();
-      if (res.code === 200) {
-        let menuData;
-        // 生成 Menu 组件的 items 菜单数据
-        menuData = res.data.tree.map((menu) => {
-          return {
-            key: menu.path,
-            label: menu.name,
-            icon: '<' + menu.icon + '/>',
-            children:
-              menu.children &&
-              menu.children.map((cmenu) => {
-                return {
-                  key: cmenu.path,
-                  label: cmenu.name,
-                };
-              }),
-          };
-        });
-
-        // 保存菜单数据状态
-        setMenuItems(menuData);
-        // 保存到 SessionStorage 中
-        menuCache = JSON.stringify(menuData);
-        sessionStorage.setItem('menuItems', menuCache, 60 * 1000);
-      }
-    }
-    GetCurrentUserMenuTree();
+    setMenuItems(GetCurrentUserMenuTreeHandler());
   }, []);
 
   // 面包屑信息
@@ -181,6 +140,66 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 获取当前用户信息方法
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// const GetCurrentUserInfoHandler = () => {
+//   async function apiGet() {
+//     const navigate = useNavigate();
+//     const res = await CurrentUserInfoAPI();
+//     if (res.code === 401) {
+//       sessionStorage.clear();
+//       message.error('用户登录信息失效，请重新登录');
+//       navigate('/login');
+//     }
+//     console.log(res.data.user_info);
+//     return res.data.user_info;
+//   }
+//   return apiGet();
+// };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 获取当前用户菜单列表方法
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const GetCurrentUserMenuTreeHandler = () => {
+  // 先找 SessionStorage 中有没有缓存菜单列表
+  let menuCache = sessionStorage.getItem('menuItems');
+  if (menuCache) {
+    return JSON.parse(menuCache);
+  }
+
+  // 没有缓存再去请求接口
+  async function apiGet() {
+    const res = await CurrentUserMenuTreeAPI();
+    let menuData = [];
+    if (res.code === 200) {
+      // 生成 Menu 组件的 items 菜单数据
+      menuData = res.data.tree.map((menu) => {
+        return {
+          key: menu.path,
+          label: menu.name,
+          icon: '<' + menu.icon + '/>',
+          children:
+            menu.children &&
+            menu.children.map((cmenu) => {
+              return {
+                key: cmenu.path,
+                label: cmenu.name,
+              };
+            }),
+        };
+      });
+
+      // 保存到 SessionStorage 中
+      menuCache = JSON.stringify(menuData);
+      sessionStorage.setItem('menuItems', menuCache, 60 * 1000);
+    }
+    return menuData;
+  }
+
+  return apiGet();
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Header 下拉菜单，只能命名为 items，否则会报错：
