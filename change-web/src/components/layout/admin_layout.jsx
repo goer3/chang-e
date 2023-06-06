@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 
 // ANTD
-import { Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd';
-import {
+import { Avatar, Breadcrumb, Dropdown, Layout, Menu, message } from 'antd';
+import Icon, {
   DesktopOutlined,
   FileOutlined,
   MenuFoldOutlined,
@@ -19,7 +19,7 @@ import { FooterInfo, Logo } from '../../utils/resource.jsx';
 import './admin_layout.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
-import { CurrentUserInfoAPI } from '../../service/index.jsx';
+import { CurrentUserInfoAPI, CurrentUserMenuTreeAPI } from '../../service/index.jsx';
 
 // ANTD 模块
 const { Header, Content, Footer, Sider } = Layout;
@@ -28,31 +28,83 @@ const { Header, Content, Footer, Sider } = Layout;
 const AdminLayout = () => {
   // 保存侧边菜单栏是否收缩状态
   const [collapsed, setCollapsed] = useState(false);
+
   // 用于跳转连接
   const navigate = useNavigate();
+
   // 用于获取请求连接
   const { pathname } = useLocation();
-  // 默认展开的菜单
-  const openKeys = findOpenKey(pathname);
-  // 监听 pathname 变化，如果变化就需要更新面包屑
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
-  useEffect(() => {
-    // 如果有变化，就是更新面包屑
-    setBreadcrumbs(findDeepPath(pathname));
-  }, [pathname]);
 
-  // 动态数据
-  // 用户信息
+  // 选中菜单信息
+  const [openKeys, setOpenKeys] = useState([]);
+
+  // 当前用户信息
   const [userInfo, setUserInfo] = useState({});
   useEffect(() => {
     async function GetCurrentUserInfo() {
       const res = await CurrentUserInfoAPI();
-      if (res.code === 200) {
-        setUserInfo(res.data.user_info);
+      switch (res.code) {
+        case 401:
+          sessionStorage.clear();
+          message.error('用户登录信息失效，请重新登录');
+          navigate('/login');
+          break;
+        case 200:
+          setUserInfo(res.data.user_info);
+          break;
+        default:
+          message.warning(res.message);
       }
     }
     GetCurrentUserInfo();
   }, []);
+
+  // 菜单信息
+  const [menuItems, setMenuItems] = useState([]);
+  useEffect(() => {
+    // 先找 SessionStorage 中有没有缓存菜单列表
+    let menuCache = sessionStorage.getItem('menuItems');
+    if (menuCache) {
+      setMenuItems(JSON.parse(menuCache));
+      return;
+    }
+    // 没有缓存再去请求接口
+    async function GetCurrentUserMenuTree() {
+      const res = await CurrentUserMenuTreeAPI();
+      if (res.code === 200) {
+        let menuData;
+        // 生成 Menu 组件的 items 菜单数据
+        menuData = res.data.tree.map((menu) => {
+          return {
+            key: menu.path,
+            label: menu.name,
+            icon: '<' + menu.icon + '/>',
+            children:
+              menu.children &&
+              menu.children.map((cmenu) => {
+                return {
+                  key: cmenu.path,
+                  label: cmenu.name,
+                };
+              }),
+          };
+        });
+
+        // 保存菜单数据状态
+        setMenuItems(menuData);
+        // 保存到 SessionStorage 中
+        menuCache = JSON.stringify(menuData);
+        sessionStorage.setItem('menuItems', menuCache, 60 * 1000);
+      }
+    }
+    GetCurrentUserMenuTree();
+  }, []);
+
+  // 面包屑信息
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+  useEffect(() => {
+    setBreadcrumbs(findDeepPath(pathname, menuItems));
+  }, [pathname, menuItems]);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -67,8 +119,8 @@ const AdminLayout = () => {
         {/*侧边菜单栏*/}
         <Menu
           theme="dark"
-          defaultOpenKeys={openKeys}
-          defaultSelectedKeys={openKeys}
+          // defaultOpenKeys={openKeys}
+          // defaultSelectedKeys={openKeys}
           mode="inline"
           items={menuItems}
           style={{ letterSpacing: 2 }}
@@ -131,55 +183,6 @@ const AdminLayout = () => {
 export default AdminLayout;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 菜单数据
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-const menuItems = [
-  {
-    key: '/dashboard',
-    icon: <DesktopOutlined />,
-    label: '工作台',
-  },
-  {
-    key: '/system',
-    icon: <SettingOutlined />,
-    label: '系统设置',
-    children: [
-      {
-        key: '/system/departments',
-        label: '部门管理',
-      },
-      {
-        key: '/system/users',
-        label: '用户管理',
-      },
-      {
-        key: '/system/roles',
-        label: '角色管理',
-      },
-      {
-        key: '/system/menus',
-        label: '菜单管理',
-      },
-    ],
-  },
-  {
-    key: '/info',
-    icon: <UserOutlined />,
-    label: '个人中心',
-  },
-  {
-    key: '/help',
-    icon: <QuestionCircleOutlined />,
-    label: '获得帮助',
-  },
-  {
-    key: '/about',
-    icon: <FileOutlined />,
-    label: '关于我们',
-  },
-];
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Header 下拉菜单，只能命名为 items，否则会报错：
 // React.Children.only expected to receive a single React element child.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,32 +212,32 @@ const items = [
 // 解决刷新页面依然显示当前页问题
 // 注意，该方法有个前提，外层目录的 key 必须是内层目录的子集
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-const findOpenKey = (key) => {
-  // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
-  const result = [];
-  // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
-  const findInfo = (menuList) => {
-    menuList.forEach((item) => {
-      // 生成一级菜单列表
-      if (key.includes(item.key)) {
-        result.push(item.key);
-        if (item.children) {
-          // 递归继续查找
-          findInfo(item.children);
-        }
-      }
-    });
-  };
-
-  // 调用函数
-  findInfo(menuItems);
-  return result;
-};
+// const findOpenKey = (key) => {
+//   // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
+//   const result = [];
+//   // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
+//   const findInfo = (menuList) => {
+//     menuList.forEach((item) => {
+//       // 生成一级菜单列表
+//       if (key.includes(item.key)) {
+//         result.push(item.key);
+//         if (item.children) {
+//           // 递归继续查找
+//           findInfo(item.children);
+//         }
+//       }
+//     });
+//   };
+//
+//   // 调用函数
+//   findInfo(menuTrees);
+//   return result;
+// };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 生成面包屑菜单列表
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-const findDeepPath = (key) => {
+const findDeepPath = (key, menus) => {
   // 将嵌套的多菜单变成一级菜单
   const result = [];
   const findInfo = (menuList) => {
@@ -250,7 +253,7 @@ const findDeepPath = (key) => {
   };
 
   // 调用函数
-  findInfo(menuItems);
+  findInfo(menus);
 
   // 根据当前访问的页面，生成需要显示的面包屑菜单
   const breadList = result.filter((item) => key.includes(item.key));

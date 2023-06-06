@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { GetToken } from './token.jsx';
-import { message } from 'antd';
 
 // 创建实例
 const instance = axios.create({
