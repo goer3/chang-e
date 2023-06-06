@@ -15,10 +15,11 @@ import {
 } from '@ant-design/icons';
 
 // 用户自定义
-import { DefaultAvatar, Logo } from '../../utils/image.jsx';
+import { FooterInfo, Logo } from '../../utils/resource.jsx';
 import './admin_layout.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import { CurrentUserInfoAPI } from '../../service/index.jsx';
 
 // ANTD 模块
 const { Header, Content, Footer, Sider } = Layout;
@@ -39,6 +40,19 @@ const AdminLayout = () => {
     // 如果有变化，就是更新面包屑
     setBreadcrumbs(findDeepPath(pathname));
   }, [pathname]);
+
+  // 动态数据
+  // 用户信息
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    async function GetCurrentUserInfo() {
+      const res = await CurrentUserInfoAPI();
+      if (res.code === 200) {
+        setUserInfo(res.data.user_info);
+      }
+    }
+    GetCurrentUserInfo();
+  }, []);
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -90,8 +104,8 @@ const AdminLayout = () => {
                 padding: 15,
               }}>
               <a className="admin-header-dropdown" onClick={(e) => e.preventDefault()}>
-                <Avatar size={25} src={DefaultAvatar} style={{ top: -2 }} />
-                <span className="admin-avatar-name">吴彦祖</span>
+                <Avatar size={25} src={userInfo.avatar} style={{ top: -2 }} />
+                <span className="admin-avatar-name">{userInfo.name}</span>
                 <MoreOutlined className="admin-avatar-more" />
               </a>
             </Dropdown>
@@ -106,9 +120,9 @@ const AdminLayout = () => {
             ))}
           </Breadcrumb>
           {/*代替接收 Children 传递*/}
-          <Outlet />
+          <Outlet context={[userInfo, setUserInfo]} />
         </Content>
-        <Footer className="admin-footer">Copyright © 1993-2023 CHANG'E（嫦娥）, All Rights Reserved. Version:1.0.1</Footer>
+        <Footer className="admin-footer">{FooterInfo}</Footer>
       </Layout>
     </Layout>
   );

@@ -17,3 +17,9 @@ export const GetToken = () => {
   sessionStorage.removeItem('expire');
   return null;
 };
+
+// 设置 Token 和 Token 过期时间
+export const SetToken = (token, expire) => {
+  sessionStorage.setItem('token', token);
+  sessionStorage.setItem('expire', expire);
+};

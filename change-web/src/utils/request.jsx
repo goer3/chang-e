@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GetToken } from './token.jsx';
+import { message } from 'antd';
 
 // 创建实例
 const instance = axios.create({
@@ -10,8 +11,8 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(
   function (config) {
-    // 在请求头中加入 Token
-    config.headers.token = GetToken();
+    // 在请求头中加入 Token（后端使用的是 Authorization）
+    config.headers.Authorization = 'Bearer ' + GetToken();
     return config;
   },
   function (error) {
