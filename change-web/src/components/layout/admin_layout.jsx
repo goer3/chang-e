@@ -82,11 +82,14 @@ const AdminLayout = () => {
   }, []);
 
   // 其他状态数据
+  const [openKeys, setOpenKeys] = useState(['/dashboard']); // 展开菜单
   const [breadcrumbs, setBreadcrumbs] = useState([]); // 面包屑信息
   useEffect(() => {
     if (menuItems) {
-      console.log(menuItems);
+      // 修改面包屑
       setBreadcrumbs(findDeepPath(pathname, menuItems));
+      // 修改默认打开菜单
+      setOpenKeys(findOpenKey(pathname, menuItems));
     }
   }, [pathname, menuItems]);
 
@@ -105,9 +108,15 @@ const AdminLayout = () => {
           theme="dark"
           // defaultOpenKeys={openKeys}
           // defaultSelectedKeys={openKeys}
+          openKeys={openKeys}
+          selectedKeys={openKeys}
           mode="inline"
           items={menuItems}
           style={{ letterSpacing: 2 }}
+          // 设置 openKeys 导致子菜单无法展开问题
+          onOpenChange={(key) => {
+            setOpenKeys([key[1]]);
+          }}
           // 菜单点击事件，能够返回对应的 Key
           // 文档中提示可获取到 item, key, keyPath, domEvent
           onClick={({ key }) => {
@@ -167,6 +176,15 @@ const AdminLayout = () => {
 export default AdminLayout;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 退出登录
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const logoutHandle = () => {
+  sessionStorage.clear();
+  message.success('退出登录成功');
+  location.reload();
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Header 下拉菜单，只能命名为 items，否则会报错：
 // React.Children.only expected to receive a single React element child.
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,11 +201,7 @@ const items = [
     type: 'divider',
   },
   {
-    label: (
-      <a target="_blank" href="/logout">
-        注销
-      </a>
-    ),
+    label: <a onClick={logoutHandle}>注销</a>,
     key: '/logout',
   },
 ];
@@ -196,27 +210,27 @@ const items = [
 // 解决刷新页面依然显示当前页问题
 // 注意，该方法有个前提，外层目录的 key 必须是内层目录的子集
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-// const findOpenKey = (key) => {
-//   // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
-//   const result = [];
-//   // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
-//   const findInfo = (menuList) => {
-//     menuList.forEach((item) => {
-//       // 生成一级菜单列表
-//       if (key.includes(item.key)) {
-//         result.push(item.key);
-//         if (item.children) {
-//           // 递归继续查找
-//           findInfo(item.children);
-//         }
-//       }
-//     });
-//   };
-//
-//   // 调用函数
-//   findInfo(menuTrees);
-//   return result;
-// };
+const findOpenKey = (key, menus) => {
+  // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
+  const result = [];
+  // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
+  const findInfo = (menuList) => {
+    menuList.forEach((item) => {
+      // 生成一级菜单列表
+      if (key.includes(item.key)) {
+        result.push(item.key);
+        if (item.children) {
+          // 递归继续查找
+          findInfo(item.children);
+        }
+      }
+    });
+  };
+
+  // 调用函数
+  findInfo(menus);
+  return result;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 生成面包屑菜单列表
