@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react';
 
 // ANTD
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, message } from 'antd';
-import Icon, {
-  DesktopOutlined,
-  FileOutlined,
+import {
+  // DesktopOutlined,
+  // FileOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   MoreOutlined,
-  QuestionCircleOutlined,
-  SettingOutlined,
-  UserOutlined,
+  // QuestionCircleOutlined,
+  // SettingOutlined,
+  // UserOutlined,
 } from '@ant-design/icons';
 
 // 用户自定义
-import { FooterInfo, Logo } from '../../utils/resource.jsx';
+import { FooterInfo, Iconfont, Logo } from '../../utils/resource.jsx';
 import './admin_layout.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -26,43 +26,68 @@ const { Header, Content, Footer, Sider } = Layout;
 
 // Admin Layout 布局
 const AdminLayout = () => {
-  // 保存侧边菜单栏是否收缩状态
-  const [collapsed, setCollapsed] = useState(false);
-
   // 用于跳转连接
   const navigate = useNavigate();
 
   // 用于获取请求连接
   const { pathname } = useLocation();
 
-  // 选中菜单信息
-  const [openKeys, setOpenKeys] = useState([]);
-
-  // 当前用户信息
-  const [userInfo, setUserInfo] = useState({});
+  // 状态数据
+  const [collapsed, setCollapsed] = useState(false); // 侧边菜单栏是否收缩状态
+  const [userInfo, setUserInfo] = useState({}); // 当前用户信息
+  const [menuItems, setMenuItems] = useState([]); // 菜单信息
+  // 监听变化
   useEffect(() => {
-    async function apiGet() {
-      const res = await CurrentUserInfoAPI();
-      if (res.code === 401) {
+    ///////////////////////////////////////
+    // 请求后端获取用户信息
+    ///////////////////////////////////////
+    const res1 = CurrentUserInfoAPI();
+    res1.then((v) => {
+      if (v.code === 401) {
         sessionStorage.clear();
         message.error('用户登录信息失效，请重新登录');
         navigate('/login');
+        return;
       }
-      setUserInfo(res.data.user_info);
+      setUserInfo(v.data.user_info);
+    });
+
+    ///////////////////////////////////////
+    // 获取菜单数据
+    ///////////////////////////////////////
+    // 请求后端接口获取菜单列表
+    const res2 = CurrentUserMenuTreeAPI();
+    res2.then((v) => {
+      if (v.code === 200) {
+        // 生成 Menu 组件的 items 菜单数据，这里只写了两级
+        let menuData;
+        menuData = v.data.tree.map((menu1) => {
+          return {
+            key: menu1.path,
+            label: menu1.name,
+            icon: <Iconfont icon={menu1.icon}></Iconfont>,
+            children:
+              menu1.children &&
+              menu1.children.map((menu2) => {
+                return {
+                  key: menu2.path,
+                  label: menu2.name,
+                };
+              }),
+          };
+        });
+        setMenuItems(menuData);
+      }
+    });
+  }, []);
+
+  // 其他状态数据
+  const [breadcrumbs, setBreadcrumbs] = useState([]); // 面包屑信息
+  useEffect(() => {
+    if (menuItems) {
+      console.log(menuItems);
+      setBreadcrumbs(findDeepPath(pathname, menuItems));
     }
-    apiGet();
-  }, []);
-
-  // 菜单信息
-  const [menuItems, setMenuItems] = useState([]);
-  useEffect(() => {
-    setMenuItems(GetCurrentUserMenuTreeHandler());
-  }, []);
-
-  // 面包屑信息
-  const [breadcrumbs, setBreadcrumbs] = useState([]);
-  useEffect(() => {
-    setBreadcrumbs(findDeepPath(pathname, menuItems));
   }, [pathname, menuItems]);
 
   return (
@@ -140,66 +165,6 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 获取当前用户信息方法
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// const GetCurrentUserInfoHandler = () => {
-//   async function apiGet() {
-//     const navigate = useNavigate();
-//     const res = await CurrentUserInfoAPI();
-//     if (res.code === 401) {
-//       sessionStorage.clear();
-//       message.error('用户登录信息失效，请重新登录');
-//       navigate('/login');
-//     }
-//     console.log(res.data.user_info);
-//     return res.data.user_info;
-//   }
-//   return apiGet();
-// };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-// 获取当前用户菜单列表方法
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-const GetCurrentUserMenuTreeHandler = () => {
-  // 先找 SessionStorage 中有没有缓存菜单列表
-  let menuCache = sessionStorage.getItem('menuItems');
-  if (menuCache) {
-    return JSON.parse(menuCache);
-  }
-
-  // 没有缓存再去请求接口
-  async function apiGet() {
-    const res = await CurrentUserMenuTreeAPI();
-    let menuData = [];
-    if (res.code === 200) {
-      // 生成 Menu 组件的 items 菜单数据
-      menuData = res.data.tree.map((menu) => {
-        return {
-          key: menu.path,
-          label: menu.name,
-          icon: '<' + menu.icon + '/>',
-          children:
-            menu.children &&
-            menu.children.map((cmenu) => {
-              return {
-                key: cmenu.path,
-                label: cmenu.name,
-              };
-            }),
-        };
-      });
-
-      // 保存到 SessionStorage 中
-      menuCache = JSON.stringify(menuData);
-      sessionStorage.setItem('menuItems', menuCache, 60 * 1000);
-    }
-    return menuData;
-  }
-
-  return apiGet();
-};
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Header 下拉菜单，只能命名为 items，否则会报错：
