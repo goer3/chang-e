@@ -195,7 +195,7 @@ func unauthorized(ctx *gin.Context, code int, message string) {
 		response.FailedWithCodeAndMessage(response.FirstLoginError, token)
 		return
 	}
-	response.FailedWithMessage(message)
+	response.FailedWithCodeAndMessage(response.Unauthorized, message)
 }
 
 // 用户登录后的中间件，用于解析 Token

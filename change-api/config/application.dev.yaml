@@ -24,7 +24,7 @@ user:
   # 系统初始密码
   default-password: ezops.cn
   # 默认头像
-  default-avatar: http://img.keaiming.com/uploads/allimg/2016102112/fjn4kxnmrzh.jpg
+  default-avatar: /src/assets/images/avatar.png
 
 mysql:
   # 连接地址
