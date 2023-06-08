@@ -3,16 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 // ANTD
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, message } from 'antd';
-import {
-  // DesktopOutlined,
-  // FileOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  MoreOutlined,
-  // QuestionCircleOutlined,
-  // SettingOutlined,
-  // UserOutlined,
-} from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined } from '@ant-design/icons';
 
 // 用户自定义
 import { FooterInfo, Iconfont, Logo } from '../../utils/resource.jsx';
@@ -82,14 +73,40 @@ const AdminLayout = () => {
   }, []);
 
   // 其他状态数据
-  const [openKeys, setOpenKeys] = useState(['/dashboard']); // 展开菜单
+  const [openKeys, setOpenKeys] = useState([]); // 展开菜单
+  const [selectKeys, setSelectKeys] = useState([]); // 选中
   const [breadcrumbs, setBreadcrumbs] = useState([]); // 面包屑信息
   useEffect(() => {
-    if (menuItems) {
+    if (menuItems.length > 0) {
+      // 菜单权限判断
+      if (!MenuPermissionCheck(pathname, menuItems)) {
+        message.error('权限不足');
+        navigate('/403');
+      }
+
       // 修改面包屑
-      setBreadcrumbs(findDeepPath(pathname, menuItems));
+      switch (pathname) {
+        case '/404':
+          setBreadcrumbs([
+            { label: '首页', key: '/dashboard' },
+            { label: '404', key: '/404' },
+          ]);
+          break;
+        case '/403':
+          setBreadcrumbs([
+            { label: '首页', key: '/dashboard' },
+            { label: '403', key: '/403' },
+          ]);
+          break;
+        default:
+          setBreadcrumbs(findDeepPath(pathname, menuItems));
+      }
+
       // 修改默认打开菜单
-      setOpenKeys(findOpenKey(pathname, menuItems));
+      setOpenKeys(findKeyList(pathname, menuItems));
+
+      // 修改默认选中菜单
+      setSelectKeys(findKeyList(pathname, menuItems));
     }
   }, [pathname, menuItems]);
 
@@ -106,16 +123,16 @@ const AdminLayout = () => {
         {/*侧边菜单栏*/}
         <Menu
           theme="dark"
-          // defaultOpenKeys={openKeys}
-          // defaultSelectedKeys={openKeys}
+          defaultSelectedKeys="['/dashboard']"
           openKeys={openKeys}
-          selectedKeys={openKeys}
+          selectedKeys={selectKeys}
           mode="inline"
           items={menuItems}
           style={{ letterSpacing: 2 }}
           // 设置 openKeys 导致子菜单无法展开问题
           onOpenChange={(key) => {
-            setOpenKeys([key[1]]);
+            // 解决 404 等页码第一次点击折叠菜单不展开问题
+            setOpenKeys([key[key.length - 1]]);
           }}
           // 菜单点击事件，能够返回对应的 Key
           // 文档中提示可获取到 item, key, keyPath, domEvent
@@ -210,7 +227,7 @@ const items = [
 // 解决刷新页面依然显示当前页问题
 // 注意，该方法有个前提，外层目录的 key 必须是内层目录的子集
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-const findOpenKey = (key, menus) => {
+const findKeyList = (key, menus) => {
   // 当前请求的菜单列表，可能是一级菜单，也可能是二级甚至多级
   const result = [];
   // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
@@ -261,4 +278,33 @@ const findDeepPath = (key, menus) => {
   }
   // 否则返回空
   return [];
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// 判断用户是否拥有菜单权限
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+const MenuPermissionCheck = (path, menus) => {
+  let permisson = false;
+  let errUrlList = ['/403', '/404']; // 错误页面不需要验证
+  // 白名单
+  if (errUrlList.includes(path)) {
+    return true;
+  } else {
+    // 传入菜单列表，判断当前请求的菜单是否在菜单列表中
+    const findInfo = (menuList) => {
+      menuList.forEach((item) => {
+        if (item.key === path) {
+          permisson = true;
+        }
+        if (item.children) {
+          // 递归继续查找
+          findInfo(item.children);
+        }
+      });
+    };
+    // 调用函数
+    findInfo(menus);
+  }
+
+  return permisson;
 };

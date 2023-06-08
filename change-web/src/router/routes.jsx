@@ -44,7 +44,22 @@ export let RouteRules = [
             path: 'menus',
             element: LazyLoad(React.lazy(() => import('/src/pages/system/menus.jsx'))),
           },
+          // 接口管理
+          {
+            path: 'apis',
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/apis.jsx'))),
+          },
         ],
+      },
+      // 404 处理
+      {
+        path: '/404',
+        element: LazyLoad(React.lazy(() => import('/src/pages/error/404.jsx'))),
+      },
+      // 403 处理
+      {
+        path: '/403',
+        element: LazyLoad(React.lazy(() => import('/src/pages/error/403.jsx'))),
       },
     ],
   },
@@ -54,12 +69,6 @@ export let RouteRules = [
   {
     path: '/login',
     element: LazyLoad(React.lazy(() => import('/src/pages/public/login.jsx'))),
-    unWantedAuth: true, // 添加不需要登录标志，用于跳过 Token 检测
-  },
-  // 404 处理
-  {
-    path: '/404',
-    element: LazyLoad(React.lazy(() => import('/src/pages/error/404.jsx'))),
     unWantedAuth: true, // 添加不需要登录标志，用于跳过 Token 检测
   },
   { path: '*', element: <Navigate to="/404" /> },
