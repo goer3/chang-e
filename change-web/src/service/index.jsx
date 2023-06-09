@@ -5,5 +5,7 @@ import { GET, POST } from '../utils/request.jsx';
 export const LoginAPI = (data) => POST('/login', data);
 // 获取当前用户信息
 export const CurrentUserInfoAPI = () => GET('/system/user/info');
+// 获取用户列表
+export const UserListAPI = () => GET('/system/user/list');
 // 获取当前用户菜单树
 export const CurrentUserMenuTreeAPI = () => GET('/system/menu/tree');
