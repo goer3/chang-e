@@ -36,6 +36,6 @@ const (
 
 // 分页相关
 const (
-	DefaultPageSize = 1   // 每页默认的数据量
+	DefaultPageSize = 10  // 每页默认的数据量
 	MaxPageSize     = 100 // 每页最大数据量
 )

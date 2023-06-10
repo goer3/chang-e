@@ -10,7 +10,12 @@ import (
 
 // 初始化用户数据
 func SystemUserData() {
-	var isLeader uint = 1
+	var (
+		isLeader uint = 1
+		male     uint = 1
+		female   uint = 2
+		// unknown  uint = 3
+	)
 
 	// 用户数据
 	var users = []model.SystemUser{
@@ -35,6 +40,7 @@ func SystemUserData() {
 			Birthday: carbon.DateTime{
 				Carbon: carbon.Now(),
 			},
+			Gender:           &male,
 			NativeProvinceId: 510000000000,
 			NativeCityId:     510500000000,
 			Avatar:           common.Conf.User.DefaultAvatar,
@@ -61,6 +67,7 @@ func SystemUserData() {
 			Birthday: carbon.DateTime{
 				Carbon: carbon.Now(),
 			},
+			Gender:           &female,
 			NativeProvinceId: 510000000000,
 			NativeCityId:     511500000000,
 			Avatar:           common.Conf.User.DefaultAvatar,

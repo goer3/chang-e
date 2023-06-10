@@ -75,6 +75,7 @@ type CreateUserParam struct {
 	OfficeAddress      string          `json:"office_address" form:"office_address"`
 	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
 	Birthday           carbon.DateTime `json:"birthday" form:"birthday"`
+	Gender             *model.NullUint `json:"gender" form:"gender"`
 	NativeProvinceId   uint            `json:"native_province_id" form:"native_province_id"`
 	NativeCityId       uint            `json:"native_city_id" form:"native_city_id"`
 	Creator            string          `json:"creator" form:"creator"`
