@@ -54,7 +54,7 @@
     padding: 0 10px;
     display: inline-block;
     color: #001529;
-    font-weight: 600;
+    //font-weight: 600;
   }
 
   .admin-avatar-more {
@@ -138,10 +138,60 @@
   }
 }
 
+.admin-search {
+  background: #fff;
+  margin: 10px 5px;
+  padding: 15px;
+
+  .ant-form-item {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .admin-submit-info {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .admin-submit-info>* {
+    margin-left: 10px;
+  }
+
+  .ant-input {
+    height: 28px;
+    line-height: 28px;
+    padding: 0 10px;
+  }
+
+  .ant-select{
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input {
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+    line-height: 26px;
+  }
+
+  .ant-btn {
+    height: 28px;
+    padding: 0 15px;
+  }
+}
+
 // 主体内容
 .admin-layout-content {
   background: #fff;
-  margin: 5px;
+  margin: 10px 5px;
   padding: 15px;
   min-height: 100px;
 }
@@ -150,4 +200,16 @@
 .admin-footer {
   text-align: center;
   color: rgba(0, 0, 0, 0.4);
+}
+
+.admin-list-expand-content {
+  padding: 0 10px;
+}
+
+.admin-list-expand-content * {
+  font-size: 12px;
+}
+
+.ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
+  padding: 5px 8px;
 }

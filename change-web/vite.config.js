@@ -17,6 +17,7 @@ export default defineConfig({
           'layout-footer-padding': '20px 0',
           'font-size-base': '13px',
           'border-radius-base': '1px',
+          'primary-color': '#165CFF',
         },
         javascriptEnabled: true,
       },
