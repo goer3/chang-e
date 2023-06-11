@@ -85,8 +85,10 @@
     justify-content: flex-start;
 
     .admin-page-header-text {
-      background-color: rgba(24, 144, 225, 0.1);
-      border: 1px solid rgba(24, 144, 225, 0.5);
+      //background-color: rgba(24, 144, 225, 0.1);
+      //border: 1px solid rgba(24, 144, 225, 0.5);
+      background-color: rgba(22,92,255, 0.1);
+      border: 1px solid rgba(22,92,255, 0.4);
       width: 100%;
       padding: 15px;
       font-size: 12px;
@@ -153,10 +155,6 @@
     margin-bottom: 8px;
   }
 
-  .admin-submit-info>* {
-    margin-left: 10px;
-  }
-
   .ant-input {
     height: 28px;
     line-height: 28px;
@@ -181,18 +179,13 @@
   .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
     line-height: 26px;
   }
-
-  .ant-btn {
-    height: 28px;
-    padding: 0 15px;
-  }
 }
 
 // 主体内容
 .admin-layout-content {
   background: #fff;
   margin: 10px 5px;
-  padding: 15px;
+  padding: 20px 15px;
   min-height: 100px;
 }
 
@@ -212,4 +205,14 @@
 
 .ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
   padding: 5px 8px;
+}
+
+.admin-ant-btn {
+  height: 28px;
+  padding: 0 10px;
+  margin-right: 8px;
+}
+
+.admin-ant-btn-last {
+  margin-right: 0;
 }

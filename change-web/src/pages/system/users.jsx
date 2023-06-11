@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PageHeader, Table, Avatar, Badge, Space, Descriptions, Tag, Form, Col, Input, Select, Row, Button } from 'antd';
 const { Option } = Select;
-import { DownOutlined, QuestionCircleFilled, UpOutlined } from '@ant-design/icons';
+import { DownOutlined, QuestionCircleFilled, RedoOutlined, UploadOutlined, UpOutlined, UserAddOutlined } from '@ant-design/icons';
 import { UserListAPI } from '../../service';
 
 const SystemUsers = () => {
@@ -57,11 +57,24 @@ const SystemUsers = () => {
           <Form.Item name={item.name} label={item.label} colon={false} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
             {item.type === 'text' ? (
               <Input placeholder={textPlaceholder} />
-            ) : (
-              <Select initialvalues="2" placeholder={selectPlaceholder}>
-                <Option value="1">1</Option>
-                <Option value="2">111</Option>
+            ) : item.name === 'gender' ? (
+              <Select initialvalues="1" placeholder={selectPlaceholder}>
+                <Option value="1">男</Option>
+                <Option value="2">女</Option>
+                <Option value="3">未知</Option>
               </Select>
+            ) : item.name === 'active' ? (
+              <Select initialvalues="1" placeholder={selectPlaceholder}>
+                <Option value="0">未激活</Option>
+                <Option value="1">已激活</Option>
+              </Select>
+            ) : item.name === 'unlocked' ? (
+              <Select initialvalues="1" placeholder={selectPlaceholder}>
+                <Option value="0">已锁定</Option>
+                <Option value="1">未锁定</Option>
+              </Select>
+            ) : (
+              <Input placeholder={textPlaceholder} />
             )}
           </Form.Item>
         </Col>
@@ -77,23 +90,22 @@ const SystemUsers = () => {
         }}
         key="searchSubmit"
         className="admin-submit-info">
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" className="admin-ant-btn">
           搜索用户
         </Button>
         <Button
           onClick={() => {
             form.resetFields();
-          }}>
+          }}
+          className="admin-ant-btn">
           清空条件
         </Button>
         <a
-          style={{
-            fontSize: 12,
-          }}
           onClick={() => {
             setOtherSearchExpand(!otherSearchExpand);
           }}>
-          {otherSearchExpand ? <UpOutlined /> : <DownOutlined />} 更多选项
+          {otherSearchExpand ? <UpOutlined /> : <DownOutlined />}
+          {otherSearchExpand ? ' 收起选项' : ' 更多选项'}
         </a>
       </Col>
     );
@@ -121,6 +133,22 @@ const SystemUsers = () => {
         </Form>
       </div>
       <div className="admin-layout-content">
+        <Row style={{ marginBottom: '10px' }}>
+          <Col span={12}>
+            <Button type="primary" icon={<UserAddOutlined />} className="admin-ant-btn">
+              新建用户
+            </Button>
+            <Button icon={<UploadOutlined />} className="admin-ant-btn">
+              导入用户
+            </Button>
+          </Col>
+          <Col span={12} style={{ textAlign: 'right' }}>
+            <Button icon={<RedoOutlined />} className="admin-ant-btn admin-ant-btn-last">
+              刷新数据
+            </Button>
+          </Col>
+        </Row>
+        {/*数据*/}
         {isLoading ? (
           <div>正在加载中...</div>
         ) : userList.length === 0 ? (
@@ -135,14 +163,16 @@ const SystemUsers = () => {
               expandedRowRender: (record) => (
                 <div className="admin-list-expand-content">
                   <Descriptions column={1} size="small">
-                    <Descriptions.Item label="办公城市">{record.office_city.name}</Descriptions.Item>
-                    <Descriptions.Item label="办公地点">{record.work_address}</Descriptions.Item>
+                    <Descriptions.Item label="用户账户">{record.username}</Descriptions.Item>
                     <Descriptions.Item label="用户籍贯">
                       {record.native_province.name} - {record.native_city.name}
                     </Descriptions.Item>
+                    <Descriptions.Item label="办公城市">{record.office_city.name}</Descriptions.Item>
+                    <Descriptions.Item label="办公地点">{record.work_address}</Descriptions.Item>
                     <Descriptions.Item label="入职时间">{record.entry_time}</Descriptions.Item>
                     <Descriptions.Item label="用户生日">{record.birthday}</Descriptions.Item>
                     <Descriptions.Item label="创建时间">{record.created_at}</Descriptions.Item>
+                    <Descriptions.Item label="最后登录">{record.last_login}</Descriptions.Item>
                   </Descriptions>
                 </div>
               ),
@@ -174,10 +204,6 @@ const userListColumns = [
     width: '60px',
     align: 'center',
     render: (text) => <Avatar src={text} size={18} />,
-  },
-  {
-    title: '用户名',
-    dataIndex: 'username',
   },
   {
     title: '姓名',
@@ -244,6 +270,7 @@ const userListColumns = [
         <a>修改 {record.username}</a>
         <a>禁用</a>
         <a>锁定</a>
+        <a>删除</a>
       </Space>
     ),
   },
@@ -264,19 +291,19 @@ const rowSelection = {
 // 搜索栏
 ////////////////////////////////////////////////////////////////////////////////////////////////
 const searchFields = [
-  { key: 1, name: 'username', label: '用户名', type: 'text' },
-  { key: 2, name: 'name', label: '姓名', type: 'text' },
-  { key: 3, name: 'mobile', label: '手机号', type: 'text' },
-  { key: 4, name: 'email', label: '邮箱', type: 'text' },
-  { key: 5, name: 'job_number', label: '工号', type: 'text' },
-  { key: 6, name: 'role_name', label: '角色', type: 'select' },
-  { key: 7, name: 'department_name', label: '部门名称', type: 'select' },
-  { key: 8, name: 'job_name', label: '岗位名称', type: 'text' },
-  { key: 9, name: 'active', label: '激活状态', type: 'select' },
-  { key: 10, name: 'unlocked', label: '锁定状态', type: 'select' },
-  { key: 11, name: 'gender', label: '性别', type: 'select' },
-  { key: 12, name: 'office_city', label: '办公城市', type: 'text' },
-  { key: 13, name: 'office_address', label: '办公地点', type: 'text' },
-  { key: 14, name: 'native_province_name', label: '籍贯省份', type: 'text' },
-  { key: 15, name: 'native_province_city', label: '籍贯城市', type: 'text' },
+  { name: 'username', label: '用户名', type: 'text' },
+  { name: 'name', label: '姓名', type: 'text' },
+  { name: 'mobile', label: '手机号', type: 'text' },
+  { name: 'email', label: '邮箱', type: 'text' },
+  { name: 'job_number', label: '工号', type: 'text' },
+  { name: 'system_roles_name', label: '角色', type: 'select' },
+  { name: 'job_name', label: '岗位名称', type: 'text' },
+  { name: 'system_departments_name', label: '部门名称', type: 'select' },
+  { name: 'active', label: '激活状态', type: 'select' },
+  { name: 'unlocked', label: '锁定状态', type: 'select' },
+  { name: 'gender', label: '性别', type: 'select' },
+  { name: 'office_city', label: '办公城市', type: 'text' },
+  { name: 'office_address', label: '办公地点', type: 'text' },
+  { name: 'native_province_name', label: '籍贯省份', type: 'text' },
+  { name: 'native_province_city', label: '籍贯城市', type: 'text' },
 ];
