@@ -51,6 +51,16 @@ export let RouteRules = [
           },
         ],
       },
+      // 关于我们
+      {
+        path: 'about',
+        element: LazyLoad(React.lazy(() => import('/src/pages/about.jsx'))),
+      },
+      // 获取帮助
+      {
+        path: 'help',
+        element: LazyLoad(React.lazy(() => import('/src/pages/help.jsx'))),
+      },
       // 404 处理
       {
         path: '/404',
@@ -60,6 +70,11 @@ export let RouteRules = [
       {
         path: '/403',
         element: LazyLoad(React.lazy(() => import('/src/pages/error/403.jsx'))),
+      },
+      // 500 处理
+      {
+        path: '/500',
+        element: LazyLoad(React.lazy(() => import('/src/pages/error/500.jsx'))),
       },
     ],
   },
