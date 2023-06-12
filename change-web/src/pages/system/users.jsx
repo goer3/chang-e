@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { PageHeader, Table, Avatar, Badge, Space, Descriptions, Tag, Form, Col, Input, Select, Row, Button } from 'antd';
+import { PageHeader, Table, Avatar, Badge, Space, Descriptions, Tag, Form, Col, Input, Select, Row, Button, Dropdown } from 'antd';
 const { Option } = Select;
-import { DownOutlined, QuestionCircleFilled, RedoOutlined, UploadOutlined, UpOutlined, UserAddOutlined } from '@ant-design/icons';
+import { DownloadOutlined, DownOutlined, QuestionCircleFilled, UploadOutlined, UpOutlined, UserAddOutlined } from '@ant-design/icons';
 import { UserListAPI } from '../../service';
 
 const SystemUsers = () => {
@@ -143,9 +143,18 @@ const SystemUsers = () => {
             </Button>
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>
-            <Button icon={<RedoOutlined />} className="admin-ant-btn admin-ant-btn-last">
-              刷新数据
+            <Button icon={<DownloadOutlined />} className="admin-ant-btn">
+              下载模板
             </Button>
+
+            <Dropdown menu={multiUserHandleProps}>
+              <Button danger className="admin-ant-btn admin-ant-btn-last">
+                <Space>
+                  <DownOutlined />
+                  批量操作
+                </Space>
+              </Button>
+            </Dropdown>
           </Col>
         </Row>
         {/*数据*/}
@@ -307,3 +316,32 @@ const searchFields = [
   { name: 'native_province_name', label: '籍贯省份', type: 'text' },
   { name: 'native_province_city', label: '籍贯城市', type: 'text' },
 ];
+
+// 批量修改用户
+const multiUserHandleItems = [
+  {
+    label: '锁定选中用户',
+    key: '1',
+  },
+  {
+    label: '解锁选中用户',
+    key: '2',
+  },
+  {
+    label: '激活选中用户',
+    key: '3',
+  },
+  {
+    label: '删除选中用户',
+    key: '4',
+  },
+];
+
+const multiUserHandle = (e) => {
+  console.log('数据：', e);
+};
+
+const multiUserHandleProps = {
+  items: multiUserHandleItems,
+  onClick: multiUserHandle,
+};

@@ -21,7 +21,7 @@ const Dashboard = () => {
             <div className="admin-page-header-desc">
               <div className="admin-page-header-welcome">{hello}</div>
               <div className="admin-page-header-job">
-                {userInfo.job_name} | {userInfo.system_department.name}
+                {userInfo.job_name} | {userInfo.system_department?.name}
               </div>
             </div>
           </div>
