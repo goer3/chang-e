@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginAPI } from '../../service/index.jsx';
 import { SetToken } from '../../utils/token.jsx';
 const { Header, Content, Footer } = Layout;
-import { FooterInfo, Logo } from '../../utils/resource.jsx';
+import { FooterInfo, Logo, WhiteLogo } from '../../utils/resource.jsx';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -30,8 +30,7 @@ const Login = () => {
       <div className="bg"></div>
       <Layout className="login-main">
         <Header className="login-header">
-          <img src={Logo} alt="" className="logo" />
-          <span className="title">CHANG`E</span>
+          <img src={WhiteLogo} style={{ height: 30 }} alt="" />
         </Header>
         <Content className="login-content">
           <div className="login-box">

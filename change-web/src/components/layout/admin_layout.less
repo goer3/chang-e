@@ -69,7 +69,6 @@
   padding: 10px 20px;
 }
 
-
 // 首页头部信息
 .admin-page-header {
   background: #fff;
@@ -87,8 +86,8 @@
     .admin-page-header-text {
       //background-color: rgba(24, 144, 225, 0.1);
       //border: 1px solid rgba(24, 144, 225, 0.5);
-      background-color: rgba(22,92,255, 0.1);
-      border: 1px solid rgba(22,92,255, 0.4);
+      background-color: rgba(22, 92, 255, 0.1);
+      border: 1px solid rgba(22, 92, 255, 0.4);
       width: 100%;
       padding: 15px;
       font-size: 12px;
@@ -102,6 +101,7 @@
     .admin-page-header-list {
       margin: 5px 10px 0 5px;
       line-height: 20px;
+      margin-bottom: 0 !important;
     }
   }
 
@@ -129,7 +129,7 @@
   .admin-page-header-job {
     line-height: 30px;
     letter-spacing: 1px;
-    color: rgba(0, 0, 0, .45);
+    color: rgba(0, 0, 0, 0.45);
   }
 
   // 右边
@@ -161,7 +161,7 @@
     padding: 0 10px;
   }
 
-  .ant-select{
+  .ant-select {
     height: 28px;
     line-height: 28px;
   }
@@ -176,7 +176,8 @@
     line-height: 28px;
   }
 
-  .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  .ant-select-single .ant-select-selector .ant-select-selection-item,
+  .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
     line-height: 26px;
   }
 }
@@ -203,7 +204,12 @@
   font-size: 12px;
 }
 
-.ant-table.ant-table-small .ant-table-title, .ant-table.ant-table-small .ant-table-footer, .ant-table.ant-table-small .ant-table-thead > tr > th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
+.ant-table.ant-table-small .ant-table-title,
+.ant-table.ant-table-small .ant-table-footer,
+.ant-table.ant-table-small .ant-table-thead > tr > th,
+.ant-table.ant-table-small .ant-table-tbody > tr > td,
+.ant-table.ant-table-small tfoot > tr > th,
+.ant-table.ant-table-small tfoot > tr > td {
   padding: 5px 8px;
 }
 
@@ -222,13 +228,13 @@
   margin-top: 10%;
 
   .admin-error-title {
-    color: rgba(0,0,0,.85);
+    color: rgba(0, 0, 0, 0.85);
     font-size: 30px;
     margin-top: 20px;
   }
 
-  .admin-error-desc{
-    color: rgba(0,0,0,.45);
+  .admin-error-desc {
+    color: rgba(0, 0, 0, 0.45);
     font-size: 14px;
     letter-spacing: 2px;
   }
@@ -238,4 +244,29 @@
   }
 }
 
+// 提示
+.ant-alert-with-description .ant-alert-icon {
+  margin-right: 10px;
+  margin-top: 3px;
+  font-size: 16px;
+}
 
+.ant-alert-with-description .ant-alert-message {
+  font-size: 13px;
+}
+
+.admin-header-alert {
+  background-color: #fff;
+  padding: 10px 20px 20px 20px;
+
+  ol,
+  ul,
+  dl {
+    margin-bottom: 0;
+    padding-left: 30px;
+  }
+
+  .ant-alert-description {
+    line-height: 23px;
+  }
+}

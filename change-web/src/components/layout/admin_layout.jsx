@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react';
 // ANTD
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, message } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined } from '@ant-design/icons';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 // 用户自定义
-import { FooterInfo, Iconfont, Logo } from '../../utils/resource.jsx';
+import { BlackLogo, FooterInfo, Iconfont, Logo, BlueLogo, BBLogo } from '../../utils/resource.jsx';
 import './admin_layout.less';
+import './admin_theme.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { CurrentUserInfoAPI, CurrentUserMenuTreeAPI } from '../../service/index.jsx';
@@ -115,8 +117,8 @@ const AdminLayout = () => {
       <Sider id="admin-layout-left" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} collapsedWidth="60">
         {/*logo 栏*/}
         <div className="admin-logo">
-          <img src={Logo} alt="" style={{ width: collapsed ? 30 : 25 }} />
-          <span className="admin-logo-title">CHANG`E</span>
+          <img src={BBLogo} style={{ height: 30, userSelect: 'none' }} alt="" />
+          {/* https://www.yishuzi.cn/ - 超萌萝莉 */}
         </div>
 
         {/*侧边菜单栏*/}
