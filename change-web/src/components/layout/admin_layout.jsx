@@ -117,7 +117,7 @@ const AdminLayout = () => {
       <Sider id="admin-layout-left" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} collapsedWidth="60">
         {/*logo 栏*/}
         <div className="admin-logo">
-          <img src={BBLogo} style={{ height: 30, userSelect: 'none' }} alt="" />
+          <img src={BBLogo} style={{ height: collapsed ? 30 : 25, userSelect: 'none' }} alt="" />
           {/* https://www.yishuzi.cn/ - 超萌萝莉 */}
         </div>
 
