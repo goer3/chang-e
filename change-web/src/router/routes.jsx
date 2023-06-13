@@ -32,7 +32,7 @@ export let RouteRules = [
           // 用户管理
           {
             path: 'users',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/users.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/users/index.jsx'))),
           },
           // 角色管理
           {
