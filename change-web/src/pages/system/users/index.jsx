@@ -1,8 +1,9 @@
 import React from 'react';
-import { Alert, Form, Row } from 'antd';
+import { Alert } from 'antd';
 import { UserManagementAlertMessage } from './alert_message.jsx';
 import { AlertMessageCloseHandle } from '../../common/alert_message.jsx';
 import { UserManagementSearchForm } from './search.jsx';
+import { UserManagementList } from './list.jsx';
 
 // 用户管理
 const UserManagement = () => {
@@ -18,6 +19,7 @@ const UserManagement = () => {
       </div>
 
       {/*用户列表*/}
+      <UserManagementList />
     </>
   );
 };
