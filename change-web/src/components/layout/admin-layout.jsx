@@ -8,9 +8,9 @@ import { MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined } from '@ant-design/
 const { Header, Content, Footer, Sider } = Layout;
 
 // 用户自定义
-import { BlackLogo, FooterInfo, Iconfont, Logo, BlueLogo, BBLogo } from '../../utils/resource.jsx';
-import './admin_layout.less';
-import './admin_theme.less';
+import { BlackLogo, FooterInfo, Iconfont, Logo, BlueLogo, BBLogo } from '../../pages/common/resource.jsx';
+import './admin-layout.less';
+import './admin-theme.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { CurrentUserInfoAPI, CurrentUserMenuTreeAPI } from '../../service/index.jsx';

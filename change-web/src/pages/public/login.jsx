@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { LoginAPI } from '../../service/index.jsx';
 import { SetToken } from '../../utils/token.jsx';
 const { Header, Content, Footer } = Layout;
-import { FooterInfo, Logo, WhiteLogo } from '../../utils/resource.jsx';
+import { FooterInfo, Logo, WhiteLogo } from '../common/resource.jsx';
 
 const Login = () => {
   const navigate = useNavigate();

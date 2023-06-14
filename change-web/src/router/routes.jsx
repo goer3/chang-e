@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation, useRoutes } from 'react-router-dom';
-import AdminLayout from '../components/layout/admin_layout';
+import AdminLayout from '../components/layout/admin-layout.jsx';
 import LazyLoad from './lazy.jsx';
 import { GetToken } from '../utils/token.jsx';
 import { MatchRouter } from '../utils/router.jsx';
