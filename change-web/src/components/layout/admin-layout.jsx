@@ -1,23 +1,29 @@
 // React
 import React, { useEffect, useState } from 'react';
+import { useSnapshot } from 'valtio';
 
 // ANTD
 import { Avatar, Breadcrumb, Dropdown, Layout, Menu, message } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined } from '@ant-design/icons';
-
 const { Header, Content, Footer, Sider } = Layout;
 
 // 用户自定义
-import { BlackLogo, FooterInfo, Iconfont, Logo, BlueLogo, BBLogo } from '../../pages/common/resource.jsx';
-import './admin-layout.less';
-import './admin-theme.less';
 import { Outlet, useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import { CurrentUserInfoAPI, CurrentUserMenuTreeAPI } from '../../service/index.jsx';
 import { MenuPermissionCheck } from '../../router/routes.jsx';
 
+// 样式
+import { BlackLogo, FooterInfo, Iconfont, Logo, BlueLogo, BBLogo } from '../../pages/common/resource.jsx';
+import './admin-layout.less';
+import './admin-theme.less';
+import { AdminLayoutStates } from '../../store/admin-layout.jsx';
+
 // Admin Layout 布局
 const AdminLayout = () => {
+  // 全局状态
+  const { userInfo, menuItems } = useSnapshot(AdminLayoutStates);
+
   // 用于跳转连接
   const navigate = useNavigate();
 
@@ -26,8 +32,7 @@ const AdminLayout = () => {
 
   // 状态数据
   const [collapsed, setCollapsed] = useState(false); // 侧边菜单栏是否收缩状态
-  const [userInfo, setUserInfo] = useState({}); // 当前用户信息
-  const [menuItems, setMenuItems] = useState([]); // 菜单信息
+
   // 监听变化
   useEffect(() => {
     ///////////////////////////////////////
@@ -41,7 +46,8 @@ const AdminLayout = () => {
         navigate('/login');
         return;
       }
-      setUserInfo(v.data.user_info);
+      // 保存到全局
+      AdminLayoutStates.userInfo = v.data.user_info;
     });
 
     ///////////////////////////////////////
@@ -68,7 +74,7 @@ const AdminLayout = () => {
               }),
           };
         });
-        setMenuItems(menuData);
+        AdminLayoutStates.menuItems = menuData;
       }
     });
   }, []);
@@ -183,7 +189,7 @@ const AdminLayout = () => {
             ))}
           </Breadcrumb>
           {/*代替接收 Children 传递*/}
-          <Outlet context={[userInfo, setUserInfo]} />
+          <Outlet />
         </Content>
         <Footer className="admin-footer">{FooterInfo}</Footer>
       </Layout>

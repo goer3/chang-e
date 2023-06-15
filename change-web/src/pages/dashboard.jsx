@@ -1,10 +1,12 @@
 import React from 'react';
 import { Avatar, Divider, PageHeader, Statistic } from 'antd';
-import { useOutletContext } from 'react-router';
+import { AdminLayoutStates } from '../store/admin-layout.jsx';
+import { useSnapshot } from 'valtio';
 
 const Dashboard = () => {
-  // 接收父传递的参数
-  const [userInfo, setUserInfo] = useOutletContext();
+  // 全局状态
+  const { userInfo } = useSnapshot(AdminLayoutStates);
+
   // 问候语
   let hello = generateHelloWord(userInfo.name);
 
