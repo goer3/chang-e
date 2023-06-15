@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'antd';
-import { UserManagementAlertMessage } from './users-alert.jsx';
 import { AlertMessageCloseHandle } from '../../common/alert-message.jsx';
+import { UserManagementAlertMessage } from './users-alert.jsx';
 import { UserManagementSearchForm } from './users-search.jsx';
 import { UserManagementList } from './users-list.jsx';
 

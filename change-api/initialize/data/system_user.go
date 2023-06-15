@@ -3,6 +3,7 @@ package data
 import (
 	"change-api/common"
 	"change-api/model"
+	"change-api/pkg/utils"
 	"errors"
 	"github.com/golang-module/carbon/v2"
 	"gorm.io/gorm"
@@ -11,6 +12,8 @@ import (
 // 初始化用户数据
 func SystemUserData() {
 	var (
+		// 系统初始密码
+		password      = utils.CryptoPassword(common.Conf.User.DefaultPassword)
 		isLeader uint = 1
 		male     uint = 1
 		female   uint = 2
