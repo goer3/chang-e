@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Space, Descriptions, Avatar, Badge, Tag } from 'antd';
 import { UserListAPI } from '../../../service';
-import { UserManagementBtnGroup } from './users-list-handle';
+import { UserManagementBtnGroup } from './users-list-btn';
 
 //////////////////////////////////////////////////////////////////
 // 表格列定义
