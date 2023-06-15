@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Col, Row, Button, Modal, Dropdown, DatePicker } from 'antd';
-import { DownloadOutlined, DownOutlined, UploadOutlined, UserAddOutlined } from '@ant-design/icons';
-import { Form, Input, Select } from 'antd';
+import { DownloadOutlined, DownOutlined, UploadOutlined, UserAddOutlined, InboxOutlined } from '@ant-design/icons';
+import { Form, Input, Select, message, Upload } from 'antd';
 const { Option } = Select;
+const { Dragger } = Upload;
 import { useSnapshot } from 'valtio';
 import { UsersStates } from '../../../store/users';
+import { ValidatePhone } from '../../common/validate';
 
 //////////////////////////////////////////////////////////////////
 // 用户批量操作
@@ -39,9 +41,6 @@ const UserMultiHandleProps = {
 
 // 按钮组
 export const UserManagementBtnGroup = () => {
-  // 全局状态
-  const { addUserFormOpen } = useSnapshot(UsersStates);
-
   return (
     <>
       {/* 按钮组定义 */}
@@ -56,7 +55,12 @@ export const UserManagementBtnGroup = () => {
             className="admin-ant-btn">
             新建用户
           </Button>
-          <Button icon={<UploadOutlined />} className="admin-ant-btn">
+          <Button
+            onClick={() => {
+              UsersStates.importUserOpen = true;
+            }}
+            icon={<UploadOutlined />}
+            className="admin-ant-btn">
             导入用户
           </Button>
         </Col>
@@ -78,6 +82,9 @@ export const UserManagementBtnGroup = () => {
 
       {/* 新建用户 */}
       <AddUserForm />
+
+      {/* 导入用户 */}
+      <ImportUserByFile />
     </>
   );
 };
@@ -115,6 +122,11 @@ const AddUserForm = () => {
                 required: true,
                 message: '请输入用户姓名!',
               },
+              {
+                max: 20,
+                min: 2,
+                message: '用户姓名长度不合法!',
+              },
             ]}>
             <Input placeholder="请输入用户姓名" />
           </Form.Item>
@@ -143,6 +155,7 @@ const AddUserForm = () => {
                 required: true,
                 message: '请输入用户手机号!',
               },
+              { validator: ValidatePhone },
             ]}>
             <Input placeholder="请输入用户手机号" />
           </Form.Item>
@@ -351,6 +364,42 @@ const AddUserForm = () => {
           <Form.Item wrapperCol={{ span: 24 }}>
             <Button className="admin-ant-btn" type="primary" htmlType="submit" block>
               创建用户
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+// 导入用户
+const ImportUserByFile = () => {
+  // 全局状态
+  const { importUserOpen } = useSnapshot(UsersStates);
+  return (
+    <>
+      <Modal
+        title="导入用户"
+        open={importUserOpen}
+        // onOk={CreateUserHandle}
+        onCancel={() => {
+          UsersStates.importUserOpen = false;
+        }}
+        maskClosable={false}
+        footer={null}
+        width={400}>
+        <Form>
+          <Form.Item name="files" valuePropName="fileList">
+            <Dragger multiple={false}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">点击或者拖拽文件到这里进行上传导入</p>
+            </Dragger>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="admin-ant-btn" block>
+              导入用户
             </Button>
           </Form.Item>
         </Form>
