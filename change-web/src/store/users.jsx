@@ -4,4 +4,5 @@ import { proxy } from 'valtio';
 export const UsersStates = proxy({
   addUserFormOpen: false, // 是否显示添加用户表单
   importUserOpen: false, // 导入用户
+  provinces: [], // 省份列表
 });

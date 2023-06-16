@@ -4,9 +4,14 @@ import { AlertMessageCloseHandle } from '../../common/alert-message.jsx';
 import { UserManagementAlertMessage } from './users-alert.jsx';
 import { UserManagementSearchForm } from './users-search.jsx';
 import { UserManagementList } from './users-list.jsx';
+import { UsersStates } from '../../../store/users.jsx';
+import { GetProvinceData } from '../../common/data.jsx';
 
 // 用户管理
 const UserManagement = () => {
+  // 保存省份列表
+  UsersStates.provinces = GetProvinceData();
+
   return (
     <>
       {/*提示信息*/}
