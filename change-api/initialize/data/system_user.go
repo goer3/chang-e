@@ -35,7 +35,8 @@ func SystemUserData() {
 			JobNumber:          "EZ000001",
 			JobName:            "超管",
 			Leader:             &isLeader,
-			OfficeCityId:       440300000000,
+			OfficeProvinceId:   510000000000,
+			OfficeCityId:       510500000000,
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
 				Carbon: carbon.Now(),
@@ -61,7 +62,8 @@ func SystemUserData() {
 			SystemDepartmentId: 10000,
 			JobNumber:          "EZ000002",
 			JobName:            "访客",
-			OfficeCityId:       440300000000,
+			OfficeProvinceId:   510000000000,
+			OfficeCityId:       511500000000,
 			OfficeAddress:      "广东省深圳市福田区研发中心",
 			EntryTime: carbon.DateTime{
 				//carbon.Parse("2022-03-11"),

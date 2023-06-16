@@ -45,8 +45,9 @@ func Router() *gin.Engine {
 		// system 路由模块
 		srag := rag.Group("/system")
 		{
-			routes.SystemUser(srag) // 用户路由组
-			routes.SystemMenu(srag) // 菜单路由组
+			routes.SystemUser(srag)    // 用户路由组
+			routes.SystemMenu(srag)    // 菜单路由组
+			routes.SystemRegions(srag) // 地区路由组
 		}
 	}
 	return r

@@ -21,6 +21,7 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
 		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeProvince").
 		Preload("OfficeCity").
 		Preload("NativeProvince").
 		Preload("NativeCity")
@@ -103,6 +104,7 @@ func GetUserInfoByUsername(username string) (user model.SystemUser, err error) {
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
 		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeProvince").
 		Preload("OfficeCity").
 		Preload("NativeProvince").
 		Preload("NativeCity")

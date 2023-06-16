@@ -7,7 +7,7 @@ import (
 
 // String2Uint 字符串转 uint
 func String2Uint(str string) uint {
-	num, err := strconv.ParseUint(str, 10, 32)
+	num, err := strconv.ParseUint(str, 10, 64)
 	if err != nil {
 		return 0
 	}

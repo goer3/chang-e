@@ -51,6 +51,7 @@ func authenticator(ctx *gin.Context) (interface{}, error) {
 	// 使用用户查询模板
 	DBT := common.DB.Preload("SystemDepartment").
 		Preload("SystemRole", "status = ?", 1).
+		Preload("OfficeProvince").
 		Preload("OfficeCity").
 		Preload("NativeProvince").
 		Preload("NativeCity")

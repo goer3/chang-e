@@ -32,6 +32,7 @@ type ResetPassword struct {
 type UpdateUserParam struct {
 	Mobile           string          `json:"mobile" form:"mobile"`
 	Email            string          `json:"email" form:"email"`
+	OfficeProvinceId uint            `json:"office_province_id" form:"office_province_id"`
 	OfficeCityId     uint            `json:"office_city_id" form:"office_city_id"`
 	OfficeAddress    string          `json:"office_address" form:"office_address"`
 	Birthday         carbon.DateTime `json:"birthday" form:"birthday"`
@@ -71,6 +72,7 @@ type CreateUserParam struct {
 	JobNumber          string          `json:"job_number" form:"job_number"`
 	JobName            string          `json:"job_name" form:"job_name"`
 	Leader             *model.NullUint `json:"leader" form:"leader"`
+	OfficeProvinceId   uint            `json:"office_province_id" form:"office_province_id"`
 	OfficeCityId       uint            `json:"office_city_id" form:"office_city_id"`
 	OfficeAddress      string          `json:"office_address" form:"office_address"`
 	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
