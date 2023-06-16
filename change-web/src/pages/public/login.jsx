@@ -57,7 +57,12 @@ const Login = () => {
                     message: '请输入您的用户名!',
                   },
                 ]}>
-                <Input autoComplete="off" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名 / 手机号 / Email" />
+                <Input
+                  autoComplete="off"
+                  className="login-input"
+                  prefix={<UserOutlined className="site-form-item-icon" />}
+                  placeholder="用户名 / 手机号 / Email"
+                />
               </Form.Item>
               <Form.Item
                 name="password"
@@ -67,7 +72,12 @@ const Login = () => {
                     message: '请输入您的密码!',
                   },
                 ]}>
-                <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="用户密码" />
+                <Input.Password
+                  className="login-input"
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="用户密码"
+                />
               </Form.Item>
 
               {/*<Form.Item>*/}

@@ -18,10 +18,14 @@ const SearchFields = [
   { name: 'active', label: '激活状态', type: 'select' },
   { name: 'unlocked', label: '锁定状态', type: 'select' },
   { name: 'gender', label: '性别', type: 'select' },
-  { name: 'office_city', label: '办公城市', type: 'text' },
+  { name: 'office_province', label: '办公省份', type: 'select' },
+  { name: 'office_city', label: '办公城市', type: 'select' },
   { name: 'office_address', label: '办公地点', type: 'text' },
-  { name: 'native_province_name', label: '籍贯省份', type: 'text' },
-  { name: 'native_province_city', label: '籍贯城市', type: 'text' },
+  { name: 'native_province_name', label: '籍贯省份', type: 'select' },
+  { name: 'native_province_city', label: '籍贯城市', type: 'select' },
+  { name: 'creator', label: '创建人', type: 'text' },
+  { name: 'entry_time', label: '入职时间', type: 'select' },
+  { name: 'birthday', label: '出生日期', type: 'select' },
 ];
 
 //////////////////////////////////////////////////////////////////

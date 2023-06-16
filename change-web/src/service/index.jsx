@@ -9,3 +9,7 @@ export const CurrentUserInfoAPI = () => GET('/system/user/info');
 export const UserListAPI = () => GET('/system/user/list');
 // 获取当前用户菜单树
 export const CurrentUserMenuTreeAPI = () => GET('/system/menu/tree');
+// 获取省份数据
+export const ProvinceListAPI = () => GET('/system/regions/list');
+// 获取城市数据
+export const CitiesListAPI = (id) => GET('/system/regions/list/' + id);

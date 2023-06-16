@@ -7,6 +7,7 @@ const { Dragger } = Upload;
 import { useSnapshot } from 'valtio';
 import { UsersStates } from '../../../store/users';
 import { ValidatePhone } from '../../common/validate';
+import { GetCitiesDataByProvinceId, GetProvinceData } from '../../common/data';
 
 //////////////////////////////////////////////////////////////////
 // 用户批量操作
@@ -100,6 +101,16 @@ const AddUserForm = () => {
   const CreateUserHandle = (values) => {
     console.log(': ', values);
   };
+
+  // 省份数据
+  const [provinces, setProvinces] = useState([]);
+
+  useEffect(() => {
+    setProvinces(GetProvinceData());
+  }, []);
+
+  // 联动城市数据
+  const [cities, setCities] = useState([]);
 
   return (
     <>
@@ -307,13 +318,15 @@ const AddUserForm = () => {
             <Select
               placeholder="请选择用户籍贯省份"
               showSearch={true}
-              filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
-              <Option value="1" label="是">
-                是
-              </Option>
-              <Option value="0" label="否">
-                否
-              </Option>
+              filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}
+              onChange={(id) => {
+                GetCitiesDataByProvinceId(id).then((val) => setCities(val));
+              }}>
+              {provinces.map((item) => (
+                <Select.Option key={item.id} label={item.name} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
 
@@ -330,12 +343,11 @@ const AddUserForm = () => {
               placeholder="请选择用户籍贯城市"
               showSearch={true}
               filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
-              <Option value="1" label="是">
-                是
-              </Option>
-              <Option value="0" label="否">
-                否
-              </Option>
+              {cities.map((item) => (
+                <Select.Option key={item.id} label={item.name} value={item.id}>
+                  {item.name}
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
 
