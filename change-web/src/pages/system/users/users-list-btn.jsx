@@ -309,7 +309,7 @@ const AddUserForm = () => {
                   },
                 ]}>
                 <Select
-                  placeholder="请选择用户工作城市"
+                  placeholder="请先选择用户工作省份"
                   showSearch={true}
                   filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
                   {officeCities.map((item) => (
@@ -371,7 +371,7 @@ const AddUserForm = () => {
                   },
                 ]}>
                 <Select
-                  placeholder="请选择用户籍贯城市"
+                  placeholder="请先选择用户籍贯省份"
                   showSearch={true}
                   filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
                   {nativeCities.map((item) => (

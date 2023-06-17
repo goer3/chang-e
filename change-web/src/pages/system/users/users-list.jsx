@@ -146,9 +146,9 @@ export const UserManagementList = () => {
                     <Descriptions.Item label="用户籍贯">
                       {record.native_province.name} - {record.native_city.name}
                     </Descriptions.Item>
-                    <Descriptions.Item label="办公省份">{record.office_province.name}</Descriptions.Item>
-                    <Descriptions.Item label="办公城市">{record.office_city.name}</Descriptions.Item>
-                    <Descriptions.Item label="办公地点">{record.work_address}</Descriptions.Item>
+                    <Descriptions.Item label="办公地点">
+                      {record.office_province.name} - {record.office_city.name} - {record.work_address}
+                    </Descriptions.Item>
                     <Descriptions.Item label="入职时间">{record.entry_time}</Descriptions.Item>
                     <Descriptions.Item label="用户生日">{record.birthday}</Descriptions.Item>
                     <Descriptions.Item label="创建时间">{record.created_at}</Descriptions.Item>
