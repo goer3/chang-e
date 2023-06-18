@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { ProvinceListAPI, CitiesListAPI } from '../../service';
+import { ProvinceListAPI, CitiesListAPI, RoleListAPI } from '../../service';
 
 // 获取省份数据
 export const GetProvinceData = () => {
@@ -34,4 +34,18 @@ export const GetCitiesDataByProvinceId = (id) => {
     return res.data.list;
   }
   return GetCitiesList();
+};
+
+// 获取所有角色数据
+export const GetAllRoleData = () => {
+  // 请求接口获取数据
+  async function GetRoleList() {
+    const res = await RoleListAPI();
+    if (res.code != 200) {
+      message.error('获取角色信息失败');
+      return null;
+    }
+    return res.data.list;
+  }
+  return GetRoleList();
 };

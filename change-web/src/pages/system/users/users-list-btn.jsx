@@ -93,7 +93,11 @@ export const UserManagementBtnGroup = () => {
 // 添加用户表单
 const AddUserForm = () => {
   // 全局状态
-  const { addUserFormOpen } = useSnapshot(UsersStates);
+  const { addUserFormOpen, provinces, roles } = useSnapshot(UsersStates);
+
+  // 联动城市数据
+  const [officeCities, setOfficeCities] = useState([]);
+  const [nativeCities, setNativeCities] = useState([]);
 
   // 添加用户表单
   const [form] = Form.useForm();
@@ -101,13 +105,6 @@ const AddUserForm = () => {
   const CreateUserHandle = (values) => {
     console.log(': ', values);
   };
-
-  // 省份数据
-  const { provinces } = useSnapshot(UsersStates);
-
-  // 联动城市数据
-  const [officeCities, setOfficeCities] = useState([]);
-  const [nativeCities, setNativeCities] = useState([]);
 
   return (
     <>
