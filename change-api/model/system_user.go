@@ -13,10 +13,10 @@ type SystemUser struct {
 	JobNumber          string           `gorm:"uniqueIndex:uidx_number;comment:工号" json:"job_number"`
 	JobName            string           `gorm:"not null;comment:岗位名称" json:"job_name"`
 	Leader             *uint            `gorm:"type:tinyint(1);default:0;comment:是不是管理级(0: 否, 1: 是)" json:"leader"`
-	OfficeProvinceId   uint             `gorm:"comment:工作省份ID" json:"office_city_id"`
-	OfficeProvince     Regions          `gorm:"comment:工作省份信息;foreignKey:OfficeProvinceId" json:"office_city"`
-	OfficeCityId       uint             `gorm:"comment:工作城市ID" json:"office_province_id"`
-	OfficeCity         Regions          `gorm:"comment:工作城市信息;foreignKey:OfficeCityId" json:"office_province"`
+	OfficeProvinceId   uint             `gorm:"comment:工作省份ID" json:"office_province_id"`
+	OfficeProvince     Regions          `gorm:"comment:工作省份信息;foreignKey:OfficeProvinceId" json:"office_province"`
+	OfficeCityId       uint             `gorm:"comment:工作城市ID" json:"office_city_id"`
+	OfficeCity         Regions          `gorm:"comment:工作城市信息;foreignKey:OfficeCityId" json:"office_city"`
 	OfficeAddress      string           `gorm:"comment:办公地址" json:"work_address"`
 	EntryTime          carbon.DateTime  `gorm:"comment:入职时间" json:"entry_time"`
 	Birthday           carbon.DateTime  `gorm:"comment:生日" json:"birthday"`

@@ -47,6 +47,7 @@ func Router() *gin.Engine {
 		{
 			routes.SystemUser(srag)    // 用户路由组
 			routes.SystemMenu(srag)    // 菜单路由组
+			routes.SystemRole(srag)    // 角色路由组
 			routes.SystemRegions(srag) // 地区路由组
 		}
 	}

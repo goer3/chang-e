@@ -37,7 +37,7 @@ func SystemUserData() {
 			Leader:             &isLeader,
 			OfficeProvinceId:   510000000000,
 			OfficeCityId:       510500000000,
-			OfficeAddress:      "广东省深圳市福田区研发中心",
+			OfficeAddress:      "福田区研发中心",
 			EntryTime: carbon.DateTime{
 				Carbon: carbon.Now(),
 			},
@@ -64,7 +64,7 @@ func SystemUserData() {
 			JobName:            "访客",
 			OfficeProvinceId:   510000000000,
 			OfficeCityId:       511500000000,
-			OfficeAddress:      "广东省深圳市福田区研发中心",
+			OfficeAddress:      "福田区研发中心",
 			EntryTime: carbon.DateTime{
 				//carbon.Parse("2022-03-11"),
 				Carbon: carbon.Now(),
