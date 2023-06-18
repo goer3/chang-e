@@ -15,3 +15,5 @@ export const ProvinceListAPI = () => GET('/system/regions/list');
 export const CitiesListAPI = (id) => GET('/system/regions/list/' + id);
 // 获取角色数据
 export const RoleListAPI = () => GET('/system/role/list');
+// 获取部门数据
+export const DepartmentListAPI = () => GET('/system/department/list');

@@ -6,4 +6,5 @@ export const UsersStates = proxy({
   importUserOpen: false, // 导入用户
   provinces: [], // 省份列表
   roles: [], // 角色列表
+  departments: [], // 部门列表
 });

@@ -8,6 +8,7 @@ import { useSnapshot } from 'valtio';
 import { UsersStates } from '../../../store/users';
 import { ValidatePhone } from '../../common/validate';
 import { GetCitiesDataByProvinceId, GetProvinceData } from '../../common/data';
+import { AdminLayoutStates } from '../../../store/admin-layout';
 
 //////////////////////////////////////////////////////////////////
 // 用户批量操作
@@ -93,7 +94,7 @@ export const UserManagementBtnGroup = () => {
 // 添加用户表单
 const AddUserForm = () => {
   // 全局状态
-  const { addUserFormOpen, provinces, roles } = useSnapshot(UsersStates);
+  const { addUserFormOpen, provinces, roles, departments } = useSnapshot(UsersStates);
 
   // 联动城市数据
   const [officeCities, setOfficeCities] = useState([]);
@@ -258,12 +259,11 @@ const AddUserForm = () => {
                   placeholder="请选择用户所属部门"
                   showSearch={true}
                   filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
-                  <Option value="1" label="是">
-                    是
-                  </Option>
-                  <Option value="0" label="否">
-                    否
-                  </Option>
+                  {departments.map((item) => (
+                    <Select.Option key={item.id} label={item.name} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -411,12 +411,11 @@ const AddUserForm = () => {
                   placeholder="请选择用户角色"
                   showSearch={true}
                   filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}>
-                  <Option value="1" label="是">
-                    是
-                  </Option>
-                  <Option value="0" label="否">
-                    否
-                  </Option>
+                  {roles.map((item) => (
+                    <Select.Option key={item.id} label={item.name} value={item.id}>
+                      {item.name}
+                    </Select.Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
