@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Alert } from 'antd';
 import { AlertMessageCloseHandle } from '../../common/alert-message.jsx';
 import { UserManagementAlertMessage } from './users-alert.jsx';
@@ -9,12 +9,14 @@ import { GetAllDepartmentData, GetAllRoleData, GetProvinceData } from '../../com
 
 // 用户管理
 const UserManagement = () => {
-  // 保存省份列表
-  UsersStates.provinces = GetProvinceData();
-  // 保存角色列表
-  UsersStates.roles = GetAllRoleData();
-  // 保存部门列表
-  UsersStates.departments = GetAllDepartmentData();
+  useEffect(() => {
+    // 保存省份列表
+    UsersStates.provinces = GetProvinceData();
+    // 保存角色列表
+    UsersStates.roles = GetAllRoleData();
+    // 保存部门列表
+    UsersStates.departments = GetAllDepartmentData();
+  });
 
   return (
     <>

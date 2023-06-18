@@ -8,7 +8,6 @@ import { useSnapshot } from 'valtio';
 import { UsersStates } from '../../../store/users';
 import { ValidatePhone } from '../../common/validate';
 import { GetCitiesDataByProvinceId, GetProvinceData } from '../../common/data';
-import { AdminLayoutStates } from '../../../store/admin-layout';
 
 //////////////////////////////////////////////////////////////////
 // 用户批量操作
