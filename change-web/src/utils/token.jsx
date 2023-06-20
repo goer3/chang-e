@@ -1,6 +1,4 @@
-import React from 'react';
-
-// 获取 Token 的方法
+// 获取 Token
 export const GetToken = () => {
   // 获取 Token 过期时间，判断是否过期
   let expire = sessionStorage.getItem('expire');

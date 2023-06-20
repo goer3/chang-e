@@ -1,11 +1,12 @@
 import { HashRouter } from 'react-router-dom';
-import { AuthRouter, GetRoutes } from './router/routes.jsx';
+import { AuthRouter, GetRouteList } from './router/index.jsx';
 
+// 路由入口
 const App = () => {
   return (
     <HashRouter>
       <AuthRouter>
-        <GetRoutes />
+        <GetRouteList />
       </AuthRouter>
     </HashRouter>
   );

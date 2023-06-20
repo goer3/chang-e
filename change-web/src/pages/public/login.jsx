@@ -1,29 +1,29 @@
 import React from 'react';
-import { LockOutlined, UserOutlined, DingtalkOutlined, WechatOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
-import './login.less';
 import { useNavigate } from 'react-router-dom';
-import { LoginAPI } from '../../service/index.jsx';
-import { SetToken } from '../../utils/token.jsx';
-const { Header, Content, Footer } = Layout;
-import { FooterInfo, Logo, WhiteLogo } from '../common/resource.jsx';
+import { Button, Checkbox, Form, Input, Layout } from 'antd';
+import { DingtalkOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { FooterText, WhiteLogo } from '../../config/resource.jsx';
+import '/src/assets/css/login.less';
 
+const { Header, Content, Footer } = Layout;
+
+// 用户登录
 const Login = () => {
   const navigate = useNavigate();
 
   // 登录请求
   const loginHandler = async (values) => {
-    const res = await LoginAPI(values);
-    // 如果登录成功
-    if (res.code === 200) {
-      // 设置 Token
-      SetToken(res.data.token, res.data.expire);
-      // 输出登录成功
-      message.success('登录成功！');
-      navigate('/dashboard');
-    } else {
-      message.error(res.message);
-    }
+    // const res = await LoginAPI(values);
+    // // 如果登录成功
+    // if (res.code === 200) {
+    //   // 设置 Token
+    //   SetToken(res.data.token, res.data.expire);
+    //   // 输出登录成功
+    //   message.success('登录成功！');
+    //   navigate('/dashboard');
+    // } else {
+    //   message.error(res.message);
+    // }
   };
   return (
     <div>
@@ -123,7 +123,9 @@ const Login = () => {
             </div>
           </div>
         </Content>
-        <Footer className="login-footer">{FooterInfo}</Footer>
+        <Footer className="login-footer">
+          <FooterText />
+        </Footer>
       </Layout>
     </div>
   );
