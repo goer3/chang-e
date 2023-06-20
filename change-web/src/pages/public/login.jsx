@@ -18,7 +18,6 @@ const Login = () => {
   // 用户登录函数
   const LoginHandler = async (data) => {
     const res = await LoginAPI(data);
-    console.log(res);
     if (res.code === 200) {
       // 登录成功，获取 Token 并保存
       SetToken(res.data.token, res.data.expire);

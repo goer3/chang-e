@@ -28,6 +28,7 @@
 ```bash
 # 自动格式化代码
 npm i --save-dev --save-exact prettier
+npm i --save-dev @types/node 
 
 # 基础开发依赖
 npm i antd@4.24.8
@@ -36,6 +37,7 @@ npm i react-router
 npm i react-router-dom
 npm i less less-loader
 npm i axios
+npm i valtio
 ```
 
 <br>
