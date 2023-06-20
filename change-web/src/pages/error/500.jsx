@@ -7,7 +7,7 @@ const ServerError = () => {
   const navigate = useNavigate();
   return (
     <div className="admin-error-info">
-      <img src="/src/assets/image/500.svg" alt="" />
+      <img src="/src/assets/images/500.svg" alt="" />
       <div className="admin-error-title">500</div>
       <div className="admin-error-desc">系统错误，请联系管理员！</div>
       <div className="admin-error-back">

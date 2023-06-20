@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { Layout, Menu, message } from 'antd';
-const { Sider } = Layout;
 import { BBLogo } from '../../config/resource.jsx';
 import { useSnapshot } from 'valtio';
 import { LayoutStates } from '../../store/layout.jsx';
 import { MenuStates } from '../../store/menus.jsx';
 import { useLocation, useNavigate } from 'react-router';
 import { MenuPermissionCheck } from '../../common/permission.jsx';
+
+const { Sider } = Layout;
 
 // 侧边菜单栏
 const AdminLayoutSider = () => {
@@ -16,7 +17,7 @@ const AdminLayoutSider = () => {
 
   // 全局状态数据
   const { CurrentUserMenuTree } = useSnapshot(MenuStates); // 菜单信息
-  const { MenuSiderCollapsed, MenuOpenSelectKeys } = useSnapshot(LayoutStates); // Layout 信息
+  const { MenuSiderCollapsed, MenuOpenKeys, MenuSelectKeys } = useSnapshot(LayoutStates); // Layout 信息
 
   useEffect(() => {
     if (CurrentUserMenuTree.length > 0) {
@@ -27,7 +28,9 @@ const AdminLayoutSider = () => {
       }
 
       // 修改默认打开和选中菜单
-      LayoutStates.MenuOpenSelectKeys = findKeyList(pathname, CurrentUserMenuTree);
+      let keys = findKeyList(pathname, CurrentUserMenuTree);
+      LayoutStates.MenuOpenKeys = keys;
+      LayoutStates.MenuSelectKeys = keys;
     }
   }, [pathname, CurrentUserMenuTree]);
 
@@ -45,15 +48,14 @@ const AdminLayoutSider = () => {
       <Menu
         theme="dark"
         defaultSelectedKeys="['/dashboard']"
-        openKeys={MenuOpenSelectKeys}
-        selectedKeys={MenuOpenSelectKeys}
+        openKeys={MenuOpenKeys}
+        selectedKeys={MenuSelectKeys}
         mode="inline"
         items={CurrentUserMenuTree}
         style={{ letterSpacing: 2 }}
-        // 设置 openKeys 导致子菜单无法展开问题
         onOpenChange={(key) => {
-          // 解决 404 等页码第一次点击折叠菜单不展开问题
-          LayoutStates.MenuOpenSelectKeys = [key[key.length - 1]];
+          // 解决 404 等页码第一次点击折叠菜单不展开和收起菜单栏不选中问题
+          LayoutStates.MenuOpenKeys = [key[key.length - 1]];
         }}
         // 菜单点击事件，能够返回对应的 Key
         // 文档中提示可获取到 item, key, keyPath, domEvent

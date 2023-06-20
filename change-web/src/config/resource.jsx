@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from '/src/assets/image/logo-x.png';
-import blackLogo from '/src/assets/image/logo-title-black.png';
-import whiteLogo from '/src/assets/image/logo-title-white.png';
-import blueLogo from '/src/assets/image/logo-title-blue.png';
-import bbLogo from '/src/assets/image/logo-title-bb.png';
+import logo from '/src/assets/images/logo-x.png';
+import blackLogo from '/src/assets/images/logo-title-black.png';
+import whiteLogo from '/src/assets/images/logo-title-white.png';
+import blueLogo from '/src/assets/images/logo-title-blue.png';
+import bbLogo from '/src/assets/images/logo-title-bb.png';
 
 //引入所有图标
 import * as Icons from '@ant-design/icons';
