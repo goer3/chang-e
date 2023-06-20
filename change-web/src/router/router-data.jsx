@@ -1,6 +1,6 @@
 import React from 'react';
 import LazyLoad from './router-lazy.jsx';
-import AdminLayout from '../components/layout/index.jsx';
+import AdminLayout from '../components/layout/layout.jsx';
 import { Navigate } from 'react-router';
 
 // 路由数据配置
@@ -25,39 +25,39 @@ export const MenuRouteRules = [
           // 部门管理
           {
             path: 'departments',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/departments/index.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/departments/departments.jsx'))),
           },
           // 用户管理
           {
             path: 'users',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/users/index.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/users/users.jsx'))),
           },
           // 角色管理
           {
             path: 'roles',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/roles/index.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/roles/roles.jsx'))),
           },
           // 菜单管理
           {
             path: 'menus',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/menus/index.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/menus/menus.jsx'))),
           },
           // 接口管理
           {
             path: 'apis',
-            element: LazyLoad(React.lazy(() => import('/src/pages/system/apis/index.jsx'))),
+            element: LazyLoad(React.lazy(() => import('/src/pages/system/apis/apis.jsx'))),
           },
         ],
       },
       // 关于我们
       {
         path: 'about',
-        element: LazyLoad(React.lazy(() => import('/src/pages/about/index.jsx'))),
+        element: LazyLoad(React.lazy(() => import('/src/pages/about/about.jsx'))),
       },
       // 获取帮助
       {
         path: 'help',
-        element: LazyLoad(React.lazy(() => import('/src/pages/help/index.jsx'))),
+        element: LazyLoad(React.lazy(() => import('/src/pages/help/help.jsx'))),
       },
       // 404 处理
       {
