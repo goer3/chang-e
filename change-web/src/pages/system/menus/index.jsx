@@ -1,4 +1,4 @@
-import React from '@types/react';
+import React from 'react';
 
 // 菜单管理
 const MenusManagement = () => {

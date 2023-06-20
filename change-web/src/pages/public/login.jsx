@@ -1,32 +1,42 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Checkbox, Form, Input, Layout } from 'antd';
+import { useNavigate } from 'react-router';
+import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
 import { DingtalkOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { FooterText, WhiteLogo } from '../../config/resource.jsx';
 import '/src/assets/css/login.less';
+import { FooterText, WhiteLogo } from '../../config/resource.jsx';
+import { LoginAPI } from '../../config/api-request.jsx';
+import { SetToken } from '../../utils/token.jsx';
+import { UserStates } from '../../store/users.jsx';
 
 const { Header, Content, Footer } = Layout;
 
 // 用户登录
 const Login = () => {
+  // 路由跳转
   const navigate = useNavigate();
 
-  // 登录请求
-  const loginHandler = async (values) => {
-    // const res = await LoginAPI(values);
-    // // 如果登录成功
-    // if (res.code === 200) {
-    //   // 设置 Token
-    //   SetToken(res.data.token, res.data.expire);
-    //   // 输出登录成功
-    //   message.success('登录成功！');
-    //   navigate('/dashboard');
-    // } else {
-    //   message.error(res.message);
-    // }
+  // 用户登录函数
+  const LoginHandler = async (data) => {
+    const res = await LoginAPI(data);
+    console.log(res);
+    if (res.code === 200) {
+      // 登录成功，获取 Token 并保存
+      SetToken(res.data.token, res.data.expire);
+      // 返回登录成功
+      message.success('登录成功');
+      navigate('/dashboard');
+    } else if (res.code === 1004) {
+      // 第一次登录，将 Token 保存
+      UserStates.ResetPasswordToken = res.message;
+      // 跳转到重置密码页
+      navigate('/reset-password');
+    } else {
+      message.error(res.message);
+    }
   };
+
   return (
-    <div>
+    <>
       <div className="bg"></div>
       <Layout className="login-main">
         <Header className="login-header">
@@ -35,7 +45,7 @@ const Login = () => {
         <Content className="login-content">
           <div className="login-box">
             <div className="login-welcome">Sign in</div>
-            <div className="login-slogan">Hi，欢迎回来 👏</div>
+            <div className="login-slogan">Hi，欢迎回来 </div>
             <Button className="login-type-btn" block>
               <DingtalkOutlined /> 使用钉钉登录
             </Button>
@@ -48,7 +58,7 @@ const Login = () => {
               initialValues={{
                 remember: true,
               }}
-              onFinish={loginHandler}>
+              onFinish={LoginHandler}>
               <Form.Item
                 name="account"
                 rules={[
@@ -127,7 +137,7 @@ const Login = () => {
           <FooterText />
         </Footer>
       </Layout>
-    </div>
+    </>
   );
 };
 

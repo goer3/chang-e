@@ -1,4 +1,4 @@
-import React from '@types/react';
+import React from 'react';
 
 // 角色管理
 const RolesManagement = () => {
