@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
 import { DingtalkOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import '/src/assets/css/login.less';
 import { FooterText, WhiteLogo } from '../../config/resource.jsx';
-import { LoginAPI } from '../../config/api-request.jsx';
+import { LoginAPI } from '../../common/request-api.jsx';
 import { SetToken } from '../../utils/token.jsx';
 import { UserStates } from '../../store/users.jsx';
 
@@ -45,7 +45,7 @@ const Login = () => {
         <Content className="login-content">
           <div className="login-box">
             <div className="login-welcome">Sign in</div>
-            <div className="login-slogan">Hi，欢迎回来 </div>
+            <div className="login-slogan">Hi，欢迎回来</div>
             <Button className="login-type-btn" block>
               <DingtalkOutlined /> 使用钉钉登录
             </Button>

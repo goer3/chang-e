@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GetToken } from './token.jsx';
+import { GetToken } from '../utils/token.jsx';
 
 // 创建实例
 const instance = axios.create({

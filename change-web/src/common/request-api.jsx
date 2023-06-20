@@ -1,4 +1,4 @@
-import { GET, POST } from '../utils/request';
+import { GET, POST } from './request.jsx';
 
 // 登录接口
 export const LoginAPI = (data) => POST('/login', data);
