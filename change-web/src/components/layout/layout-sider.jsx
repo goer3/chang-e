@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Layout, Menu, message } from 'antd';
 import { BBLogo } from '../../config/resource.jsx';
 import { useSnapshot } from 'valtio';
-import { LayoutStates } from '../../store/layout.jsx';
-import { MenuStates } from '../../store/menus.jsx';
+import { LayoutStates } from '../../store/store-layout.jsx';
+import { MenuStates } from '../../store/store-menus.jsx';
 import { useLocation, useNavigate } from 'react-router';
 import { MenuPermissionCheck } from '../../common/permission.jsx';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Divider, PageHeader, Statistic } from 'antd';
 import { useSnapshot } from 'valtio';
-import { UserStates } from '../../../store/users.jsx';
+import { UserStates } from '../../../store/store-users.jsx';
 
 ////////////////////////////////////////////////////////////
 // 工作台 Header

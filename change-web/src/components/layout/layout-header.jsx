@@ -3,8 +3,8 @@ import { Avatar, Dropdown, Layout, message } from 'antd';
 const { Header } = Layout;
 import { MenuFoldOutlined, MenuUnfoldOutlined, MoreOutlined } from '@ant-design/icons';
 import { useSnapshot } from 'valtio';
-import { LayoutStates } from '../../store/layout.jsx';
-import { UserStates } from '../../store/users.jsx';
+import { LayoutStates } from '../../store/store-layout.jsx';
+import { UserStates } from '../../store/store-users.jsx';
 
 // 顶部导航
 const AdminLayoutHeader = () => {

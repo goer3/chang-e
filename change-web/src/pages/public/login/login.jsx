@@ -6,7 +6,7 @@ import '/src/assets/css/login.less';
 import { FooterText, WhiteLogo } from '../../../config/resource.jsx';
 import { LoginAPI } from '../../../common/request-api.jsx';
 import { SetToken } from '../../../utils/token.jsx';
-import { UserStates } from '../../../store/users.jsx';
+import { UserStates } from '../../../store/store-users.jsx';
 
 const { Header, Content, Footer } = Layout;
 

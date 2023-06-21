@@ -8,9 +8,9 @@ import { FooterText, Iconfont } from '../../config/resource.jsx';
 import AdminLayoutSider from './layout-sider.jsx';
 import AdminLayoutHeader from './layout-header.jsx';
 import { useSnapshot } from 'valtio';
-import { LayoutStates } from '../../store/layout.jsx';
-import { UserStates } from '../../store/users.jsx';
-import { MenuStates } from '../../store/menus.jsx';
+import { LayoutStates } from '../../store/store-layout.jsx';
+import { UserStates } from '../../store/store-users.jsx';
+import { MenuStates } from '../../store/store-menus.jsx';
 import AdminLayoutContent from './layout-content.jsx';
 
 const { Footer } = Layout;
