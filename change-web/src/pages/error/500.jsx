@@ -2,7 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { Button } from 'antd';
 
+////////////////////////////////////////////////////////////
 // 系统错误 500
+////////////////////////////////////////////////////////////
 const ServerError = () => {
   const navigate = useNavigate();
   return (

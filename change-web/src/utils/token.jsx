@@ -1,4 +1,6 @@
+////////////////////////////////////////////////////////////
 // 获取 Token
+////////////////////////////////////////////////////////////
 export const GetToken = () => {
   // 获取 Token 过期时间，判断是否过期
   let expire = sessionStorage.getItem('expire');
@@ -16,7 +18,9 @@ export const GetToken = () => {
   return null;
 };
 
+////////////////////////////////////////////////////////////
 // 设置 Token 和 Token 过期时间
+////////////////////////////////////////////////////////////
 export const SetToken = (token, expire) => {
   sessionStorage.setItem('token', token);
   sessionStorage.setItem('expire', expire);

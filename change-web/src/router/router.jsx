@@ -4,12 +4,16 @@ import { MenuRouteRules } from './router-data.jsx';
 import { GetToken } from '../utils/token.jsx';
 import { MatchRouter } from './router-match.jsx';
 
+////////////////////////////////////////////////////////////
 // 获取路由列表
+////////////////////////////////////////////////////////////
 export const GetRouteList = () => {
   return useRoutes(MenuRouteRules);
 };
 
+////////////////////////////////////////////////////////////
 // 路由拦截，登录状态判断
+////////////////////////////////////////////////////////////
 export const AuthRouter = ({ children }) => {
   // 获取 Token
   const token = GetToken();

@@ -2,7 +2,9 @@ import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router';
 
+////////////////////////////////////////////////////////////
 // 权限拒绝 403
+////////////////////////////////////////////////////////////
 const Forbidden = () => {
   const navigate = useNavigate();
   return (

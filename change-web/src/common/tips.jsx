@@ -1,10 +1,8 @@
 import React from 'react';
 
 ////////////////////////////////////////////////////////////
-// 接口管理
+// 关闭提示信息处理函数
 ////////////////////////////////////////////////////////////
-const APISManagement = () => {
-  return <div>index</div>;
+export const CloseTipsHandle = () => {
+  document.getElementById('id-tips').style.padding = 0;
 };
-
-export default APISManagement;

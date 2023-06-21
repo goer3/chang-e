@@ -15,7 +15,9 @@ import AdminLayoutContent from './layout-content.jsx';
 
 const { Footer } = Layout;
 
+////////////////////////////////////////////////////////////
 // Admin Layout 布局
+////////////////////////////////////////////////////////////
 const AdminLayout = () => {
   // 路由方法
   const navigate = useNavigate(); // 用于跳转连接

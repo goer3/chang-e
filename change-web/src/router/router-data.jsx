@@ -3,7 +3,9 @@ import LazyLoad from './router-lazy.jsx';
 import AdminLayout from '../components/layout/layout.jsx';
 import { Navigate } from 'react-router';
 
+////////////////////////////////////////////////////////////
 // 路由数据配置
+////////////////////////////////////////////////////////////
 export const MenuRouteRules = [
   // 需要登录才能访问的菜单
   // 访问 / 默认跳转到 /dashboard

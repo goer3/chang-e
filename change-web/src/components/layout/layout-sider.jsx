@@ -9,7 +9,9 @@ import { MenuPermissionCheck } from '../../common/permission.jsx';
 
 const { Sider } = Layout;
 
+////////////////////////////////////////////////////////////
 // 侧边菜单栏
+////////////////////////////////////////////////////////////
 const AdminLayoutSider = () => {
   // 路由方法
   const navigate = useNavigate(); // 用于跳转连接
