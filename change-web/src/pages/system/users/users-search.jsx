@@ -7,6 +7,7 @@ import { DepartmentStates } from '../../../store/store-departments.jsx';
 import { RoleStates } from '../../../store/store-roles.jsx';
 import { GetCityListByProvinceIdAPI } from '../../../common/request-api.jsx';
 import { UserStates } from '../../../store/store-users.jsx';
+import { GetCityListByProvinceIdHandle } from '../../../common/gets.jsx';
 
 const { Option } = Select;
 
@@ -36,22 +37,6 @@ const searchFields = [
 ];
 
 ////////////////////////////////////////////////////////////
-// 获取城市数据
-////////////////////////////////////////////////////////////
-const getCityListByProvinceIdHandle = (id) => {
-  // 请求接口获取数据
-  async function GetCityListHandle() {
-    const res = await GetCityListByProvinceIdAPI(id);
-    if (res.code !== 200) {
-      message.error('获取城市信息失败');
-      return null;
-    }
-    return res.data.list;
-  }
-  return GetCityListHandle();
-};
-
-////////////////////////////////////////////////////////////
 // 生成搜索表单
 ////////////////////////////////////////////////////////////
 const generateUserSearchForm = () => {
@@ -64,9 +49,6 @@ const generateUserSearchForm = () => {
   // 联动城市数据
   const [searchOfficeCities, setSearchOfficeCities] = useState([]);
   const [searchNativeCities, setSearchNativeCities] = useState([]);
-
-  // 是否展开更多搜索框
-  const [expand, setExpand] = useState(false);
 
   // 默认显示的搜索框数量
   let count = 7;
@@ -144,7 +126,7 @@ const generateUserSearchForm = () => {
               showSearch={true}
               filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}
               onChange={(id) => {
-                getCityListByProvinceIdHandle(id).then((val) => setSearchOfficeCities(val));
+                GetCityListByProvinceIdHandle(id).then((val) => setSearchOfficeCities(val));
               }}>
               {Provinces.map((item) => (
                 <Select.Option key={item.id} label={item.name} value={item.id}>
@@ -171,7 +153,7 @@ const generateUserSearchForm = () => {
               showSearch={true}
               filterOption={(input, option) => option.label.toLowerCase().includes(input.toLowerCase())}
               onChange={(id) => {
-                getCityListByProvinceIdHandle(id).then((val) => setSearchNativeCities(val));
+                GetCityListByProvinceIdHandle(id).then((val) => setSearchNativeCities(val));
               }}>
               {Provinces.map((item) => (
                 <Select.Option key={item.id} label={item.name} value={item.id}>
