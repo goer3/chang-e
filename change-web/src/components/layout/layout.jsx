@@ -5,13 +5,13 @@ import '/src/assets/css/admin.less';
 import '/src/assets/css/theme.less';
 import { GetCurrentUserInfoAPI, GetCurrentUserMenuTreeAPI } from '../../common/request-api.jsx';
 import { FooterText, Iconfont } from '../../config/resource.jsx';
-import AdminLayoutSider from './sider.jsx';
-import AdminLayoutHeader from './header.jsx';
+import AdminLayoutSider from './layout-sider.jsx';
+import AdminLayoutHeader from './layout-header.jsx';
 import { useSnapshot } from 'valtio';
 import { LayoutStates } from '../../store/layout.jsx';
 import { UserStates } from '../../store/users.jsx';
 import { MenuStates } from '../../store/menus.jsx';
-import AdminLayoutContent from './content';
+import AdminLayoutContent from './layout-content.jsx';
 
 const { Footer } = Layout;
 

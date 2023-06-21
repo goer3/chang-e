@@ -16,7 +16,7 @@ export const MenuRouteRules = [
       // Dashboard 工作台
       {
         path: 'dashboard',
-        element: LazyLoad(React.lazy(() => import('/src/pages/public/dashboard.jsx'))),
+        element: LazyLoad(React.lazy(() => import('/src/pages/public/dashboard/dashboard.jsx'))),
       },
       // system 系统管理模块
       {
@@ -81,13 +81,13 @@ export const MenuRouteRules = [
   // 用户登录
   {
     path: '/login',
-    element: LazyLoad(React.lazy(() => import('/src/pages/public/login.jsx'))),
+    element: LazyLoad(React.lazy(() => import('/src/pages/public/login/login.jsx'))),
     unWantedAuth: true, // 添加不需要登录标志，用于跳过 Token 检测
   },
   // 第一次登录需要重置密码
   {
     path: '/reset-password',
-    element: LazyLoad(React.lazy(() => import('/src/pages/public/reset-password.jsx'))),
+    element: LazyLoad(React.lazy(() => import('/src/pages/public/reset-password/reset-password.jsx'))),
     unWantedAuth: true,
   },
   { path: '*', element: <Navigate to="/404" /> },

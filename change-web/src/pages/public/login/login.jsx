@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router';
 import { Button, Checkbox, Form, Input, Layout, message } from 'antd';
 import { DingtalkOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import '/src/assets/css/login.less';
-import { FooterText, WhiteLogo } from '../../config/resource.jsx';
-import { LoginAPI } from '../../common/request-api.jsx';
-import { SetToken } from '../../utils/token.jsx';
-import { UserStates } from '../../store/users.jsx';
+import { FooterText, WhiteLogo } from '../../../config/resource.jsx';
+import { LoginAPI } from '../../../common/request-api.jsx';
+import { SetToken } from '../../../utils/token.jsx';
+import { UserStates } from '../../../store/users.jsx';
 
 const { Header, Content, Footer } = Layout;
 
@@ -112,7 +112,7 @@ const Login = () => {
                   <Checkbox>记住密码</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
+                <a className="login-form-forgot" href="src/pages/public/login/login.jsx">
                   忘记密码？
                 </a>
               </Form.Item>
@@ -126,7 +126,7 @@ const Login = () => {
 
             <div style={{ textAlign: 'center' }}>
               没有账号？
-              <a href="">
+              <a href="src/pages/public/login/login.jsx">
                 直接钉钉扫码自动创建 <DingtalkOutlined />
               </a>
             </div>

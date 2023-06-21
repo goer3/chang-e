@@ -29,8 +29,14 @@ const AdminLayoutSider = () => {
 
       // 修改默认打开和选中菜单
       let keys = findKeyList(pathname, CurrentUserMenuTree);
-      LayoutStates.MenuOpenKeys = keys;
       LayoutStates.MenuSelectKeys = keys;
+
+      // 解决收起菜单会弹出子菜单的问题
+      if (MenuSiderCollapsed) {
+        LayoutStates.MenuOpenKeys = [];
+      } else {
+        LayoutStates.MenuOpenKeys = keys;
+      }
     }
   }, [pathname, CurrentUserMenuTree]);
 
@@ -55,7 +61,8 @@ const AdminLayoutSider = () => {
         style={{ letterSpacing: 2 }}
         onOpenChange={(key) => {
           // 解决 404 等页码第一次点击折叠菜单不展开和收起菜单栏不选中问题
-          LayoutStates.MenuOpenKeys = [key[key.length - 1]];
+          // LayoutStates.MenuOpenKeys = [key[key.length - 1]];
+          LayoutStates.MenuOpenKeys = key;
         }}
         // 菜单点击事件，能够返回对应的 Key
         // 文档中提示可获取到 item, key, keyPath, domEvent
