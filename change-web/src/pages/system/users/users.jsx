@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { Alert } from 'antd';
 import { CloseTipsHandle } from '../../../common/tips.jsx';
-import UserManagementTips from './users-tips.jsx';
-import UserManagementSearch from './users-search.jsx';
 import { RegionStates } from '../../../store/store-regions.jsx';
 import { GetDepartmentListAPI, GetProvinceListAPI, GetRoleListAPI } from '../../../common/request-api.jsx';
 import { RoleStates } from '../../../store/store-roles.jsx';
 import { DepartmentStates } from '../../../store/store-departments.jsx';
+import UserManagementTips from './users-tips.jsx';
+import UserManagementSearch from './users-search.jsx';
+import UserManagementList from './users-list.jsx';
+import UserManagementBtnGroup from './users-btn-group.jsx';
 
 ////////////////////////////////////////////////////////////
 // 用户管理
@@ -80,10 +82,14 @@ const UsersManagement = () => {
         <UserManagementSearch />
       </div>
 
-      {/*/!*用户列表*!/*/}
-      {/*<div className="admin-layout-content">*/}
-      {/*  <UserManagementList />*/}
-      {/*</div>*/}
+      {/*主体*/}
+      <div className="admin-layout-content">
+        {/*用户管理按钮组*/}
+        <UserManagementBtnGroup />
+
+        {/*用户列表*/}
+        <UserManagementList />
+      </div>
     </>
   );
 };

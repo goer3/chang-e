@@ -5,7 +5,6 @@ import { useSnapshot } from 'valtio';
 import { RegionStates } from '../../../store/store-regions.jsx';
 import { DepartmentStates } from '../../../store/store-departments.jsx';
 import { RoleStates } from '../../../store/store-roles.jsx';
-import { GetCityListByProvinceIdAPI } from '../../../common/request-api.jsx';
 import { UserStates } from '../../../store/store-users.jsx';
 import { GetCityListByProvinceIdHandle } from '../../../common/gets.jsx';
 
@@ -200,7 +199,7 @@ const UserManagementSearch = () => {
   };
 
   return (
-    <Form form={form} name="users-search" onFinish={searchUserListHandle}>
+    <Form form={form} name="user-search" onFinish={searchUserListHandle}>
       <Row gutter={24}>
         {/*搜索框*/}
         {generateUserSearchForm()}

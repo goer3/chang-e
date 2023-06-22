@@ -94,7 +94,7 @@ const Login = () => {
               {/*<Form.Item>*/}
               {/*  <Space direction="horizontal">*/}
               {/*    <Input*/}
-              {/*      prefix={<MailOutlined className="site-form-item-icon" />}*/}
+              {/*      prefix={<MailOutlined className="site-forms-item-icon" />}*/}
               {/*      placeholder="输入验证码"*/}
               {/*      style={{*/}
               {/*        width: 'calc(330px - 108px)',*/}

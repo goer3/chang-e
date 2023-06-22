@@ -25,6 +25,8 @@ export const GetDepartmentListAPI = () => GET('/system/department/list');
 ////////////////////////////////////////////////////////////
 // 当前用户信息接口
 export const GetCurrentUserInfoAPI = () => GET('/system/user/info');
+// 获取用户列表
+export const GetUserListAPI = () => GET('/system/user/list');
 
 ////////////////////////////////////////////////////////////
 // 角色
