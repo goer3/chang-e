@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, DatePicker, Form, Input, Modal, Row, Select } from 'antd';
+import { Button, Col, DatePicker, Form, Input, message, Modal, Row, Select } from 'antd';
 import { useSnapshot } from 'valtio';
 import { UserStates } from '../../../../store/store-users.jsx';
 import { RegionStates } from '../../../../store/store-regions.jsx';
@@ -7,13 +7,29 @@ import { DepartmentStates } from '../../../../store/store-departments.jsx';
 import { RoleStates } from '../../../../store/store-roles.jsx';
 import { GetCityListByProvinceIdHandle } from '../../../../common/gets.jsx';
 import { ValidatePhone } from '../../../../utils/validator.jsx';
+import { CreateUserAPI } from '../../../../common/request-api.jsx';
 const { Option } = Select;
 
 ////////////////////////////////////////////////////////////
 // 创建用户方法
 ////////////////////////////////////////////////////////////
 const createUserHandle = (values) => {
-  console.log('创建用户数据: ', values);
+  // console.log('创建用户数据: ', values);
+  // 对传输的数据进行处理
+  values.entry_time = values.entry_time.format('YYYY-MM-DD HH:mm:ss');
+  values.birthday = values.birthday.format('YYYY-MM-DD HH:mm:ss');
+
+  // 请求接口创建数据
+  const res = CreateUserAPI(values);
+  res.then((v) => {
+    if (v.code !== 200) {
+      message.error(v.message);
+    } else {
+      const s = '用户' + values.name + '创建成功';
+      message.success(s);
+      location.reload();
+    }
+  });
 };
 
 ////////////////////////////////////////////////////////////
@@ -84,7 +100,7 @@ const UsersManagementAddForm = () => {
 
           <Col span={8}>
             <Form.Item
-              name="phone"
+              name="mobile"
               label="手机号码"
               rules={[
                 {

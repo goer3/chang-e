@@ -27,6 +27,8 @@ export const GetDepartmentListAPI = () => GET('/system/department/list');
 export const GetCurrentUserInfoAPI = () => GET('/system/user/info');
 // 获取用户列表
 export const GetUserListAPI = () => GET('/system/user/list');
+// 创建用户
+export const CreateUserAPI = (data) => POST('/system/user/create', data);
 
 ////////////////////////////////////////////////////////////
 // 角色

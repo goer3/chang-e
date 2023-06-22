@@ -141,8 +141,9 @@ const UserManagementList = () => {
                     {record.native_province.name} - {record.native_city.name}
                   </Descriptions.Item>
                   <Descriptions.Item label="办公地点">
-                    {record.office_province.name} - {record.office_city.name} - {record.work_address}
+                    {record.office_province.name} - {record.office_city.name} - {record.office_address}
                   </Descriptions.Item>
+                  <Descriptions.Item label="管理人员">{record.leader === 1 ? '是' : '否'}</Descriptions.Item>
                   <Descriptions.Item label="入职时间">{record.entry_time}</Descriptions.Item>
                   <Descriptions.Item label="用户生日">{record.birthday}</Descriptions.Item>
                   <Descriptions.Item label="创建时间">{record.created_at}</Descriptions.Item>
