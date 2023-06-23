@@ -10,6 +10,7 @@ import (
 type User struct {
 	Username           string          `json:"username" form:"username"`
 	Name               string          `json:"name" form:"name"`
+	Gender             uint            `json:"gender" form:"gender"`
 	Mobile             string          `json:"mobile" form:"mobile"`
 	Email              string          `json:"email" form:"email"`
 	JobNumber          string          `json:"job_number" form:"job_number"`
@@ -19,6 +20,13 @@ type User struct {
 	Unlocked           *model.NullUint `json:"unlocked" form:"unlocked"`
 	SystemDepartmentId uint            `json:"system_department_id" form:"system_department_id"`
 	SystemRoleId       uint            `json:"system_role_id" form:"system_role_id"`
+	NativeProvinceId   uint            `json:"native_province_id" form:"native_province_id"`
+	NativeCityId       uint            `json:"native_city_id" form:"native_city_id"`
+	OfficeProvinceId   uint            `json:"office_province_id" form:"office_province_id"`
+	OfficeCityId       uint            `json:"office_city_id" form:"office_city_id"`
+	OfficeAddress      string          `json:"office_address" form:"office_address"`
+	Birthday           carbon.DateTime `json:"birthday" form:"birthday"`
+	EntryTime          carbon.DateTime `json:"entry_time" form:"entry_time"`
 	response.Page
 }
 

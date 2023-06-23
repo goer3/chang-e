@@ -17,7 +17,7 @@ type SystemUser struct {
 	OfficeProvince     Regions          `gorm:"comment:工作省份信息;foreignKey:OfficeProvinceId" json:"office_province"`
 	OfficeCityId       uint             `gorm:"comment:工作城市ID" json:"office_city_id"`
 	OfficeCity         Regions          `gorm:"comment:工作城市信息;foreignKey:OfficeCityId" json:"office_city"`
-	OfficeAddress      string           `gorm:"comment:办公地址" json:"work_address"`
+	OfficeAddress      string           `gorm:"comment:办公地址" json:"office_address"`
 	EntryTime          carbon.DateTime  `gorm:"comment:入职时间" json:"entry_time"`
 	Birthday           carbon.DateTime  `gorm:"comment:生日" json:"birthday"`
 	Gender             *uint            `gorm:"type:tinyint(1);default:1;comment:性别(1: 男, 2: 女, 3: 未知)" json:"gender"`

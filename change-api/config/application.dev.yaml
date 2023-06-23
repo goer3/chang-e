@@ -85,7 +85,7 @@ log:
   # 是否将 SQL 日志写入到日志文件
   sql-log-enable: true
   # SQL 日志级别，(1-4，Info，Warn，Error, Silent)，4 不输出日志，生产建议 2
-  sql-log-level: 1
+  sql-log-level: 4
 
 jwt:
   # JWT 标识

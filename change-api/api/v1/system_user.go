@@ -5,6 +5,7 @@ import (
 	"change-api/dto/response"
 	"change-api/pkg/ms"
 	"change-api/pkg/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,10 +13,12 @@ import (
 func GetUserListHandler(ctx *gin.Context) {
 	// 解析用户传递的数据
 	var req request.User
-	if err := ctx.ShouldBind(&req); err != nil {
+	if err := ctx.ShouldBindQuery(&req); err != nil {
 		response.FailedWithCode(response.ParamError)
 		return
 	}
+
+	fmt.Println(req)
 
 	// 查询数据库，根据请求条件获取用户列表
 	users, page := ms.FindUsers(&req)
