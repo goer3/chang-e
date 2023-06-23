@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, Badge, Descriptions, Space, Table, Tag } from 'antd';
 import { GetUserListAPI } from '../../../common/request-api.jsx';
 import { DefaultPageSize } from '../../../config/config.jsx';
+import { UserStates } from '../../../store/store-users.jsx';
+import { useSnapshot } from 'valtio';
 
 ////////////////////////////////////////////////////////////
 // 用户表格定义
@@ -107,23 +109,28 @@ const UserManagementList = () => {
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 用户搜索参数
+  const { UserSearchParams } = useSnapshot(UserStates);
+
   // 数据总量
   const [totalCount, setTotalCount] = useState(0);
 
   // 请求数据
-  const [requestParams, setRequestParams] = useState({
+  const [requestPageParams, setRequestPageParams] = useState({
     // 分页数据
     no_pagination: false, // 是否不分页
     page_number: 1, // 默认页码
     page_size: DefaultPageSize, // 每页显示数量
-    // 搜索数据
   });
+
+  // 组合对象
+  const userListParams = { ...requestPageParams, ...UserSearchParams };
 
   // 请求用户列表
   useEffect(() => {
     // 获取用户列表，使用异步会导致短暂的 Warning 提示
     const GetUserListHandle = async () => {
-      const res = await GetUserListAPI({ params: requestParams });
+      const res = await GetUserListAPI({ params: userListParams });
       if (res.code === 200) {
         setUserList(res.data.list);
         setIsLoading(false);
@@ -132,15 +139,13 @@ const UserManagementList = () => {
       }
     };
     GetUserListHandle();
-  }, [requestParams]);
+  }, [UserSearchParams, requestPageParams]); // 次数不能跟踪 userListParams，会死循环
 
   return (
     <>
       {/*数据*/}
       {isLoading ? (
         <div>正在加载中...</div>
-      ) : userList.length === 0 ? (
-        <div>暂无数据</div>
       ) : (
         <Table
           rowSelection={{
@@ -179,12 +184,12 @@ const UserManagementList = () => {
           pagination={{
             total: totalCount,
             showTotal: () => '总共 ' + totalCount + ' 条数据',
-            defaultCurrent: requestParams.page_number,
-            defaultPageSize: requestParams.page_size,
+            defaultCurrent: requestPageParams.page_number,
+            defaultPageSize: requestPageParams.page_size,
             showSizeChanger: true,
             hideOnSinglePage: true,
             onChange: (page, pageSize) => {
-              setRequestParams({
+              setRequestPageParams({
                 page_number: page,
                 page_size: pageSize,
               });

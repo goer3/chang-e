@@ -19,9 +19,9 @@ const searchFields = [
   { name: 'mobile', label: '手机号', type: 'text' },
   { name: 'email', label: '邮箱', type: 'text' },
   { name: 'job_number', label: '工号', type: 'text' },
-  { name: 'system_roles_id', label: '角色', type: 'select' },
+  { name: 'system_role_id', label: '角色', type: 'select' },
   { name: 'job_name', label: '岗位名称', type: 'text' },
-  { name: 'system_departments_id', label: '部门名称', type: 'select' },
+  { name: 'system_department_id', label: '部门名称', type: 'select' },
   { name: 'native_province_id', label: '籍贯省份', type: 'select' },
   { name: 'native_city_id', label: '籍贯城市', type: 'select' },
   { name: 'active', label: '激活状态', type: 'select' },
@@ -94,7 +94,7 @@ const generateUserSearchForm = () => {
               <Option value="0">已锁定</Option>
               <Option value="1">未锁定</Option>
             </Select>
-          ) : item.name === 'system_roles_id' ? (
+          ) : item.name === 'system_role_id' ? (
             // 角色
             <Select
               placeholder={sp}
@@ -106,7 +106,7 @@ const generateUserSearchForm = () => {
                 </Select.Option>
               ))}
             </Select>
-          ) : item.name === 'system_departments_id' ? (
+          ) : item.name === 'system_department_id' ? (
             // 部门
             <Select
               placeholder={sp}
@@ -195,7 +195,7 @@ const UserManagementSearch = () => {
 
   // 搜索处理函数
   const searchUserListHandle = (values) => {
-    console.log('搜索数据: ', values);
+    UserStates.UserSearchParams = values;
   };
 
   return (
