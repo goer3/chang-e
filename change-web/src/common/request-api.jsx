@@ -26,7 +26,7 @@ export const GetDepartmentListAPI = () => GET('/system/department/list');
 // 当前用户信息接口
 export const GetCurrentUserInfoAPI = () => GET('/system/user/info');
 // 获取用户列表
-export const GetUserListAPI = () => GET('/system/user/list');
+export const GetUserListAPI = (params) => GET('/system/user/list', params);
 // 创建用户
 export const CreateUserAPI = (data) => POST('/system/user/create', data);
 
