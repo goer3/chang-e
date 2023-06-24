@@ -38,6 +38,7 @@ npm i react-router-dom
 npm i less less-loader
 npm i axios
 npm i valtio
+npm i moment
 ```
 
 <br>

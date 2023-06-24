@@ -4,6 +4,7 @@ import { GetUserListAPI } from '../../../common/request-api.jsx';
 import { DefaultPageSize } from '../../../config/config.jsx';
 import { UserStates } from '../../../store/store-users.jsx';
 import { useSnapshot } from 'valtio';
+import UsersManagementEditForm from './forms/users-edit-form.jsx';
 
 ////////////////////////////////////////////////////////////
 // 用户表格定义
@@ -79,7 +80,14 @@ const userListColumns = [
     align: 'center',
     render: (_, record) => (
       <Space size="middle">
-        <a>修改</a>
+        <a
+          onClick={() => {
+            console.log(record.username);
+            UserStates.UserEditModelOpen = true;
+            UserStates.EditUserInfo = record;
+          }}>
+          修改
+        </a>
         <a>禁用</a>
         <a>锁定</a>
         <a>删除</a>
@@ -202,6 +210,9 @@ const UserManagementList = () => {
           }}
         />
       )}
+
+      {/*编辑用户*/}
+      <UsersManagementEditForm />
     </>
   );
 };
