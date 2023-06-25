@@ -37,6 +37,11 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 		DBT = DBT.Where("name LIKE ?", "%"+name+"%")
 	}
 
+	// Gender
+	if req.Gender != 0 {
+		DBT = DBT.Where("gender = ?", req.Gender)
+	}
+
 	// Mobile
 	if mobile := strings.TrimSpace(req.Mobile); mobile != "" {
 		DBT = DBT.Where("mobile LIKE ?", "%"+mobile+"%")
@@ -81,6 +86,35 @@ func FindUsers(req *request.User) (users []model.SystemUser, page response.Page)
 	if req.SystemRoleId != 0 {
 		DBT = DBT.Where("system_role_id = ?", req.SystemRoleId)
 	}
+
+	// NativeProvinceId
+	if req.NativeProvinceId != 0 {
+		DBT = DBT.Where("native_province_id = ?", req.NativeProvinceId)
+	}
+
+	// NativeCityId
+	if req.NativeCityId != 0 {
+		DBT = DBT.Where("native_city_id = ?", req.NativeCityId)
+	}
+
+	// OfficeProvinceId
+	if req.OfficeProvinceId != 0 {
+		DBT = DBT.Where("office_province_id = ?", req.OfficeProvinceId)
+	}
+
+	// OfficeCityId
+	if req.OfficeCityId != 0 {
+		DBT = DBT.Where("office_city_id = ?", req.OfficeCityId)
+	}
+
+	// OfficeAddress
+	if officeAddress := strings.TrimSpace(req.OfficeAddress); officeAddress != "" {
+		DBT = DBT.Where("office_address LIKE ?", "%"+officeAddress+"%")
+	}
+
+	// 生日
+
+	// 入职时间
 
 	// 如果需要分页
 	if !req.NoPagination {

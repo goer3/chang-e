@@ -5,7 +5,6 @@ import (
 	"change-api/dto/response"
 	"change-api/pkg/ms"
 	"change-api/pkg/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,8 +16,6 @@ func GetUserListHandler(ctx *gin.Context) {
 		response.FailedWithCode(response.ParamError)
 		return
 	}
-
-	fmt.Println(req)
 
 	// 查询数据库，根据请求条件获取用户列表
 	users, page := ms.FindUsers(&req)
