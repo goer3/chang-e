@@ -17,10 +17,10 @@ const MenusManagement = () => {
       {/*主体内容*/}
       <Row>
         <Col span={8}>
-          <div className="admin-menu-box">111</div>
+          <div className="admin-tree-box">111</div>
         </Col>
         <Col span={16}>
-          <div className="admin-menu-box">222</div>
+          <div className="admin-tree-box">222</div>
         </Col>
       </Row>
     </>
