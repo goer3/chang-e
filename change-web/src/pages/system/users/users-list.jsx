@@ -205,7 +205,9 @@ const UserManagementList = () => {
               // 原因在于：由于异步请求还未完成，导致列表溢出的问题，虽然该问题会在请求完成后自己解决，但是控制台会提示：
               // Warning: [antd: Table] `dataSource` length is less than `pagination.total` but large than `pagination.pageSize`.
               // Please make sure your config correct data with async mode.
-              setUserList([]);
+              if (userList.length > pageSize) {
+                setUserList([]);
+              }
             },
           }}
         />
